@@ -1,0 +1,9 @@
+{
+  "name": "Cyberchef",
+  "version": "3.0.0-beta",
+  "main": "./integration.js",
+  "private": true,
+  "dependencies": {
+    "cyberchef": "^9.21.0"
+  }
+}

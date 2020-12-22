@@ -1,0 +1,31 @@
+<div class="p-non-exfoliate-outer-padding">
+
+  {{#if details}}
+    <div>
+      <a href="https://gchq.github.io/CyberChef/#input={{block.entity.value}}" class="p-link">Pivot to CyberChef {{fa-icon "external-link-square" class="external-link-icon"}}</a>
+    </div>
+    <h1 class="p-title">
+        {{fa-icon "sign-in" fixedWidth=true}}  <b>Input Details</b>
+    </h1>
+    <div class="text-container">{{block.entity.value}}</div>
+    <hr>
+    {{#each details as |result index|}}
+      {{#if result.recipe}}
+        <h1 class="p-title">
+          {{fa-icon "sign-out" fixedWidth=true}} <b>Output #{{inc index}}</b>
+        </h1>
+        {{#each result.recipe as |recipe index|}}
+          <div>
+              <span class="p-key">Recipe: </span>
+              <span class="p-value">{{recipe.op}}('{{recipe.args}}')</span>
+          </div>
+        {{/each}}
+        {{#if result.data}}
+          <div><span class="p-key">Output: </span></div>
+          <div class="text-container">{{result.data}}</div>
+        {{/if}}
+        <hr>
+      {{/if}}
+    {{/each}}
+  {{/if}}
+</div>
