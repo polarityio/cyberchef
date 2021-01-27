@@ -4,6 +4,7 @@
   "main": "./integration.js",
   "private": true,
   "dependencies": {
-    "cyberchef": "^9.21.0"
+    "cyberchef": "^9.21.0",
+    "lodash": "^4.17.20"
   }
 }

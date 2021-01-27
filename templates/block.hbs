@@ -1,11 +1,308 @@
-<div class="p-non-exfoliate-outer-padding">
+<div class="main">
+  <div class="header">
+    Input
+    <span class="header-info">
+      <span>length: {{inputLength}}</span>
+      <span>lines: {{inputLines}}</span>
+    </span>
+  </div>
+  <div class="entity-value">
+    {{{entityValue}}}
+  </div>
+  <div class="header">
+    Recipe 
+    <span class="header-buttons">
+      <button type="button" title="Save Recipe" class="header-button">
+        {{fa-icon "save" fixedWidth=true  size="lg" class="header-button-icon"}}
+      </button>
+      <button type="button" title="Load Recipe" class="header-button">
+        {{fa-icon "folder" fixedWidth=true  size="lg" class="header-button-icon"}}
+      </button>
+      <button type="button" title="Continue to Web App" class="header-button">
+        {{fa-icon "external-link-alt" fixedWidth=true  size="lg" class="header-button-icon"}}
+      </button>
+      <button type="button" title="Clear Recipe" class="header-button">
+        {{fa-icon "trash" fixedWidth=true  size="lg" class="header-button-icon"}}
+      </button>
+    </span>
+  </div>
+  {{#each operations as |operation operationIndex|}}
+    <div class="operation">
+      <div class={{if (and operation.__expanded operation.args.length) "operation-header expanded" "operation-header"}}>
+        <div class="operation-box-controls">
+          <div class="order-moving-buttons">
+            {{#if (and (not (eq operationIndex 0)) (gt operations.length 1))}}
+              <button 
+                type="button"
+                class={{if (and (not (eq operationIndex operationLengthMinusOne)) (gt operations.length 1)) "no-style-button operation-moving-button top-arrow" "no-style-button operation-moving-button"}}
+                {{action "moveOperationUp" operationIndex}}
+              >
+                {{fa-icon "arrow-alt-up" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+              </button>
+            {{else}}
+              <button 
+                type="button"
+                class="hide no-style-button"
+              >
+                {{fa-icon "arrow-alt-up" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+              </button>
+            {{/if}}
+            {{#if (and (not (eq operationIndex operationLengthMinusOne)) (gt operations.length 1))}}
+              <button
+                type="button"
+                class="no-style-button operation-moving-button"
+                {{action "moveOperationDown" operationIndex}}
+              >
+                {{fa-icon "arrow-alt-down" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+              </button>
+            {{else}}
+              <button 
+                type="button"
+                class="hide no-style-button"
+              >
+                {{fa-icon "arrow-alt-down" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+              </button>
+            {{/if}}
+          </div>
+          <div class="operation-name" title={{operation.description}} {{action "toggleOperationView" operationIndex}}>
+            {{operation.name}}
+          </div>
+          <div class="expand-collapse-icons">
+            {{#if operation.__expanded}}
+              <button 
+                type="button" 
+                class="no-style-button expand-collapse-button" 
+                {{action "toggleOperationView" operationIndex}}
+              >
+                {{fa-icon "chevron-up" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+              </button>
+            {{else}}
+              <button
+                type="button"
+                class="no-style-button expand-collapse-button"
+                {{action "toggleOperationView" operationIndex}}
+              >
+                {{fa-icon "chevron-down" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+              </button>
+            {{/if}}
+          </div>
+        </div>
+        <span class="operation-buttons">
+          <button type="button" class="no-style-button operation-button">
+            {{fa-icon "ban" fixedWidth=true  size="md" class="operation-button-icon"}}
+          </button>
+          <button type="button" class="no-style-button operation-button">
+            {{fa-icon "external-link-alt" fixedWidth=true  size="md" class="operation-button-icon"}}
+          </button>
+          <button type="button" class="no-style-button operation-button">
+            {{fa-icon "trash-alt" fixedWidth=true  size="md" class="operation-button-icon"}}
+          </button>
+        </span>
+      </div>
+
+      {{#if (and operation.__expanded operation.args.length)}}
+        <div class="operation-argument-groups">
+          {{#each operation.args as |operationArgumentGroup groupIndex|}}
+            <div class="operation-argument-group">
+              {{#each operationArgumentGroup as |operationArgument argumentIndex|}}
+                {{#if (not operationArgument.hide)}}
+                  <div class={{if operationArgument.fullWidth "operation-argument full-line" "operation-argument"}}>
+                    {{#if (eq operationArgument.type "boolean")}}
+                      <div class="groupable-argument">
+                        <label>
+                          {{input
+                            type="checkbox"
+                            checked=operationArgument.selectedValue
+                            disabled=operation.__disabled
+                          }}
+                          <span class="checkbox-label">{{operationArgument.name}}</span>
+                        </label>
+                      </div>
+                    {{/if}}
+                    {{#if (eq operationArgument.type "number")}}
+                      <div class="groupable-argument stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+                        {{input
+                          type="number"
+                          class="input-field"
+                          value=operationArgument.selectedValue
+                          min=operationArgument.min
+                          max=operationArgument.max
+                          disabled=operation.__disabled
+                        }}
+                      </div>
+                    {{/if}}
+                    {{#if (or (eq operationArgument.type "shortString") (eq operationArgument.type "binaryShortString"))}}
+                      <div class="groupable-argument stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+                        {{input
+                          type="text"
+                          class="input-field"
+                          value=operationArgument.selectedValue
+                          disabled=operation.__disabled
+                        }}
+                      </div>
+                    {{/if}}
+                    {{#if (eq operationArgument.type "option")}}
+                      <div class="groupable-argument stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+
+                        <select 
+                          class="w-100 dropdown" 
+                          onchange={{action (mut operationArgument.selectedValue) value="target.value"}}
+                          disabled={{operation.__disabled}}
+                        >
+                          {{#each operationArgument.value as |argumentOption|}}
+                            <option class="dropdown-option" value={{argumentOption}}>
+                              {{argumentOption}}
+                            </option>
+                          {{/each}}
+                        </select>
+                      </div>
+                    {{/if}}
+                    {{!-- Is used for 'Bombe', 'Colossus', 'Enigma', 'Lorenz' operations. Will not Implement for now --}}
+                    {{!-- {{#if (eq operationArgument.type "argSelector")}}
+                      <div class="groupable-argument stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+
+                        <select 
+                          class="w-100 dropdown" 
+                          onchange={{action "changeArgSelector" operationIndex groupIndex argumentIndex}}
+                          disabled={{operation.__disabled}}
+                        >
+                          {{#each operationArgument.value as |argumentOption optionIndex|}}
+                            <option class="dropdown-option" value={{optionIndex}}>
+                              {{argumentOption.name}}
+                            </option>
+                          {{/each}}
+                        </select>
+                      </div>
+                    {{/if}} --}}
+                    {{!-- {{#if (eq operationArgument.type "editableOptionShort")}}
+                      <div class="groupable-argument">
+
+                      </div>
+                    {{/if}} --}}
+
+                    {{!-- Full Width Arguments --}}
+                    {{#if (eq operationArgument.type "label")}}
+                      <div class="full-width label-type">
+                        <label>{{operationArgument.name}}</label>
+                      </div>
+                    {{/if}}
+                    {{#if (or (eq operationArgument.type "string") (eq operationArgument.type "binaryString"))}}
+                      <div class="full-width stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+                        {{input
+                          type="text"
+                          class="input-field"
+                          value=operationArgument.selectedValue
+                          disabled=operation.__disabled
+                        }}
+                      </div>
+                    {{/if}}
+                    {{#if (eq operationArgument.type "text")}}
+                      <div class="full-width stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+                        {{textarea
+                          class="input-field"
+                          rows=3
+                          value=operationArgument.selectedValue
+                          disabled=operation.__disabled
+                        }}
+                      </div>
+                    {{/if}}
+                    {{#if (eq operationArgument.type "toggleString")}}
+                      <div class="full-width stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+                        <div class="input-field toggle-string">
+                          {{input
+                            type="text"
+                            class="input-field"
+                            value=operationArgument.selectedValue.string
+                            disabled=operation.__disabled
+                          }}
+                          <select 
+                            class="dropdown" 
+                            onchange={{action (mut operationArgument.selectedValue.option) value="target.value"}}
+                            disabled={{operation.__disabled}}
+                          >
+                            {{#each operationArgument.toggleValues as |argumentOption|}}
+                              <option class="dropdown-option" value={{argumentOption}}>
+                                {{argumentOption}}
+                              </option>
+                            {{/each}}
+                          </select>
+                        </div>
+                      </div>
+                    {{/if}}
+                    {{#if (eq operationArgument.type "editableOption")}}
+                      <div class="full-width stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+                        <div class="input-field toggle-string">
+                          {{input
+                            type="text"
+                            class="input-field"
+                            value=operationArgument.selectedValue
+                            disabled=operation.__disabled
+                          }}
+                          <select 
+                            class="dropdown editable-option" 
+                            onchange={{action "editOptionInputValue" operationIndex groupIndex argumentIndex}}
+                            disabled={{operation.__disabled}}
+                          >
+                            <option selected disabled>_{{operationArgument.name}}_</option>
+                            {{#each operationArgument.value as |argumentOption optionIndex|}}
+                              <option class="dropdown-option" value={{optionIndex}}>
+                                {{argumentOption.name}}
+                              </option>
+                            {{/each}}
+                          </select>
+                        </div>
+                      </div>
+                    {{/if}}
+                    {{!-- {{#if (eq operationArgument.type "populateOption")}}
+                      <div class="full-width">
+
+                      </div>
+                    {{/if}}
+                    {{#if (eq operationArgument.type "populateMultiOption")}}
+                      <div class="full-width">
+
+                      </div>
+                    {{/if}} --}}
+                  </div>
+                {{/if}}
+              {{/each}}
+            </div>
+          {{/each}}
+        </div>
+      {{/if}}
+      {{!-- Will need a green box minimized with a dropdown header with options --}}
+      {{!-- Will need an output/results section below --}}
+      {{!--  --}}
+
+    </div>
+  {{/each}}
+  <div class="add-operation">
+
+  </div>
+</div>
+
+
+{{!-- TODO bake button name run step --}}
+
+
+
+
+{{!-- <div class="p-non-exfoliate-outer-padding">
 
   {{#if details}}
     <div>
       <a href="https://gchq.github.io/CyberChef/#input={{block.entity.value}}" class="p-link">Pivot to CyberChef {{fa-icon "external-link-square" class="external-link-icon"}}</a>
     </div>
     <h1 class="p-title">
-        {{fa-icon "sign-in" fixedWidth=true}}  <b>Input Details</b>
+        {{fa-icon "sign-in" fixedWidth=true class="tag-close-icon"}}  <b>Input Details</b>
     </h1>
     <div class="text-container">{{block.entity.value}}</div>
     <hr>
@@ -28,4 +325,4 @@
       {{/if}}
     {{/each}}
   {{/if}}
-</div>
+</div> --}}

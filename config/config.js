@@ -3,6 +3,7 @@ module.exports = {
   acronym: 'CHEF',
   description: 'Attempts to decode highlighted strings with the CyberChef Magic operation.',
   onDemandOnly: true,
+  defaultColor: 'light-green',
   logging: {
     level: 'info' //trace, debug, info, warn, error, fatal
   },
