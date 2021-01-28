@@ -66,11 +66,44 @@ pre {
   border-radius: 3px;
 
   /* TODO: make it so we get elipses on overflow*/
-  .entity-value {
+  .results {
     padding: 4px;
     overflow-wrap: break-word;
     font-weight: 400;
     border: 1px solid #eee;
+    line-height: 16px;
+
+    &.output {
+      line-height: 15px;
+      font-size: 11px;
+
+      .output-title {
+        margin-bottom: 4px;
+        padding-bottom: 2px;
+        padding-left: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 28px;
+        background-color: white;
+        color: #424242;
+        font-weight: 400;
+        font-size: 12px;
+        border-bottom: 1px solid #e1e1e1;
+  
+        .output-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-end;
+          font-family: Menlo, Consolas, monospace;
+          font-weight: 400;
+          padding-right: 13px;
+          font-size: 8px;
+          line-height: 11px;
+        }
+      }
+    }
   }
 
   .header {
@@ -170,7 +203,7 @@ pre {
       &.expanded {
         border-bottom: 0px solid #d3e8c0;
       }
-      
+
       .operation-box-controls {
         display: flex;
         justify-content: flex-start;
@@ -270,12 +303,16 @@ pre {
           margin-top: -9px !important;
         }
 
+        &:last-child {
+          .operation-argument {
+            margin-bottom: -2px;
+          }
+        }
         .operation-argument {
           display: flex;
           align-items: center;
           margin-right: auto;
           margin-bottom: 5px;
-
 
           /* Generalized Styles */
           .groupable-argument {
@@ -285,7 +322,6 @@ pre {
             min-width: 125px;
             height: 45px;
             margin-right: 7px;
-
 
             .checkbox-label {
               padding-left: 2px;
@@ -302,9 +338,25 @@ pre {
                 max-width: 125px;
               }
             }
+
+            .toggle-string {
+              max-width: 125px;
+              height: 25px;
+              padding: 0 !important;
+              padding-right: 2px;
+              & > .input-field {
+                max-width: 107px;
+                margin-right: 2px
+              }
+
+              & > .dropdown {
+                height: 21px;
+                margin-top: 2px;
+                margin-right:2px;
+              }
+            }
           }
 
-          
           &.full-line {
             width: 100%;
           }
@@ -332,7 +384,7 @@ pre {
               }
             }
           }
-          
+
           /* Argument Specific */
           label {
             height: 14px;
@@ -345,7 +397,7 @@ pre {
           .stacked-label-argument {
             flex-direction: column;
             align-items: flex-start;
-            
+
             span {
               font-weight: 600;
               padding-left: 3px;
@@ -355,22 +407,22 @@ pre {
 
             .input-field {
               // TODO: long term make adjust able width
-                // https://css-tricks.com/auto-growing-inputs-textareas/
+              // https://css-tricks.com/auto-growing-inputs-textareas/
               border: 0;
               padding: 5px;
               border-radius: 2px;
               color: #468847;
             }
           }
-          
+
           .dropdown {
             border: 0;
             background-color: white;
             border-radius: 3px !important;
             height: 25px;
-            color:  #468847;
+            color: #468847;
             font-weight: 300;
-            
+
             .dropdown-option {
               font-weight: 300;
               padding: 3px;
@@ -383,7 +435,7 @@ pre {
             & > .input-field {
               margin-right: 4px;
             }
-            
+
             & > .dropdown {
               width: 40%;
               &.editable-option {
@@ -424,7 +476,6 @@ pre {
     transform: none;
   }
 }
-
 
 .hide {
   visibility: hidden !important;

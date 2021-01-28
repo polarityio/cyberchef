@@ -117,35 +117,23 @@ polarity.export = PolarityComponent.extend({
       const selectedOptionIndex = e.target.value;
 
       const operations = this.get('operations');
-      const selectedOperation = operations[operationIndex];
+      let selectedOperation = operations[operationIndex];
       const operationArgs = selectedOperation.args;
 
       const selectOptionValue =
         operationArgs[groupIndex][argumentIndex].value[selectedOptionIndex].value;
 
-      const operationArgsWithUpdatedValue = operationArgs.map(
-        (operationArgGroup, _groupIndex) =>
-          operationArgGroup.map((operationArg, _argumentIndex) =>
-            Object.assign(
-              {},
-              operationArg,
-              _groupIndex === groupIndex && _argumentIndex === argumentIndex
-                ? {
-                    selectedValue: selectOptionValue
-                  }
-                : {}
-            )
-          )
-      );
-      //TODO: Solve issue where it resets other dropdowns on screen
-
+      operationArgs[groupIndex][argumentIndex].selectedValue = selectOptionValue;
+      
       this.set('operations', [
         ...operations.slice(0, operationIndex),
         Object.assign({}, selectedOperation, {
-          args: operationArgsWithUpdatedValue
+          args: operationArgs
         }),
         ...operations.slice(operationIndex + 1, operations.length)
       ]);
+      
+      this.get('block').notifyPropertyChange('data');
     }
   }
 });

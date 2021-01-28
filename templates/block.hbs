@@ -6,7 +6,7 @@
       <span>lines: {{inputLines}}</span>
     </span>
   </div>
-  <div class="entity-value">
+  <div class="results">
     {{{entityValue}}}
   </div>
   <div class="header">
@@ -153,14 +153,39 @@
                           disabled={{operation.__disabled}}
                         >
                           {{#each operationArgument.value as |argumentOption|}}
-                            <option class="dropdown-option" value={{argumentOption}}>
+                            <option class="dropdown-option" selected={{eq argumentOption operationArgument.selectedValue}} value={{argumentOption}}>
                               {{argumentOption}}
                             </option>
                           {{/each}}
                         </select>
                       </div>
                     {{/if}}
-                    {{!-- Is used for 'Bombe', 'Colossus', 'Enigma', 'Lorenz' operations. Will not Implement for now --}}
+                    {{#if (eq operationArgument.type "editableOptionShort")}}
+                      <div class="groupable-argument stacked-label-argument">
+                        <span>{{operationArgument.name}}</span>
+                        <div class="input-field toggle-string">
+                          {{input
+                            type="text"
+                            class="input-field"
+                            value=operationArgument.selectedValue
+                            disabled=operation.__disabled
+                          }}
+                          <select 
+                            class="dropdown editable-option" 
+                            onchange={{action "editOptionInputValue" operationIndex groupIndex argumentIndex}}
+                            disabled={{operation.__disabled}}
+                          >
+                            <option selected disabled>_{{operationArgument.name}}_</option>
+                            {{#each operationArgument.value as |argumentOption optionIndex|}}
+                              <option class="dropdown-option" value={{optionIndex}}>
+                                {{argumentOption.name}}
+                              </option>
+                            {{/each}}
+                          </select>
+                        </div>
+                      </div>
+                    {{/if}}
+                    {{!-- TODO: Is used for 'Bombe', 'Colossus', 'Enigma', 'Lorenz' operations. Will not Implement for now. --}}
                     {{!-- {{#if (eq operationArgument.type "argSelector")}}
                       <div class="groupable-argument stacked-label-argument">
                         <span>{{operationArgument.name}}</span>
@@ -171,16 +196,11 @@
                           disabled={{operation.__disabled}}
                         >
                           {{#each operationArgument.value as |argumentOption optionIndex|}}
-                            <option class="dropdown-option" value={{optionIndex}}>
+                            <option class="dropdown-option" selected={{eq argumentOption operationArgument.selectedValue}} value={{optionIndex}}>
                               {{argumentOption.name}}
                             </option>
                           {{/each}}
                         </select>
-                      </div>
-                    {{/if}} --}}
-                    {{!-- {{#if (eq operationArgument.type "editableOptionShort")}}
-                      <div class="groupable-argument">
-
                       </div>
                     {{/if}} --}}
 
@@ -228,7 +248,7 @@
                             disabled={{operation.__disabled}}
                           >
                             {{#each operationArgument.toggleValues as |argumentOption|}}
-                              <option class="dropdown-option" value={{argumentOption}}>
+                              <option class="dropdown-option" selected={{eq argumentOption operationArgument.selectedValue}} value={{argumentOption}}>
                                 {{argumentOption}}
                               </option>
                             {{/each}}
@@ -261,12 +281,16 @@
                         </div>
                       </div>
                     {{/if}}
+
+                    {{!-- TODO: Is used for 'Parse DateTime', 'Regular expression', 'Translate DateTime Format' operations. Will not Implement for now. --}}
                     {{!-- {{#if (eq operationArgument.type "populateOption")}}
                       <div class="full-width">
 
                       </div>
-                    {{/if}}
-                    {{#if (eq operationArgument.type "populateMultiOption")}}
+                    {{/if}} --}}
+
+                    {{!-- TODO: Is used for 'Multiple Bombe' operation. Will not Implement for now. --}}
+                    {{!-- {{#if (eq operationArgument.type "populateMultiOption")}}
                       <div class="full-width">
 
                       </div>
@@ -276,6 +300,17 @@
               {{/each}}
             </div>
           {{/each}}
+        </div>
+
+        <div class="results output">
+          <span class="output-title">
+            Output:
+            <div class="output-info">
+              <span>length: {{operation.outputLength}}</span>
+              <span>lines: {{operation.outputLines}}</span>
+            </div>
+          </span>
+          {{{operation.displayResult}}}
         </div>
       {{/if}}
       {{!-- Will need a green box minimized with a dropdown header with options --}}
