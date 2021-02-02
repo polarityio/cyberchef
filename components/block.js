@@ -82,7 +82,7 @@ polarity.export = PolarityComponent.extend({
 
     const operations = this.updateLinks(this.get('operations'));
     this.set('operations', operations);
-    this.set('previousOperations', operations);
+    this.set('previousOperations', cloneDeep(operations));
 
     this._super(...arguments);
   },

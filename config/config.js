@@ -33,20 +33,10 @@ module.exports = {
   },
   options: [
     {
-      key: 'asciiOnly',
-      name: 'Only Display ASCII Printable Characters',
-      description:
-        'If checked, only text which decodes to printable ASCII characters will be displayed (ASCII codes between 32 and 127.',
-      default: false,
-      type: 'boolean',
-      userCanEdit: true,
-      adminOnly: false
-    },
-    {
       key: 'url',
-      name: 'CyberChef Url or File Path',
+      name: 'CyberChef Url',
       description:
-        'Add your CyberChef Url or File Path to open up the CyberChef dashboard for full functionality.',
+        'Add your CyberChef Url to open up the CyberChef dashboard for full functionality.',
       default: 'https://gchq.github.io/CyberChef',
       type: 'text',
       userCanEdit: true,

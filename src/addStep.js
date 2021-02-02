@@ -1,0 +1,29 @@
+const fp = require('lodash/fp');
+const groupOperationArgs = require('./groupOperationArgs');
+
+const addStep = ({ operations, selectedOperation }, options, callback, Logger) => {
+  try {
+    const operationsWithNewStep = fp.concat(
+      operations,
+      groupOperationArgs([{ ...selectedOperation, __expanded: true }])
+    );
+
+    callback(null, { operationsWithNewStep });
+  } catch (error) {
+    Logger.error(
+      error,
+      { detail: 'Failed to Get Operations from CyberChef' },
+      'Get Operations Failed'
+    );
+    return callback({
+      errors: [
+        {
+          err: error,
+          detail: error.message
+        }
+      ]
+    });
+  }
+};
+
+module.exports = addStep;

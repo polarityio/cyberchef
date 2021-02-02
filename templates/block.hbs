@@ -254,7 +254,7 @@
                               disabled={{operation.__disabled}}
                             >
                               {{#each operationArgument.toggleValues as |argumentOption|}}
-                                <option class="dropdown-option" selected={{eq argumentOption operationArgument.selectedValue}} value={{argumentOption}}>
+                                <option class="dropdown-option" selected={{eq argumentOption operationArgument.selectedValue.option}} value={{argumentOption}}>
                                   {{argumentOption}}
                                 </option>
                               {{/each}}
