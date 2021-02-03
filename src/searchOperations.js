@@ -38,4 +38,4 @@ const operationsWeCantCurrentlyRun = (operation) => {
 };
 
 
-module.exports = searchOperations;
+module.exports = { searchOperations, operationsWeCantCurrentlyRun };

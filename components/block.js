@@ -56,6 +56,7 @@ const cloneDeep = (entity, cache = new WeakMap()) => {
 
 polarity.export = PolarityComponent.extend({
   details: Ember.computed.alias('block.data.details'),
+  summary: Ember.computed.alias('block.data.summary'),
   entityValue: Ember.computed.alias('block.entity.value'),
   operations: Ember.computed.alias('details.operations'),
   url: Ember.computed.alias('block.userOptions.url'),
@@ -66,6 +67,12 @@ polarity.export = PolarityComponent.extend({
   operationLengthMinusOne: 0,
   searchErrorMessage: '',
   selectedOperation: undefined,
+  magicModalOpen: false,
+  magicSuggestions: [],
+  magicDepth: 3,
+  magicIntensiveMode: false,
+  magicExtensiveLanguageSupport: false,
+  magicCrib: '',
   init() {
     // Setting Up Input Section Length and Lines
     this.set('inputLength', this.get('entityValue').length);
@@ -89,28 +96,38 @@ polarity.export = PolarityComponent.extend({
   observer: Ember.on(
     'willUpdate',
     Ember.observer('operations', function () {
-      const newOperations = this.get('operations');
-      if (
-        !objectsDeepEquals(newOperations, this.get('previousOperations')) &&
-        newOperations.length
-      ) {
-        this.sendIntegrationMessage({
-          action: 'runBake',
-          data: { entityValue: this.block.entity.value, newOperations }
-        })
-          .then(({ operations }) => {
-            console.log("This ran")
-            const operationsWithLinks = this.updateLinks(operations);
-            this.set('operations', operationsWithLinks);
-            this.set('previousOperations', cloneDeep(operationsWithLinks));
+      if (this.ignoreChange(document.activeElement)) {
+        const newOperations = this.get('operations');
+        if (
+          !objectsDeepEquals(newOperations, this.get('previousOperations')) &&
+          newOperations.length
+        ) {
+          this.sendIntegrationMessage({
+            action: 'runBake',
+            data: { entityValue: this.block.entity.value, newOperations }
           })
-          // Error handling will be displayed in operation output values
-          .finally(() => {
-            this.get('block').notifyPropertyChange('data');
-          });
+            .then(({ operations }) => {
+              const operationsWithLinks = this.updateLinks(operations);
+              this.set('operations', operationsWithLinks);
+              this.set('previousOperations', cloneDeep(operationsWithLinks));
+            })
+            // Error handling will be displayed in operation output values
+            .finally(() => {
+              this.get('block').notifyPropertyChange('data');
+            });
+        }
       }
     })
   ),
+  ignoreChange: function (element) {
+    const tagName = element.tagName;
+    const type = document.activeElement.getAttribute('type');
+
+    return (
+      !['INPUT', 'TEXTAREA'].includes(tagName) ||
+      (tagName === 'INPUT' && !['text', 'number'].includes(type))
+    );
+  },
   updateLinks: function (operations) {
     const inputHash = this.get('inputHash');
     const url = this.get('url');
@@ -125,7 +142,7 @@ polarity.export = PolarityComponent.extend({
             )
           )
         )
-        .flat()})`;
+        .flat()}${operation.__disabled ? '/disabled' : ''})`;
 
       const recipeLinkWithoutInput =
         index === 0
@@ -143,7 +160,9 @@ polarity.export = PolarityComponent.extend({
 
     this.set(
       'fullRecipeLink',
-      operationsWithUpdatedLinks[operationsWithUpdatedLinks.length - 1].recipeLink
+      operations.length
+        ? operationsWithUpdatedLinks[operationsWithUpdatedLinks.length - 1].recipeLink
+        : `${url}/#input=${inputHash}`
     );
 
     return operationsWithUpdatedLinks;
@@ -179,6 +198,40 @@ polarity.export = PolarityComponent.extend({
         resolve();
       });
   },
+  runMagic: function (cb = () => {}) {
+    this.sendIntegrationMessage({
+      action: 'runMagic',
+      data: {
+        entityValue: this.block.entity.value,
+        operations: this.get('operations'),
+        depth: this.get('magicDepth'),
+        intensiveMode: this.get('magicIntensiveMode'),
+        extensiveLanguageSupport: this.get('magicExtensiveLanguageSupport'),
+        crib: this.get('magicCrib')
+      }
+    })
+      .then(({ magicSuggestions, summary }) => {
+        this.set('magicSuggestions', magicSuggestions);
+        this.set('summary', summary);
+        cb(magicSuggestions);
+      })
+      .catch((err) => {
+        this.set(
+          'searchErrorMessage',
+          'Magic Function Failed: ' +
+            (err &&
+              (err.detail || err.err || err.message || err.title || err.description)) ||
+            'Unknown Reason'
+        );
+      })
+      .finally(() => {
+        this.get('block').notifyPropertyChange('data');
+        setTimeout(() => {
+          this.set('searchErrorMessage', '');
+          this.get('block').notifyPropertyChange('data');
+        }, 5000);
+      });
+  },
   actions: {
     // UI Logic Actions
     toggleOperationView: function (operationIndex) {
@@ -204,8 +257,6 @@ polarity.export = PolarityComponent.extend({
         ...operations.slice(operationIndex - 1, operationIndex),
         ...operations.slice(operationIndex + 1, operations.length)
       ]);
-
-      //TODO: will eventually need to transfer logic to server to recalculate
       this.get('block').notifyPropertyChange('data');
     },
     moveOperationDown: function (operationIndex) {
@@ -218,8 +269,6 @@ polarity.export = PolarityComponent.extend({
         operationToMove,
         ...operations.slice(operationIndex + 2, operations.length)
       ]);
-
-      //TODO: will eventually need to transfer logic to server to recalculate
       this.get('block').notifyPropertyChange('data');
     },
 
@@ -301,7 +350,7 @@ polarity.export = PolarityComponent.extend({
       console.log('loadRecipe');
     },
     clearRecipe: function () {
-      this.set('operations', []);
+      this.set('operations', this.updateLinks([]));
       this.get('block').notifyPropertyChange('data');
     },
     disableOperation: function (operationIndex) {
@@ -351,7 +400,6 @@ polarity.export = PolarityComponent.extend({
         }
       })
         .then(({ operationsWithNewStep }) => {
-          console.log({ operationsWithNewStep });
           this.set('operations', this.updateLinks(operationsWithNewStep));
           this.set('operationLengthMinusOne', operationsWithNewStep.length - 1);
         })
@@ -371,6 +419,45 @@ polarity.export = PolarityComponent.extend({
             this.get('block').notifyPropertyChange('data');
           }, 5000);
         });
+    },
+    runBake: function () {
+      const newOperations = this.get('operations');
+
+      this.sendIntegrationMessage({
+        action: 'runBake',
+        data: { entityValue: this.block.entity.value, newOperations }
+      })
+        .then(({ operations }) => {
+          const operationsWithLinks = this.updateLinks(operations);
+          this.set('operations', operationsWithLinks);
+          this.set('previousOperations', cloneDeep(operationsWithLinks));
+        })
+        // Error handling will be displayed in operation output values
+        .finally(() => {
+          this.get('block').notifyPropertyChange('data');
+        });
+    },
+
+    toggleMagicModal: function () {
+      if (!this.get('magicModalOpen'))
+        this.runMagic(() => {
+          this.toggleProperty('magicModalOpen');
+        });
+      else this.toggleProperty('magicModalOpen');
+    },
+    updateMagicInput: function (inputName, event) {
+      if (['magicExtensiveLanguageSupport', 'magicIntensiveMode'].includes(inputName)) {
+        this.set(inputName, event.target.checked);
+        this.get('block').notifyPropertyChange('data');
+      }
+      this.runMagic();
+    },
+    addMagicSuggestion: function (suggestionIndex) {
+      const selectedSuggestion = this.get('magicSuggestions')[suggestionIndex];
+
+      this.set('selectedOperation', selectedSuggestion);
+      this.set('magicModalOpen', false);
+      this.get('block').notifyPropertyChange('data');
     }
   }
 });

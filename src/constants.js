@@ -19,110 +19,127 @@ const FULL_WIDTH_ARG_TYPES = [
   'populateMultiOption'
 ];
 const UNSUPPORTED_ARG_TYPES = ['argSelector', 'populateOption', 'populateMultiOption'];
-const OPERATIONS = [
-  {
-    module: 'Regex',
-    description:
-      'Extracts Uniform Resource Locators (URLs) from the input. The protocol (http, ftp etc.) is required otherwise there will be far too many false positives.',
-    infoURL: null,
-    inputType: 'string',
-    outputType: 'string',
-    flowControl: false,
-    manualBake: false,
-    args: [{ name: 'Display total', type: 'boolean', value: false }],
-    name: 'Extract URLs'
-  },
-  {
-    module: 'Regex',
-    description:
-      'Extracts fully qualified domain names.<br>Note that this will not include paths. Use <strong>Extract URLs</strong> to find entire URLs.',
-    infoURL: null,
-    inputType: 'string',
-    outputType: 'string',
-    flowControl: false,
-    manualBake: false,
-    args: [{ name: 'Display total', type: 'boolean', value: 'Extract.DISPLAY_TOTAL' }],
-    name: 'Extract domains'
-  },
-  {
-    module: 'Default',
-    description:
-      "Takes a Universal Resource Locator (URL) and 'Defangs' it; meaning the URL becomes invalid, neutralising the risk of accidentally clicking on a malicious link.<br><br>This is often used when dealing with malicious links or IOCs.<br><br>Works well when combined with the 'Extract URLs' operation.",
-    infoURL: 'https://isc.sans.edu/forums/diary/Defang+all+the+things/22744/',
-    inputType: 'string',
-    outputType: 'string',
-    flowControl: false,
-    manualBake: false,
-    args: [
-      { name: 'Escape dots', type: 'boolean', value: true },
-      { name: 'Escape http', type: 'boolean', value: true },
-      { name: 'Escape ://', type: 'boolean', value: true },
-      {
-        name: 'Process',
-        type: 'option',
-        value: ['Valid domains and full URLs', 'Only full URLs', 'Everything']
-      }
-    ],
-    name: 'Defang URL'
-  },
-  {
-    module: 'Default',
-    description: 'Adds line numbers to the output.',
-    infoURL: null,
-    inputType: 'string',
-    outputType: 'string',
-    flowControl: false,
-    manualBake: false,
-    args: [],
-    name: 'Add line numbers'
-  },
-  // {
-  //   module: 'Default',
-  //   description: 'ADD the input with the given key (e.g. <code>fe023da5</code>), MOD 255',
-  //   infoURL: 'https://wikipedia.org/wiki/Bitwise_operation#Bitwise_operators',
-  //   inputType: 'byteArray',
-  //   outputType: 'byteArray',
-  //   flowControl: false,
-  //   manualBake: false,
-  //   args: [
-  //     {
-  //       name: 'Key',
-  //       type: 'toggleString',
-  //       value: '',
-  //       toggleValues: ['Hex', 'Decimal', 'Binary', 'Base64', 'UTF8', 'Latin1']
-  //     }
-  //   ],
-  //   name: 'ADD'
-  // }
-  {
-    module: 'Ciphers',
-    description:
-      'Advanced Encryption Standard (AES) is a U.S. Federal Information Processing Standard (FIPS). It was selected after a 5-year process where 15 competing designs were evaluated.<br><br><b>Key:</b> The following algorithms will be used based on the size of the key:<ul><li>16 bytes = AES-128</li><li>24 bytes = AES-192</li><li>32 bytes = AES-256</li></ul>You can generate a password-based key using one of the KDF operations.<br><br><b>IV:</b> The Initialization Vector should be 16 bytes long. If not entered, it will default to 16 null bytes.<br><br><b>Padding:</b> In CBC and ECB mode, PKCS#7 padding will be used.',
-    infoURL: 'https://wikipedia.org/wiki/Advanced_Encryption_Standard',
-    inputType: 'string',
-    outputType: 'string',
-    flowControl: false,
-    manualBake: false,
-    args: [
-      {
-        name: 'Key',
-        type: 'toggleString',
-        value: '',
-        toggleValues: ['Hex', 'UTF8', 'Latin1', 'Base64']
-      },
-      {
-        name: 'IV',
-        type: 'toggleString',
-        value: '',
-        toggleValues: ['Hex', 'UTF8', 'Latin1', 'Base64']
-      },
-      { name: 'Mode', type: 'option', value: ['CBC', 'CFB', 'OFB', 'CTR', 'GCM', 'ECB'] },
-      { name: 'Input', type: 'option', value: ['Raw', 'Hex'] },
-      { name: 'Output', type: 'option', value: ['Hex', 'Raw'] }
-    ],
-    name: 'AES Encrypt'
-  }
-];
+// const OPERATIONS = [
+//   {
+//     module: 'Regex',
+//     description:
+//       'Extracts Uniform Resource Locators (URLs) from the input. The protocol (http, ftp etc.) is required otherwise there will be far too many false positives.',
+//     infoURL: null,
+//     inputType: 'string',
+//     outputType: 'string',
+//     flowControl: false,
+//     manualBake: false,
+//     args: [{ name: 'Display total', type: 'boolean', value: false }],
+//     name: 'Extract URLs'
+//   },
+//   {
+//     module: 'Regex',
+//     description:
+//       'Extracts fully qualified domain names.<br>Note that this will not include paths. Use <strong>Extract URLs</strong> to find entire URLs.',
+//     infoURL: null,
+//     inputType: 'string',
+//     outputType: 'string',
+//     flowControl: false,
+//     manualBake: false,
+//     args: [{ name: 'Display total', type: 'boolean', value: 'Extract.DISPLAY_TOTAL' }],
+//     name: 'Extract domains'
+//   },
+//   {
+//     module: 'Default',
+//     description:
+//       "Takes a Universal Resource Locator (URL) and 'Defangs' it; meaning the URL becomes invalid, neutralising the risk of accidentally clicking on a malicious link.<br><br>This is often used when dealing with malicious links or IOCs.<br><br>Works well when combined with the 'Extract URLs' operation.",
+//     infoURL: 'https://isc.sans.edu/forums/diary/Defang+all+the+things/22744/',
+//     inputType: 'string',
+//     outputType: 'string',
+//     flowControl: false,
+//     manualBake: false,
+//     args: [
+//       { name: 'Escape dots', type: 'boolean', value: true },
+//       { name: 'Escape http', type: 'boolean', value: true },
+//       { name: 'Escape ://', type: 'boolean', value: true },
+//       {
+//         name: 'Process',
+//         type: 'option',
+//         value: ['Valid domains and full URLs', 'Only full URLs', 'Everything']
+//       }
+//     ],
+//     name: 'Defang URL'
+//   },
+//   {
+//     module: 'Default',
+//     description: 'Adds line numbers to the output.',
+//     infoURL: null,
+//     inputType: 'string',
+//     outputType: 'string',
+//     flowControl: false,
+//     manualBake: false,
+//     args: [],
+//     name: 'Add line numbers'
+//   },
+//   {
+//     module: 'Ciphers',
+//     description:
+//       'The Affine cipher is a type of monoalphabetic substitution cipher, wherein each letter in an alphabet is mapped to its numeric equivalent, encrypted using simple mathematical function, <code>(ax + b) % 26</code>, and converted back to a letter.',
+//     infoURL: 'https://wikipedia.org/wiki/Affine_cipher',
+//     inputType: 'string',
+//     outputType: 'string',
+//     flowControl: false,
+//     manualBake: false,
+//     args: [
+//       { name: 'a', type: 'number', value: 1 },
+//       { name: 'b', type: 'number', value: 0 }
+//     ],
+//     name: 'Affine Cipher Encode'
+//   }
+//   // {
+//   //   module: 'Default',
+//   //   description: 'ADD the input with the given key (e.g. <code>fe023da5</code>), MOD 255',
+//   //   infoURL: 'https://wikipedia.org/wiki/Bitwise_operation#Bitwise_operators',
+//   //   inputType: 'byteArray',
+//   //   outputType: 'byteArray',
+//   //   flowControl: false,
+//   //   manualBake: false,
+//   //   args: [
+//   //     {
+//   //       name: 'Key',
+//   //       type: 'toggleString',
+//   //       value: '',
+//   //       toggleValues: ['Hex', 'Decimal', 'Binary', 'Base64', 'UTF8', 'Latin1']
+//   //     }
+//   //   ],
+//   //   name: 'ADD'
+//   // }
+//   // {
+//   //   module: 'Ciphers',
+//   //   description:
+//   //     'Advanced Encryption Standard (AES) is a U.S. Federal Information Processing Standard (FIPS). It was selected after a 5-year process where 15 competing designs were evaluated.<br><br><b>Key:</b> The following algorithms will be used based on the size of the key:<ul><li>16 bytes = AES-128</li><li>24 bytes = AES-192</li><li>32 bytes = AES-256</li></ul>You can generate a password-based key using one of the KDF operations.<br><br><b>IV:</b> The Initialization Vector should be 16 bytes long. If not entered, it will default to 16 null bytes.<br><br><b>Padding:</b> In CBC and ECB mode, PKCS#7 padding will be used.',
+//   //   infoURL: 'https://wikipedia.org/wiki/Advanced_Encryption_Standard',
+//   //   inputType: 'string',
+//   //   outputType: 'string',
+//   //   flowControl: false,
+//   //   manualBake: false,
+//   //   args: [
+//   //     {
+//   //       name: 'Key',
+//   //       type: 'toggleString',
+//   //       value: '',
+//   //       toggleValues: ['Hex', 'UTF8', 'Latin1', 'Base64']
+//   //     },
+//   //     {
+//   //       name: 'IV',
+//   //       type: 'toggleString',
+//   //       value: '',
+//   //       toggleValues: ['Hex', 'UTF8', 'Latin1', 'Base64']
+//   //     },
+//   //     { name: 'Mode', type: 'option', value: ['CBC', 'CFB', 'OFB', 'CTR', 'GCM', 'ECB'] },
+//   //     { name: 'Input', type: 'option', value: ['Raw', 'Hex'] },
+//   //     { name: 'Output', type: 'option', value: ['Hex', 'Raw'] }
+//   //   ],
+//   //   name: 'AES Encrypt'
+//   // }
+// ];
+
+const OPERATIONS = [];
 
 const OPERATIONS_ALL_ARG_TYPES = [
   {

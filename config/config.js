@@ -23,14 +23,6 @@ module.exports = {
       file: './templates/block.hbs'
     }
   },
-  summary: {
-    component: {
-      file: './components/summary.js'
-    },
-    template: {
-      file: './templates/summary.hbs'
-    }
-  },
   options: [
     {
       key: 'url',
@@ -47,7 +39,7 @@ module.exports = {
       name: 'Minimum Input Length',
       description:
         'The minimum text input length for a string to be decoded and displayed.',
-      default: 15,
+      default: 5,
       type: 'number',
       userCanEdit: true,
       adminOnly: false

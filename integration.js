@@ -4,8 +4,9 @@ const fp = require('lodash/fp');
 const calulateOutputs = require('./src/calulateOutputs');
 const groupOperationArgs = require('./src/groupOperationArgs');
 const runBake = require('./src/runBake');
-const searchOperations = require('./src/searchOperations');
+const { searchOperations } = require('./src/searchOperations');
 const addStep = require('./src/addStep');
+const runMagic = require('./src/runMagic');
 const { OPERATIONS } = require('./src/constants');
 
 let Logger;
@@ -24,15 +25,19 @@ const doLookup = async (entities, options, cb) => {
         if (fp.flow(fp.get('value'), fp.trim, fp.size)(entity) <= options.minLength)
           return;
 
-        let output = await _magicDecode(entity.value);
-        let jsonOutput = JSON.parse(output);
-        Logger.trace({ jsonOutput }, 'Output from CyberChef');
+        const magicResult = fp.get('value', await chef.magic(entity.value));
+
+        const magicSuggestionsFound =
+          fp.flow(fp.flatMap(fp.get('recipe')), fp.size)(magicResult) ||
+          fp.flow(fp.flatMap(fp.get('matchingOps')), fp.size)(magicResult);
 
         return {
           entity,
           isVolatile: true,
           data: {
-            summary: [],
+            summary: magicSuggestionsFound
+              ? ['Magic Suggestions Found']
+              : ['No Magic Suggestions'],
             details: {
               inputHash: _.trim(Buffer.from(entity.value).toString('base64'), '='),
               operations: calulateOutputs(
@@ -48,17 +53,15 @@ const doLookup = async (entities, options, cb) => {
     )
   );
 
-
   cb(null, lookupResults);
 };
-
 
 const _magicDecode = async (string) => {
   let ascii = await chef.magic(string);
   return ascii.toString();
 };
 
-const getOnMessage = { runBake, searchOperations, addStep };
+const getOnMessage = { runBake, searchOperations, addStep, runMagic };
 
 const onMessage = ({ action, data: actionParams }, options, callback) =>
   getOnMessage[action](actionParams, options, callback, Logger);
