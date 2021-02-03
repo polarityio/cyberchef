@@ -1,6 +1,6 @@
 const chef = require('cyberchef');
 const fp = require('lodash/fp');
-const { UNSUPPORTED_ARG_TYPES } = require('./constants');
+const { UNSUPPORTED_ARG_TYPES, SUPPORTED_INPUT_OUTPUT_TYPES } = require('./constants');
 
 const searchOperations = ({ term }, options, callback, Logger) => {
   try {
@@ -34,7 +34,16 @@ const operationsWeCantCurrentlyRun = (operation) => {
     fp.some(fp.flow(fp.get('type'), fp.includes(fp.__, UNSUPPORTED_ARG_TYPES)))
   )(operation);
 
-  return !operation.flowControl && !operationIncludesUnsupportedArgTypes;
+  const operationIncludesUnsupportedInputOrOutputTypes =
+    !SUPPORTED_INPUT_OUTPUT_TYPES.includes(fp.get('inputType', operation)) ||
+    !SUPPORTED_INPUT_OUTPUT_TYPES.includes(fp.get('outputType', operation));
+  
+
+  return (
+    !operation.flowControl &&
+    !operationIncludesUnsupportedArgTypes &&
+    !operationIncludesUnsupportedInputOrOutputTypes
+  );
 };
 
 

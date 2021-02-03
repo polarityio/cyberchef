@@ -12,7 +12,12 @@
 
 
   <div class="header">
-    Recipe
+    <span>
+      Recipe
+      {{#if baking}}
+        {{fa-icon "cookie-bite" size="sm" fixedWidth=true spin=true}}
+      {{/if}}
+    </span>
     <span class="header-buttons">
       {{!-- Will implement saving and loading in a future version --}}
       {{!-- <button type="button" title="Save Recipe" class="header-button" {{action "saveRecipe"}}>
@@ -134,6 +139,7 @@
                               class="input-field"
                               enter=(action "runBake" value="target.value")
                               focus-out=(action "runBake" value="target.value")
+                              change=(action "runBake" value="target.value")
                               value=operationArgument.selectedValue
                               min=operationArgument.min
                               max=operationArgument.max

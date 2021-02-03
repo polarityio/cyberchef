@@ -6,7 +6,7 @@ module.exports = {
   onDemandOnly: true,
   defaultColor: 'light-green',
   logging: {
-    level: 'trace' //trace, debug, info, warn, error, fatal
+    level: 'info' //trace, debug, info, warn, error, fatal
   },
   customTypes: [
     {
@@ -38,7 +38,7 @@ module.exports = {
       key: 'minLength',
       name: 'Minimum Input Length',
       description:
-        'The minimum text input length for a string to be decoded and displayed.',
+        'The minimum text input length for a string to be considered Input.',
       default: 5,
       type: 'number',
       userCanEdit: true,

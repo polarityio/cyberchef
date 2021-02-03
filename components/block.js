@@ -102,6 +102,8 @@ polarity.export = PolarityComponent.extend({
           !objectsDeepEquals(newOperations, this.get('previousOperations')) &&
           newOperations.length
         ) {
+          this.set('baking', true);
+
           this.sendIntegrationMessage({
             action: 'runBake',
             data: { entityValue: this.block.entity.value, newOperations }
@@ -113,6 +115,7 @@ polarity.export = PolarityComponent.extend({
             })
             // Error handling will be displayed in operation output values
             .finally(() => {
+              this.set('baking', false);
               this.get('block').notifyPropertyChange('data');
             });
         }
@@ -124,7 +127,7 @@ polarity.export = PolarityComponent.extend({
     const type = document.activeElement.getAttribute('type');
 
     return (
-      !['INPUT', 'TEXTAREA'].includes(tagName) ||
+      !['INPUT', 'TEXTAREA', 'BODY'].includes(tagName) ||
       (tagName === 'INPUT' && !['text', 'number'].includes(type))
     );
   },
@@ -343,12 +346,13 @@ polarity.export = PolarityComponent.extend({
     },
 
     // Right Hand Button Actions
-    saveRecipe: function () {
-      console.log('saveRecipe');
-    },
-    loadRecipe: function () {
-      console.log('loadRecipe');
-    },
+    // TODO: Implement in V2
+    // saveRecipe: function () {
+    //   console.log('saveRecipe');
+    // },
+    // loadRecipe: function () {
+    //   console.log('loadRecipe');
+    // },
     clearRecipe: function () {
       this.set('operations', this.updateLinks([]));
       this.get('block').notifyPropertyChange('data');
@@ -422,7 +426,7 @@ polarity.export = PolarityComponent.extend({
     },
     runBake: function () {
       const newOperations = this.get('operations');
-
+      this.set('baking', true)
       this.sendIntegrationMessage({
         action: 'runBake',
         data: { entityValue: this.block.entity.value, newOperations }
@@ -434,6 +438,7 @@ polarity.export = PolarityComponent.extend({
         })
         // Error handling will be displayed in operation output values
         .finally(() => {
+          this.set('baking', false);
           this.get('block').notifyPropertyChange('data');
         });
     },

@@ -1,17 +1,16 @@
 const chef = require('cyberchef');
 
 const fp = require('lodash/fp');
+const getDisplayResults = require('./getDisplayResults');
 
-const calulateOutputs = (
+const calulateOutputs = async (
   entityValue,
   operations,
   Logger,
   initialRun = false,
   index = 0
 ) => {
-  if (index === operations.length) {
-    return operations;
-  }
+  if (index === operations.length) return operations;
 
   const operation = operations[index];
 
@@ -25,7 +24,7 @@ const calulateOutputs = (
       outputLines: '0'
     });
 
-    return calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
+    return await calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
   }
   if (operation.__disabled) {
     operations[index] = Object.assign(operation, {
@@ -36,7 +35,7 @@ const calulateOutputs = (
       outputLines: '0',
       ...(initialRun && { __expanded: index === operations.length - 1 })
     });
-    return calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
+    return await calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
   }
 
   const step = {
@@ -44,9 +43,10 @@ const calulateOutputs = (
     args: fp.flatMap(fp.map(fp.get('selectedValue')), operation.args)
   };
 
-  let currentStepResult;
+  let currentStepResult, displayResults;
   try {
-    currentStepResult = chef.bake(thisStepsInput, step);
+    currentStepResult = await chef.bake(thisStepsInput, step);
+    displayResults = getDisplayResults(currentStepResult);
   } catch (e) {
     Logger.error(e, { currentStepResult, step });
     operations[index] = Object.assign(operation, {
@@ -60,10 +60,8 @@ const calulateOutputs = (
       outputLines: '0',
       ...(initialRun && { __expanded: index === operations.length - 1 })
     });
-    return calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
+    return await calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
   }
-
-  const displayResults = getDisplayResults(currentStepResult);
 
   operations[index] = Object.assign(operation, {
     result: currentStepResult,
@@ -71,31 +69,8 @@ const calulateOutputs = (
     ...displayResults,
     ...(initialRun && { __expanded: index === operations.length - 1 })
   });
-  return calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
+  return await calulateOutputs(entityValue, operations, Logger, initialRun, index + 1);
 };
-const getStringDisplayResults = (currentStepResult) =>
-  fp.flow(fp.trim, fp.split(/\r\n|\r|\n|<br\/>/gi), (stringOutputLines) => ({
-    result: fp.join('\n')(stringOutputLines),
-    displayResult: fp.join('<br/>')(stringOutputLines),
-    outputLength: fp.flow(fp.join(' '), fp.size)(stringOutputLines),
-    outputLines:
-      fp.flow(fp.compact, fp.size)(stringOutputLines) === 0
-        ? 0
-        : fp.size(stringOutputLines)
-  }))(currentStepResult);
 
-const getDisplayResults = ({ type: resultType, value: resultValue }) =>
-  (getDisplayTypeFunctions[resultType] || (() => {}))(resultValue) || {
-    displayResult: resultValue,
-    outputLength: resultValue.length,
-    outputLines: fp.flow(
-      (value) => value.toString(),
-      fp.trim,
-      fp.split(/\r\n|\r|\n|<br\/>/gi),
-      fp.size
-    )(resultValue)
-  };
-
-const getDisplayTypeFunctions = { 1: getStringDisplayResults };
 
 module.exports = calulateOutputs;

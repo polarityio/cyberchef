@@ -1,13 +1,10 @@
 const chef = require('cyberchef');
 const _ = require('lodash');
 const fp = require('lodash/fp');
-const calulateOutputs = require('./src/calulateOutputs');
-const groupOperationArgs = require('./src/groupOperationArgs');
 const runBake = require('./src/runBake');
 const { searchOperations } = require('./src/searchOperations');
 const addStep = require('./src/addStep');
 const runMagic = require('./src/runMagic');
-const { OPERATIONS } = require('./src/constants');
 
 let Logger;
 
@@ -40,12 +37,7 @@ const doLookup = async (entities, options, cb) => {
               : ['No Magic Suggestions'],
             details: {
               inputHash: _.trim(Buffer.from(entity.value).toString('base64'), '='),
-              operations: calulateOutputs(
-                entity.value,
-                groupOperationArgs(OPERATIONS),
-                Logger,
-                true
-              )
+              operations: []
             }
           }
         };
@@ -56,10 +48,6 @@ const doLookup = async (entities, options, cb) => {
   cb(null, lookupResults);
 };
 
-const _magicDecode = async (string) => {
-  let ascii = await chef.magic(string);
-  return ascii.toString();
-};
 
 const getOnMessage = { runBake, searchOperations, addStep, runMagic };
 

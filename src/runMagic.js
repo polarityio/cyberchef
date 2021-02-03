@@ -14,12 +14,19 @@ const runMagic = async (
       ? fp.flow(fp.last, fp.get('result'))(operations)
       : entityValue;
 
-    const magicResult = fp.get('value',await chef.magic(lastOperationOutput, [
-      depth,
-      intensiveMode,
-      extensiveLanguageSupport,
-      crib
-    ]));
+    
+    if (lastOperationOutput.type === 4)
+      return callback(null, { magicSuggestions: [], summary: ['No Magic Suggestions'] });
+
+    const magicResult = fp.get(
+      'value',
+      await chef.magic(lastOperationOutput, [
+        depth,
+        intensiveMode,
+        extensiveLanguageSupport,
+        crib
+      ])
+    );
 
     
     const suggestedOperationsNames = fp.flow(fp.flatten, fp.compact, fp.uniq)([
@@ -50,7 +57,7 @@ const runMagic = async (
     const summary = magicSuggestions.length
       ? ['Magic Suggestions Found']
       : ['No Magic Suggestions'];
-      
+
     callback(null, { magicSuggestions, summary });
   } catch (error) {
     Logger.error(
