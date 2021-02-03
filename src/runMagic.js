@@ -14,8 +14,8 @@ const runMagic = async (
       ? fp.flow(fp.last, fp.get('result'))(operations)
       : entityValue;
 
-    
-    if (lastOperationOutput.type === 4)
+    // Excluding BufferArray and BigNumber output types as those cannot be used by the chef.magic Function.
+    if ([4,5].includes(lastOperationOutput.type))
       return callback(null, { magicSuggestions: [], summary: ['No Magic Suggestions'] });
 
     const magicResult = fp.get(
