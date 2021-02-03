@@ -1,5 +1,5 @@
 {
-  "name": "cyberchef",
+  "name": "CyberChefIntegration",
   "version": "3.0.0-beta",
   "main": "./integration.js",
   "private": true,
