@@ -35,10 +35,20 @@ module.exports = {
       adminOnly: false
     },
     {
+      key: 'dontShowStepResults',
+      name: "Don't Show Step Results",
+      description:
+        "By default, you can find the results for each step of your recipe when expanding on the Operation's title." +
+        "If the step results are getting too long you can check this to make only the final output visible in the overlay.",
+      default: false,
+      type: 'boolean',
+      userCanEdit: true,
+      adminOnly: false
+    },
+    {
       key: 'minLength',
       name: 'Minimum Input Length',
-      description:
-        'The minimum text input length for a string to be considered Input.',
+      description: 'The minimum text input length for a string to be considered Input.',
       default: 5,
       type: 'number',
       userCanEdit: true,

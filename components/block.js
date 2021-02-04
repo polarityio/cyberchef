@@ -73,16 +73,20 @@ polarity.export = PolarityComponent.extend({
   magicIntensiveMode: false,
   magicExtensiveLanguageSupport: false,
   magicCrib: '',
+  showInput: true,
   init() {
     // Setting Up Input Section Length and Lines
-    this.set('inputLength', this.get('entityValue').length);
+    const inputLength = this.get('entityValue').length;
+    this.set('inputLength', inputLength);
     const newEntityValue = this.get('entityValue')
       .trim()
       .split(/\r\n|\r|\n/gi)
       .join('<br/>');
 
     this.set('entityValue', newEntityValue);
-    this.set('inputLines', newEntityValue.split('<br/>').length);
+    const inputLines = newEntityValue.split('<br/>').length;
+    this.set('inputLines', inputLines);
+    this.set('showInput', inputLines <=4 && inputLength <= 170);
 
     // Setting operationLengthMinusOne as the 'sub' ember helper doesn't currently work
     this.set('operationLengthMinusOne', this.get('operations').length - 1);
@@ -127,7 +131,7 @@ polarity.export = PolarityComponent.extend({
     const type = document.activeElement.getAttribute('type');
 
     return (
-      !['INPUT', 'TEXTAREA', 'BODY'].includes(tagName) ||
+      !['INPUT', 'TEXTAREA'].includes(tagName) ||
       (tagName === 'INPUT' && !['text', 'number'].includes(type))
     );
   },
@@ -237,6 +241,9 @@ polarity.export = PolarityComponent.extend({
   },
   actions: {
     // UI Logic Actions
+    toggleShowInput: function () {
+      this.toggleProperty('showInput');
+    },
     toggleOperationView: function (operationIndex) {
       const operations = this.get('operations');
       const operationToToggle = operations[operationIndex];

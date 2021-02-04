@@ -31,6 +31,9 @@ const doLookup = async (entities, options, cb) => {
         return {
           entity,
           isVolatile: true,
+          displayValue: `${entity.value.slice(0, 120)}${
+            entity.value.length > 120 ? '...' : ''
+          }`,
           data: {
             summary: magicSuggestionsFound
               ? ['Magic Suggestions Found']

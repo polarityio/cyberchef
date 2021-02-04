@@ -1,14 +1,30 @@
 <div class="main">
-  <div class="header">
-    Input
-    <span class="header-info">
-      <span>length: {{inputLength}}</span>
-      <span>lines: {{inputLines}}</span>
-    </span>
-  </div>
-  <div class="results">
-    {{{entityValue}}}
-  </div>
+  {{#if showInput}}
+    <div class="header">
+      <span {{action "toggleShowInput"}} style="cursor: pointer;">
+        Input 
+        {{fa-icon "chevron-up" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+      </span>
+      <span class="header-info">
+        <span>length: {{inputLength}}</span>
+        <span>lines: {{inputLines}}</span>
+      </span>
+    </div>
+    <div class="results">
+      {{{entityValue}}}
+    </div>
+  {{else}}  
+    <div class="header">
+      <span {{action "toggleShowInput"}} style="cursor: pointer;">
+        Input 
+        {{fa-icon "chevron-down" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+      </span>
+      <span class="header-info">
+        <span>length: {{inputLength}}</span>
+        <span>lines: {{inputLines}}</span>
+      </span>
+    </div>
+  {{/if}}
 
 
   <div class="header">
@@ -328,31 +344,57 @@
                 </div>
               {{/each}}
             </div>
-            
           {{/if}}
 
-          <div class="results output">
-            <span class={{if (eq operationIndex operationLengthMinusOne) "output-title last" "output-title"}}>
-              {{#if (eq operationIndex operationLengthMinusOne)}}
-                Output:
-              {{else}}
-                Step Result:
-              {{/if}}
-              <div class="output-info">
-                <span>length: {{operation.outputLength}}</span>
-                <span>lines: {{operation.outputLines}}</span>
+          {{#if block.userOptions.dontShowStepResults}}
+            {{#if (eq operationIndex (sub operations.length 1))}}
+              <div class="results output">
+                <span class="output-title last">
+                  Output:
+                  <div class="output-info">
+                    <span>length: {{operation.outputLength}}</span>
+                    <span>lines: {{operation.outputLines}}</span>
+                  </div>
+                </span> 
+                {{#if operation.outputLength}}
+                  {{#if (eq operation.result.type 0)}}
+                    {{operation.displayResult}}
+                  {{else}}
+                    {{{operation.displayResult}}}
+                  {{/if}}
+                {{else}}
+                  <span class="no-results"><em>None</em></span>
+                {{/if}}
               </div>
-            </span>
-            {{#if operation.__disabled}}
-              <span class="no-results"><em>Disabled.  No Result for this Step.</em></span>
-            {{else}}  
-              {{#if operation.outputLength}}
-                {{{operation.displayResult}}}
-              {{else}}
-                <span class="no-results"><em>None</em></span>
-              {{/if}}
             {{/if}}
-          </div>
+          {{else}}
+            <div class="results output">
+              <span class={{if (eq operationIndex operationLengthMinusOne) "output-title last" "output-title"}}>
+                {{#if (eq operationIndex operationLengthMinusOne)}}
+                  Output:
+                {{else}}
+                  Step Result:
+                {{/if}}
+                <div class="output-info">
+                  <span>length: {{operation.outputLength}}</span>
+                  <span>lines: {{operation.outputLines}}</span>
+                </div>
+              </span>
+              {{#if operation.__disabled}}
+                <span class="no-results"><em>Disabled.  No Result for this Step.</em></span>
+              {{else}}  
+                {{#if operation.outputLength}}
+                  {{#if (eq operation.result.type 0)}}
+                    {{operation.displayResult}}
+                  {{else}}
+                    {{{operation.displayResult}}}
+                  {{/if}}
+                {{else}}
+                  <span class="no-results"><em>None</em></span>
+                {{/if}}
+              {{/if}}
+            </div>
+          {{/if}}
         {{/if}}
       </div>
     {{/each}}
@@ -389,6 +431,7 @@
         loadingMessage="Loading..."
         searchPlaceholder="Search..."
         closeOnSelect=true
+        eventType="click"
         onOpen=(action "searchOperations" " ")
         onChange=(action (mut selectedOperation)) as |operation|}}
         <span class="operation-select-name" title={{{operation.description}}}>{{operation.name}}</span>

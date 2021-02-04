@@ -2,7 +2,7 @@ const calulateOutputs = require('./calulateOutputs');
 
 const runBake = async ({ entityValue, newOperations }, options, callback, Logger) => {
   try {
-    const operations = await calulateOutputs(entityValue, newOperations, Logger);
+    const operations = await calulateOutputs(entityValue, newOperations, options, Logger);
 
     return callback(null, { operations });
   } catch (error) {

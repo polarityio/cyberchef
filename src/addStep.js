@@ -7,7 +7,7 @@ const addStep = ({ operations, selectedOperation }, options, callback, Logger) =
       operations,
       groupOperationArgs([{ ...selectedOperation, __expanded: true }])
     );
-
+    
     callback(null, { operationsWithNewStep });
   } catch (error) {
     Logger.error(
