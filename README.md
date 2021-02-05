@@ -8,6 +8,8 @@ The Polarity CyberChef Integration allows you to leverage much of CyberChefs fun
 
 > If you have trouble when initially installing, try using `npm install -f`
 
+<img src="./assets/cyberchef-demo.gif" alt="CyberChef Demo"  width="400" />
+
 ## Options
 
 ### CyberChef Url
