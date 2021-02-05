@@ -28,9 +28,19 @@ module.exports = {
       key: 'url',
       name: 'CyberChef Url',
       description:
-        'Add your CyberChef Url to open up the CyberChef dashboard for full functionality.',
-      default: 'https://gchq.github.io/CyberChef',
+        'Add your CyberChef Url to open up the CyberChef dashboard for full functionality. (e.g. https://gchq.github.io/CyberChef)',
+      default: '',
       type: 'text',
+      userCanEdit: true,
+      adminOnly: false
+    },
+    {
+      key: 'onlyShowMagic',
+      name: 'Only Show Magic Results',
+      description:
+        'When checked, strings searched that do not immediately have a Magic suggestion will not be displayed in the overlay.',
+      default: false,
+      type: 'boolean',
       userCanEdit: true,
       adminOnly: false
     },
@@ -39,7 +49,7 @@ module.exports = {
       name: "Don't Show Step Results",
       description:
         "By default, you can find the results for each step of your recipe when expanding on the Operation's title." +
-        "If the step results are getting too long you can check this to make only the final output visible in the overlay.",
+        'If the step results are getting too long you can check this to make only the final output visible in the overlay.',
       default: false,
       type: 'boolean',
       userCanEdit: true,

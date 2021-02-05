@@ -19,7 +19,7 @@ const doLookup = async (entities, options, cb) => {
   const lookupResults = fp.compact(
     await Promise.all(
       fp.map(async (entity) => {
-        if (fp.flow(fp.get('value'), fp.trim, fp.size)(entity) <= options.minLength)
+        if (fp.flow(fp.get('value'), fp.trim, fp.size)(entity) < options.minLength)
           return;
 
         const magicResult = fp.get('value', await chef.magic(entity.value));
@@ -28,6 +28,8 @@ const doLookup = async (entities, options, cb) => {
           fp.flow(fp.flatMap(fp.get('recipe')), fp.size)(magicResult) ||
           fp.flow(fp.flatMap(fp.get('matchingOps')), fp.size)(magicResult);
 
+        if (options.onlyShowMagic && !magicSuggestionsFound) return;
+
         return {
           entity,
           isVolatile: true,
@@ -35,9 +37,7 @@ const doLookup = async (entities, options, cb) => {
             entity.value.length > 120 ? '...' : ''
           }`,
           data: {
-            summary: magicSuggestionsFound
-              ? ['Magic Suggestions Found']
-              : ['No Magic Suggestions'],
+            summary: magicSuggestionsFound ? ['Magic'] : ['No Magic'],
             details: {
               inputHash: _.trim(Buffer.from(entity.value).toString('base64'), '='),
               operations: []
@@ -50,7 +50,6 @@ const doLookup = async (entities, options, cb) => {
 
   cb(null, lookupResults);
 };
-
 
 const getOnMessage = { runBake, searchOperations, addStep, runMagic };
 

@@ -16,7 +16,7 @@ const runMagic = async (
 
     // Excluding BufferArray and BigNumber output types as those cannot be used by the chef.magic Function.
     if ([4,5].includes(lastOperationOutput.type))
-      return callback(null, { magicSuggestions: [], summary: ['No Magic Suggestions'] });
+      return callback(null, { magicSuggestions: [], summary: ['No Magic'] });
 
     const magicResult = fp.get(
       'value',
@@ -55,8 +55,8 @@ const runMagic = async (
     )(suggestedOperationsNames);
 
     const summary = magicSuggestions.length
-      ? ['Magic Suggestions Found']
-      : ['No Magic Suggestions'];
+      ? ['Magic']
+      : ['No Magic'];
 
     callback(null, { magicSuggestions, summary });
   } catch (error) {

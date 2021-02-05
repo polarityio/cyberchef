@@ -6,18 +6,20 @@ CyberChef is a simple, intuitive web app for carrying out all manner of "cyber" 
 
 The Polarity CyberChef Integration allows you to leverage much of CyberChefs functionality by earching for any string on demand and enables you build out recipes based on the data you search.
 
+> If you have trouble when initially installing, try using `npm install -f`
 
 ## Options
 
 ### CyberChef Url
-Add your CyberChef Url to open up the CyberChef dashboard for full functionality.
+Add your CyberChef Url to open up the CyberChef dashboard for full functionality. (e.g. https://gchq.github.io/CyberChef)
+
+### Only Show Magic Results
+When checked, strings searched that do not immediately have a Magic suggestion will not be displayed in the overlay.
 
 ### Don't Show Step Results
-
 By default, you can find the results for each step of your recipe when expanding on the Operation's title. If the step results are getting too long you can check this to make only the final output visible in the overlay.
 
 ### Minimum Input Length
-
 The minimum text input length for a string to be considered Input.
 
 

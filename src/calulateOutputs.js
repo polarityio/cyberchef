@@ -6,7 +6,7 @@ const reduce = require('lodash/fp/reduce').convert({ cap: false });
 
 
 
-const calulateOutputs = (entityValue, operations, options, Logger, initialRun = true) =>
+const calulateOutputs = (entityValue, operations, options, Logger, initialRun = false) =>
   reduce(
     (agg, operation, index) => {
       const thisStepsInput = new chef.Dish(index === 0 ? entityValue : agg[index - 1].result);

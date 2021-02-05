@@ -86,7 +86,7 @@ polarity.export = PolarityComponent.extend({
     this.set('entityValue', newEntityValue);
     const inputLines = newEntityValue.split('<br/>').length;
     this.set('inputLines', inputLines);
-    this.set('showInput', inputLines <=4 && inputLength <= 170);
+    this.set('showInput', inputLines <= 4 && inputLength <= 170);
 
     // Setting operationLengthMinusOne as the 'sub' ember helper doesn't currently work
     this.set('operationLengthMinusOne', this.get('operations').length - 1);
@@ -237,6 +237,24 @@ polarity.export = PolarityComponent.extend({
           this.set('searchErrorMessage', '');
           this.get('block').notifyPropertyChange('data');
         }, 5000);
+      });
+  },
+  runBake: function () {
+    const newOperations = this.get('operations');
+    this.set('baking', true);
+    this.sendIntegrationMessage({
+      action: 'runBake',
+      data: { entityValue: this.block.entity.value, newOperations }
+    })
+      .then(({ operations }) => {
+        const operationsWithLinks = this.updateLinks(operations);
+        this.set('operations', operationsWithLinks);
+        this.set('previousOperations', cloneDeep(operationsWithLinks));
+      })
+      // Error handling will be displayed in operation output values
+      .finally(() => {
+        this.set('baking', false);
+        this.get('block').notifyPropertyChange('data');
       });
   },
   actions: {
@@ -413,6 +431,7 @@ polarity.export = PolarityComponent.extend({
         .then(({ operationsWithNewStep }) => {
           this.set('operations', this.updateLinks(operationsWithNewStep));
           this.set('operationLengthMinusOne', operationsWithNewStep.length - 1);
+          this.runBake();
         })
         .catch((err) => {
           this.set(
@@ -432,22 +451,7 @@ polarity.export = PolarityComponent.extend({
         });
     },
     runBake: function () {
-      const newOperations = this.get('operations');
-      this.set('baking', true)
-      this.sendIntegrationMessage({
-        action: 'runBake',
-        data: { entityValue: this.block.entity.value, newOperations }
-      })
-        .then(({ operations }) => {
-          const operationsWithLinks = this.updateLinks(operations);
-          this.set('operations', operationsWithLinks);
-          this.set('previousOperations', cloneDeep(operationsWithLinks));
-        })
-        // Error handling will be displayed in operation output values
-        .finally(() => {
-          this.set('baking', false);
-          this.get('block').notifyPropertyChange('data');
-        });
+      this.runBake();
     },
 
     toggleMagicModal: function () {

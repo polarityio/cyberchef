@@ -7,6 +7,16 @@ const searchOperations = ({ term }, options, callback, Logger) => {
     const foundOperations = fp.flow(
       chef.help,
       fp.filter(operationsWeCantCurrentlyRun),
+      fp.map((operation) => ({
+        ...operation,
+        description: fp.flow(
+          fp.get('description'),
+          fp.split(/<br>|<br\/>/gi),
+          fp.join(' '),
+          fp.split(/<[^>]*>/gi),
+          fp.join('')
+        )(operation)
+      })),
       fp.slice(0, 150)
     )(term);
 
