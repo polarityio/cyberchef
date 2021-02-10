@@ -3,6 +3,9 @@
   "version": "3.0.0-beta",
   "main": "./integration.js",
   "private": true,
+  "scripts": {
+    "install": "npm install --force --silent cyberchef lodash"
+  },
   "dependencies": {
     "cyberchef": "^9.21.0",
     "lodash": "^4.17.20"
