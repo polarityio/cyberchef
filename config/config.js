@@ -23,6 +23,14 @@ module.exports = {
       file: './templates/block.hbs'
     }
   },
+  request: {
+    cert: '',
+    key: '',
+    passphrase: '',
+    ca: '',
+    proxy: '',
+    rejectUnauthorized: true
+  },
   options: [
     {
       key: 'url',
