@@ -5,7 +5,7 @@ const getByteArrayDisplayResults = (resultValue) => {
 
   return {
     displayResult: stringifiedByteArray,
-    outputLength: fp.toString(stringifiedByteArray.length),
+    outputLength: fp.flow(fp.toString, fp.size)(stringifiedByteArray),
     outputLines: fp.toString(1)
   };
 };
@@ -40,9 +40,9 @@ const getHtmlDisplayResults = (resultValue) => ({
     fp.split('&gt;'),
     fp.join('>')
   )(resultValue),
-  outputLength: fp.toString(resultValue.length),
+  outputLength: fp.flow(fp.toString, fp.size)(resultValue),
   outputLines: fp.flow(
-    (value) => value.toString(),
+    fp.toString,
     fp.trim,
     fp.split(/\r\n|\r|\n|<br\/>/gi),
     fp.size,
@@ -102,9 +102,9 @@ const getDisplayTypeFunctions = {
 const getDisplayResults = ({ type: resultType, value: resultValue }) =>
   (getDisplayTypeFunctions[resultType] || (() => {}))(resultValue) || {
     displayResult: resultValue,
-    outputLength: fp.toString(resultValue.length),
+    outputLength: fp.flow(fp.toString, fp.size)(resultValue),
     outputLines: fp.flow(
-      (value) => value.toString(),
+      fp.toString,
       fp.trim,
       fp.split(/\r\n|\r|\n|<br\/>/gi),
       fp.size,

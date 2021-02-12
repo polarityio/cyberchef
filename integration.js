@@ -18,33 +18,37 @@ const doLookup = async (entities, options, cb) => {
 
   const lookupResults = fp.compact(
     await Promise.all(
-      fp.map(async (entity) => {
-        if (fp.flow(fp.get('value'), fp.trim, fp.size)(entity) < options.minLength)
-          return;
+      fp.flow(
+        fp.filter(fp.flow(fp.flow(fp.get('value'), fp.trim, fp.size))),
+        fp.uniqBy(fp.flow(fp.get('value'),fp.trim)),
+        fp.map(async (entity) => {
+          const magicResult = fp.get('value', await chef.magic(entity.value));
 
-        const magicResult = fp.get('value', await chef.magic(entity.value));
+          const magicSuggestionsFound =
+            fp.flow(fp.flatMap(fp.get('recipe')), fp.size)(magicResult) ||
+            fp.flow(fp.flatMap(fp.get('matchingOps')), fp.size)(magicResult);
 
-        const magicSuggestionsFound =
-          fp.flow(fp.flatMap(fp.get('recipe')), fp.size)(magicResult) ||
-          fp.flow(fp.flatMap(fp.get('matchingOps')), fp.size)(magicResult);
+          if (options.onlyShowMagic && !magicSuggestionsFound) return;
 
-        if (options.onlyShowMagic && !magicSuggestionsFound) return;
-
-        return {
-          entity,
-          isVolatile: true,
-          displayValue: `${entity.value.slice(0, 120)}${
-            entity.value.length > 120 ? '...' : ''
-          }`,
-          data: {
-            summary: magicSuggestionsFound ? ['Magic'] : ['No Magic'],
-            details: {
-              inputHash: _.trim(Buffer.from(entity.value).toString('base64'), '='),
-              operations: []
+          return {
+            entity: {
+              ...entity,
+              value: fp.flow(fp.get('value'), fp.trim)(entity)
+            },
+            isVolatile: true,
+            displayValue: `${entity.value.slice(0, 120)}${
+              entity.value.length > 120 ? '...' : ''
+            }`,
+            data: {
+              summary: magicSuggestionsFound ? ['Magic'] : ['No Magic'],
+              details: {
+                inputHash: _.trim(Buffer.from(entity.value).toString('base64'), '='),
+                operations: []
+              }
             }
-          }
-        };
-      }, entities)
+          };
+        })
+      )(entities)
     )
   );
 

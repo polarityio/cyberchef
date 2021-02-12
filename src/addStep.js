@@ -12,8 +12,8 @@ const addStep = ({ operations, selectedOperation }, options, callback, Logger) =
   } catch (error) {
     Logger.error(
       error,
-      { detail: 'Failed to Get Operations from CyberChef' },
-      'Get Operations Failed'
+      { detail: 'Failed to Add Step to CyberChef Recipe' },
+      'Add Step Failed'
     );
     return callback({
       errors: [

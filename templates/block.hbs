@@ -153,9 +153,9 @@
                             {{input
                               type="number"
                               class="input-field"
-                              enter=(action "runBake" value="target.value")
-                              focus-out=(action "runBake" value="target.value")
-                              change=(action "runBake" value="target.value")
+                              enter=(action "runBake")
+                              focus-out=(action "runBake")
+                              change=(action "runBake")
                               value=operationArgument.selectedValue
                               min=operationArgument.min
                               max=operationArgument.max
@@ -169,8 +169,8 @@
                             {{input
                               type="text"
                               class="input-field"
-                              enter=(action "runBake" value="target.value")
-                              focus-out=(action "runBake" value="target.value")
+                              enter=(action "runBake")
+                              focus-out=(action "runBake")
                               value=operationArgument.selectedValue
                               disabled=operation.__disabled
                             }}
@@ -200,8 +200,8 @@
                               {{input
                                 type="text"
                                 class="input-field"
-                                enter=(action "runBake" value="target.value")
-                                focus-out=(action "runBake" value="target.value")
+                                enter=(action "runBake")
+                                focus-out=(action "runBake")
                                 value=operationArgument.selectedValue
                                 disabled=operation.__disabled
                               }}
@@ -251,8 +251,8 @@
                             {{input
                               type="text"
                               class="input-field"
-                              enter=(action "runBake" value="target.value")
-                              focus-out=(action "runBake" value="target.value")
+                              enter=(action "runBake")
+                              focus-out=(action "runBake")
                               value=operationArgument.selectedValue
                               disabled=operation.__disabled
                             }}
@@ -263,7 +263,7 @@
                             <span>{{operationArgument.name}}</span>
                             {{textarea
                               class="input-field"
-                              focus-out=(action "runBake" value="target.value")
+                              focus-out=(action "runBake")
                               rows=3
                               value=operationArgument.selectedValue
                               disabled=operation.__disabled
@@ -277,8 +277,8 @@
                               {{input
                                 type="text"
                                 class="input-field"
-                                enter=(action "runBake" value="target.value")
-                                focus-out=(action "runBake" value="target.value")
+                                enter=(action "runBake")
+                                focus-out=(action "runBake")
                                 value=operationArgument.selectedValue.string
                                 disabled=operation.__disabled
                               }}
@@ -304,8 +304,8 @@
                               {{input
                                 type="text"
                                 class="input-field"
-                                enter=(action "runBake" value="target.value")
-                                focus-out=(action "runBake" value="target.value")
+                                enter=(action "runBake")
+                                focus-out=(action "runBake")
                                 value=operationArgument.selectedValue
                                 disabled=operation.__disabled
                               }}
@@ -356,7 +356,7 @@
                     <span>lines: {{operation.outputLines}}</span>
                   </div>
                 </span> 
-                {{#if operation.outputLength}}
+                {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
                   {{#if (eq operation.result.type 0)}}
                     {{operation.displayResult}}
                   {{else}}
@@ -383,7 +383,7 @@
               {{#if operation.__disabled}}
                 <span class="no-results"><em>Disabled.  No Result for this Step.</em></span>
               {{else}}  
-                {{#if operation.outputLength}}
+                {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
                   {{#if (eq operation.result.type 0)}}
                     {{operation.displayResult}}
                   {{else}}

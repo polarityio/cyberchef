@@ -54,7 +54,7 @@ const runMagic = async (
       fp.uniqBy('name')
     )(suggestedOperationsNames);
 
-    const summary = magicSuggestions.length
+    const summary = fp.get('length', magicSuggestions)
       ? ['Magic']
       : ['No Magic'];
 
