@@ -476,8 +476,10 @@
                 {{input
                   type="number"
                   class="input-field"
-                  input=(action 'updateMagicInput')
-                  change=(action 'updateMagicInput')
+                  input=(action 'updateMagicInput' "magicDepth")
+                  change=(action 'updateMagicInput' "magicDepth")
+                  max=magicDepthMax
+                  min=magicDepthMin
                   value=magicDepth
                 }}
               </div>

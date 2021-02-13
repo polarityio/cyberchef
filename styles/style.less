@@ -369,7 +369,7 @@ pre {
             margin-right: 7px;
 
             .checkbox-label {
-              padding-left: 2px;
+              padding-left: 5px;
               padding-top: 2px;
             }
 
@@ -437,6 +437,8 @@ pre {
             font-weight: 400;
             font-size: 13px;
             margin-bottom: 0;
+            display: flex;
+            align-items: center;
           }
 
           .stacked-label-argument {
@@ -700,7 +702,7 @@ pre {
             margin-right: 7px;
 
             .checkbox-label {
-              padding-left: 2px;
+              padding-left: 5px;
               padding-top: 2px;
             }
 
@@ -836,7 +838,9 @@ pre {
     font-weight: 400;
     border: 1px solid #eee;
     line-height: 16px;
-
+    max-height: 350px;
+    overflow-y: auto;
+    
     &.output {
       line-height: 15px;
       font-size: 11px;
@@ -976,12 +980,15 @@ pre {
                 
                 &.stacked-label-argument {
                   max-width: 100px;
+                  min-width: 100px;
+
                   span {
                     display: inline-block;
                     width: 100px;
                   }
                   .input-field {
                     max-width: 100px;
+                    min-width: 100px;
                   }
                 }
               }
@@ -1008,12 +1015,14 @@ pre {
 
               &.stacked-label-argument {
                 max-width: 100px;
+                min-width: 100px;
                 span {
                   display: inline-block;
                   width: 100px;
                 }
                 .input-field {
                   max-width: 100px;
+                  min-width: 100px;
                 }
               }
             }

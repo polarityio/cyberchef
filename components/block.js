@@ -70,6 +70,8 @@ polarity.export = PolarityComponent.extend({
   magicModalOpen: false,
   magicSuggestions: [],
   magicDepth: 3,
+  magicDepthMax: 100,
+  magicDepthMin: 1,
   magicIntensiveMode: false,
   magicExtensiveLanguageSupport: false,
   magicCrib: '',
@@ -180,9 +182,7 @@ polarity.export = PolarityComponent.extend({
 
     this.sendIntegrationMessage({
       action: 'searchOperations',
-      data: {
-        term: term || ' '
-      }
+      data: { term }
     })
       .then(({ foundOperations }) => {
         this.set('foundOperations', foundOperations);
@@ -464,7 +464,15 @@ polarity.export = PolarityComponent.extend({
     updateMagicInput: function (inputName, event) {
       if (['magicExtensiveLanguageSupport', 'magicIntensiveMode'].includes(inputName)) {
         this.set(inputName, event.target.checked);
-        this.get('block').notifyPropertyChange('data');
+      }
+      if (['magicDepth'].includes(inputName)) {
+        this.set(
+          inputName,
+          Math.max(
+            Math.min(parseInt(event.target.value), this.get('magicDepthMax')),
+            this.get('magicDepthMin')
+          )
+        );
       }
       this.runMagic();
     },

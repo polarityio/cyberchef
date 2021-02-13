@@ -3,22 +3,33 @@ const fp = require('lodash/fp');
 const { UNSUPPORTED_ARG_TYPES, SUPPORTED_INPUT_OUTPUT_TYPES } = require('./constants');
 
 const searchOperations = ({ term }, options, callback, Logger) => {
+  Logger.trace({test:78787787878787, term, options})
   try {
-    const foundOperations = fp.flow(
-      chef.help,
-      fp.filter(operationsWeCantCurrentlyRun),
-      fp.map((operation) => ({
-        ...operation,
-        description: fp.flow(
-          fp.get('description'),
-          fp.split(/<br>|<br\/>/gi),
-          fp.join(' '),
-          fp.split(/<[^>]*>/gi),
-          fp.join('')
-        )(operation)
-      })),
-      fp.slice(0, 150)
-    )(term);
+    const foundOperations = !fp.trim(term)
+      ? fp.map(
+          fp.flow(
+            fp.get('display'),
+            chef.help,
+            fp.first,
+            fp.assign({ groupName: 'Favourites' })
+          ),
+          options.favourites
+        )
+      : fp.flow(
+          chef.help,
+          fp.filter(operationsWeCantCurrentlyRun),
+          fp.map((operation) => ({
+            ...operation,
+            description: fp.flow(
+              fp.get('description'),
+              fp.split(/<br>|<br\/>/gi),
+              fp.join(' '),
+              fp.split(/<[^>]*>/gi),
+              fp.join('')
+            )(operation)
+          })),
+          fp.slice(0, 100)
+        )(term);
 
     callback(null, { foundOperations });
   } catch (error) {

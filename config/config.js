@@ -1,3 +1,8 @@
+const {
+  FAVOURITE_OPERATION_DEFAULTS,
+  FAVOURITE_OPERATION_OPTIONS
+} = require('../src/constants');
+
 module.exports = {
   name: 'CyberChef',
   acronym: 'CHEF',
@@ -23,21 +28,13 @@ module.exports = {
       file: './templates/block.hbs'
     }
   },
-  request: {
-    cert: '',
-    key: '',
-    passphrase: '',
-    ca: '',
-    proxy: '',
-    rejectUnauthorized: true
-  },
   options: [
     {
       key: 'url',
       name: 'CyberChef Url',
       description:
         'Add your CyberChef Url to open up the CyberChef dashboard for full functionality. (e.g. https://gchq.github.io/CyberChef)',
-      default: '',
+      default: 'https://gchq.github.io/CyberChef',
       type: 'text',
       userCanEdit: true,
       adminOnly: false
@@ -69,6 +66,18 @@ module.exports = {
       description: 'The minimum text input length for a string to be considered Input.',
       default: 5,
       type: 'number',
+      userCanEdit: true,
+      adminOnly: false
+    },
+    {
+      key: 'favourites',
+      name: 'Favourite Operations',
+      description:
+        'This is a list of the Favourites that will show up when you initially search for operations.',
+      default: FAVOURITE_OPERATION_DEFAULTS,
+      type: 'select',
+      options: FAVOURITE_OPERATION_OPTIONS,
+      multiple: true,
       userCanEdit: true,
       adminOnly: false
     }
