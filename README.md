@@ -24,6 +24,8 @@ By default, you can find the results for each step of your recipe when expanding
 ### Minimum Input Length
 The minimum text input length for a string to be considered Input.
 
+### Favourite Operations
+This is a list of the Favourites that will show up when you initially search for operations.
 
 ## Current Limitations
 > ***NOTE***: Currently we are excluding a few Features and Operations on the current version of the integration that we plan on implementing and improving in future versions, including:
