@@ -6,7 +6,7 @@ CyberChef is a simple, intuitive web app for carrying out all manner of "cyber" 
 
 The Polarity CyberChef Integration allows you to leverage much of CyberChefs functionality by earching for any string on demand and enables you build out recipes based on the data you search.
 
-> If you have trouble when initially installing, try using `npm install -f`
+### > ***Important***: **When installing `NPM` dependencies, please install using the command `npm run install` instead of the typical `npm install`.**
 
 <img src="./assets/cyberchef-demo.gif" alt="CyberChef Demo"  width="400" />
 
@@ -32,7 +32,7 @@ This is a list of the Favourites that will show up when you initially search for
 > 
 > - Saving and Loading Recipes
 > - Improving searching Operations and the Magic Suggestions
-> - We are currently excluding Control Flow Operations including `Comment,  Conditional Jump,  Fork,  Jump,  Label,  Merge,  Register,  Return,  Subsection`
+> - We are currently excluding Control Flow Operations including `Comment,  Conditional Jump,  Fork, Jump,  Label, Merge, Register, Return, Subsection`
 > - We are also excluding the Operations `AES Decrypt, AES Encrypt, Bombe, Colossus, Enigma, Lorenz, Multiple Bombe, Parse DateTime, RSA Decrypt, RSA Encrypt, Regular expression, SHA2, Tar, Translate DateTime Format, Zip` for the time being. 
 > 
 > If you feel like any of the current limitations are inhibiting your workflows, please reach out to `support@polarity.io` about what kinds of things you would like added so we can work to include those in our next release!
