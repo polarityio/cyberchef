@@ -1,8 +1,8 @@
 .nav-tabs {
-margin-top: 20px;
+  margin-top: 20px;
 }
 
-pre{
+pre {
   overflow-y: scroll;
   overflow-x: hidden;
   max-height: 200px;
@@ -29,8 +29,8 @@ pre{
   background-color: #eee;
 }
 
-.image-container{
-  img{
+.image-container {
+  img {
     width: 100%;
     height: 100%;
   }
@@ -39,7 +39,7 @@ pre{
   border: 1px solid #ddd;
 }
 
-.text-container{
+.text-container {
   background-color: #eee;
   margin-bottom: 2px;
   padding: 5px;
@@ -52,10 +52,1046 @@ pre{
   font-size: 8px;
 }
 
-.email-container{
+.email-container {
   margin-top: 5px;
 }
 
 .related-to {
   word-wrap: break-word;
+}
+
+.main {
+  border-left: 2px solid #eee;
+  border-right: 2px solid #eee;
+  border-radius: 3px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 1px;
+    background-color: #f3f3f3;
+    color: #424242;
+    font-weight: 600;
+    font-size: 14px;
+
+    .header-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      font-family: Menlo, Consolas, monospace;
+      font-weight: normal;
+      padding-right: 10px;
+      font-size: 7pt;
+    }
+
+    .header-buttons {
+      display: flex;
+      flex-direction: row;
+      text-align: center;
+      justify-content: center;
+
+      .header-button {
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        justify-content: center;
+
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+        margin: 0px;
+        line-height: 0;
+        border-radius: 50%;
+        overflow: hidden;
+        .header-button-icon {
+          color: rgb(33, 37, 41);
+        }
+        user-select: none;
+
+        font-family: inherit;
+        border: 0;
+        padding: 0;
+        padding-left: 1px;
+        background-color: transparent;
+
+        &:hover,
+        &:focus {
+          background: inherit;
+          .header-button-icon {
+            color: #1976d2;
+          }
+          background-color: rgba(153, 153, 153, 0.2);
+          border-color: rgba(153, 153, 153, 0.2);
+          cursor: pointer;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        &:active {
+          cursor: pointer;
+          .header-button-icon {
+            color: #fff;
+          }
+          background-color: #145ca4;
+          border-color: #125699;
+          transform: none;
+        }
+      }
+    }
+  }
+
+  .operation {
+    &.disabled {
+      .operation-header {
+        color: #999 !important;
+        background-color: #dfdfdf;
+        border-bottom: 1px solid #d4d4d4;
+
+        .operation-box-controls {
+          .expand-collapse-icons {
+            .expand-collapse-button {
+              .expand-collapse-icon {
+                color: #999 !important;
+              }
+            }
+          }
+        }
+        .operation-buttons {
+          .operation-button.disable-button {
+            .operation-button-icon.disable-button-icon {
+              color: #f44336;
+            }
+
+            &:hover,
+            &:focus {
+              background: inherit;
+            }
+
+            &:focus {
+              outline: none;
+            }
+
+            &:active {
+              transform: none;
+            }
+          }
+        }
+      }
+      .operation-argument-groups {
+        color: #999 !important;
+        background-color:#dfdfdf;
+        border-bottom: 1px solid #d4d4d4;
+
+        label {
+          color: #999 !important;
+        }
+        .stacked-label-argument {
+          .input-field {
+            color: #999 !important;
+          }
+        }
+        .dropdown {
+          color: #999 !important;
+        }
+        .toggle-string {
+          & > .dropdown {
+            &.editable-option {
+              &:hover {
+                background-color: #e1e1e1;
+              }
+              .dropdown-option {
+                background-color: white;
+              }
+            }
+          }
+        }
+      }
+
+      .results {
+        padding: 4px;
+        overflow-wrap: break-word;
+        font-weight: 400;
+        border: 1px solid #eee;
+        line-height: 16px;
+
+        &.output {
+          background-color: #FAFAFD;
+
+          .output-title {
+            color: #999 !important;
+            background-color: #FAFAFD;
+
+          }
+        }
+      }
+    }
+    .operation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0px 7px 3px;
+      font-weight: 700;
+      font-size: 13px;
+      border-bottom: 1px solid #c8dcb5;
+      color: #468847;
+      background-color: #dff0d8;
+      
+     
+
+      &.expanded {
+        border-bottom: 0px solid #c8dcb5;
+      }
+
+      .operation-box-controls {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .order-moving-buttons {
+          display: flex;
+          flex-direction: column;
+          padding-right: 2px;
+          margin: 0;
+
+          .operation-moving-button {
+            &.top-arrow {
+              padding-bottom: 1px;
+            }
+
+            .operation-moving-button-icon {
+              color: #9e9e9e;
+              font-weight: 300;
+            }
+          }
+        }
+
+        .operation-name {
+          cursor: pointer;
+          display: inline-block;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .expand-collapse-icons {
+          padding-left: 2px;
+          padding-right: 7px;
+          .expand-collapse-button {
+            .expand-collapse-icon {
+              color: #468847;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+      .operation-buttons {
+        min-width: 90px;
+        .operation-button {
+          .operation-button-icon {
+            color: #9e9e9e;
+          }
+          cursor: pointer;
+          margin-right: 8px;
+          font-size: 100%;
+          font-family: inherit;
+          border: 0;
+          padding: 0;
+          background-color: transparent;
+
+          &:hover,
+          &:focus {
+            background: inherit;
+          }
+
+          &:focus {
+            outline: none;
+          }
+
+          &:active {
+            transform: none;
+          }
+        }
+      }
+    }
+
+    .operation-argument-groups {
+      padding: 7px 10px 7px 10px;
+      background-color: #dff0d8;
+      border-bottom: 1px solid #c8dcb5;
+      color: #468847;
+      font-weight: 300;
+      font-size: 13px;
+
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      padding-top: 10px;
+
+      .operation-argument-group {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+
+        &:first-child {
+          margin-top: -9px !important;
+        }
+
+        &:last-child {
+          .operation-argument {
+            margin-bottom: -2px;
+          }
+        }
+        .operation-argument {
+          display: flex;
+          align-items: center;
+          margin-right: auto;
+          margin-bottom: 5px;
+
+          /* Generalized Styles */
+          .groupable-argument {
+            display: flex;
+            align-items: center;
+            max-width: 150px;
+            min-width: 125px;
+            height: 45px;
+            margin-right: 7px;
+
+            .checkbox-label {
+              padding-left: 5px;
+              padding-top: 2px;
+            }
+
+            &.stacked-label-argument {
+              max-width: 125px;
+              span {
+                display: inline-block;
+                width: 125px;
+              }
+              .input-field {
+                max-width: 125px;
+              }
+            }
+
+            .toggle-string {
+              max-width: 125px;
+              height: 25px;
+              padding: 0 !important;
+              padding-right: 2px;
+              & > .input-field {
+                max-width: 107px;
+                margin-right: 2px
+              }
+
+              & > .dropdown {
+                height: 21px;
+                margin-top: 2px;
+                margin-right:2px;
+              }
+            }
+          }
+
+          &.full-line {
+            width: 100%;
+          }
+
+          .full-width {
+            display: flex;
+            height: auto;
+            width: 100%;
+
+            &.label-type {
+              height: 14px;
+              &:not(:first-child) {
+                margin-top: 10px;
+              }
+            }
+
+            &.stacked-label-argument {
+              width: 100%;
+
+              .input-field {
+                width: 100%;
+              }
+              textarea.input-field {
+                height: auto;
+              }
+            }
+          }
+
+          /* Argument Specific */
+          label {
+            height: 14px;
+            color: #468847;
+            font-weight: 400;
+            font-size: 13px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+          }
+
+          .stacked-label-argument {
+            flex-direction: column;
+            align-items: flex-start;
+
+            span {
+              font-weight: 600;
+              padding-left: 3px;
+              padding-bottom: 2px;
+              font-size: 10px;
+            }
+
+            .input-field {
+              // TODO: long term make adjust able width
+              // https://css-tricks.com/auto-growing-inputs-textareas/
+              border: 0;
+              padding: 5px;
+              border-radius: 2px;
+              color: #468847;
+            }
+          }
+
+          .dropdown {
+            border: 0;
+            background-color: white;
+            border-radius: 3px !important;
+            height: 25px;
+            color: #468847;
+            font-weight: 300;
+
+            .dropdown-option {
+              font-weight: 300;
+              padding: 3px;
+            }
+          }
+
+          .toggle-string {
+            display: flex;
+            background-color: white;
+            & > .input-field {
+              margin-right: 4px;
+            }
+
+            & > .dropdown {
+              width: 40%;
+              &.editable-option {
+                width: 14px;
+                &:hover {
+                  background-color: #e1e1e1;
+                }
+                .dropdown-option {
+                  background-color: white;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    &.error {
+      .operation-header {
+        color: #b94a48 !important;
+        background-color:#f2dede;
+        border-bottom: 1px solid #d4d4d4;
+
+        .operation-box-controls {
+          .expand-collapse-icons {
+            .expand-collapse-button {
+              .expand-collapse-icon {
+                color: #b94a48 !important;
+              }
+            }
+          }
+        }
+      }
+
+      .operation-argument-groups {
+        color: #b94a48  !important;
+        background-color: #f2dede;
+        border-bottom: 1px solid #fdcfcf;
+
+        label {
+          color: #b94a48  !important;
+        }
+        .stacked-label-argument {
+          .input-field {
+            color: #b94a48  !important;
+          }
+        }
+        .dropdown {
+          color: #b94a48  !important;
+        }
+        .toggle-string {
+          & > .dropdown {
+            &.editable-option {
+              &:hover {
+                background-color: #e1e1e1;
+              }
+              .dropdown-option {
+                background-color: white;
+              }
+            }
+          }
+        }
+      }
+
+      .results {
+        padding: 4px;
+        overflow-wrap: break-word;
+        font-weight: 400;
+        border: 1px solid #eee;
+        line-height: 16px;
+
+        &.output {
+          background-color: #FAFAFD;
+          color: #999 !important;
+
+          .output-title {
+            color: #999 !important;
+            background-color: #FAFAFD;
+
+          }
+        }
+      }
+    }
+    .operation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0px 7px 3px;
+      font-weight: 700;
+      font-size: 13px;
+      border-bottom: 1px solid #c8dcb5;
+      color: #468847;
+      background-color: #dff0d8;
+      
+     
+
+      &.expanded {
+        border-bottom: 0px solid #c8dcb5;
+      }
+
+      .operation-box-controls {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .order-moving-buttons {
+          display: flex;
+          flex-direction: column;
+          padding-right: 2px;
+          margin: 0;
+
+          .operation-moving-button {
+            &.top-arrow {
+              padding-bottom: 1px;
+            }
+
+            .operation-moving-button-icon {
+              color: #9e9e9e;
+              font-weight: 300;
+            }
+          }
+        }
+
+        .operation-name {
+          cursor: pointer;
+          display: inline-block;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .expand-collapse-icons {
+          padding-left: 2px;
+          padding-right: 7px;
+          .expand-collapse-button {
+            .expand-collapse-icon {
+              color: #468847;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+      .operation-buttons {
+        min-width: 90px;
+        .operation-button {
+          .operation-button-icon {
+            color: #9e9e9e;
+          }
+          cursor: pointer;
+          margin-right: 8px;
+          font-size: 100%;
+          font-family: inherit;
+          border: 0;
+          padding: 0;
+          background-color: transparent;
+
+          &:hover,
+          &:focus {
+            background: inherit;
+          }
+
+          &:focus {
+            outline: none;
+          }
+
+          &:active {
+            transform: none;
+          }
+        }
+      }
+    }
+
+    .operation-argument-groups {
+      padding: 7px 10px 7px 10px;
+      background-color: #dff0d8;
+      border-bottom: 1px solid #c8dcb5;
+      color: #468847;
+      font-weight: 300;
+      font-size: 13px;
+
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      padding-top: 10px;
+
+      .operation-argument-group {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+
+        &:first-child {
+          margin-top: -9px !important;
+        }
+
+        &:last-child {
+          .operation-argument {
+            margin-bottom: -2px;
+          }
+        }
+        .operation-argument {
+          display: flex;
+          align-items: center;
+          margin-right: auto;
+          margin-bottom: 5px;
+
+          /* Generalized Styles */
+          .groupable-argument {
+            display: flex;
+            align-items: center;
+            max-width: 150px;
+            min-width: 125px;
+            height: 45px;
+            margin-right: 7px;
+
+            .checkbox-label {
+              padding-left: 5px;
+              padding-top: 2px;
+            }
+
+            &.stacked-label-argument {
+              max-width: 125px;
+              span {
+                display: inline-block;
+                width: 125px;
+              }
+              .input-field {
+                max-width: 125px;
+              }
+            }
+
+            .toggle-string {
+              max-width: 125px;
+              height: 25px;
+              padding: 0 !important;
+              padding-right: 2px;
+              & > .input-field {
+                max-width: 107px;
+                margin-right: 2px
+              }
+
+              & > .dropdown {
+                height: 21px;
+                margin-top: 2px;
+                margin-right:2px;
+              }
+            }
+          }
+
+          &.full-line {
+            width: 100%;
+          }
+
+          .full-width {
+            display: flex;
+            height: auto;
+            width: 100%;
+
+            &.label-type {
+              height: 14px;
+              &:not(:first-child) {
+                margin-top: 10px;
+              }
+            }
+
+            &.stacked-label-argument {
+              width: 100%;
+
+              .input-field {
+                width: 100%;
+              }
+              textarea.input-field {
+                height: auto;
+              }
+            }
+          }
+
+          /* Argument Specific */
+          label {
+            height: 14px;
+            color: #468847;
+            font-weight: 400;
+            font-size: 13px;
+            margin-bottom: 0;
+          }
+
+          .stacked-label-argument {
+            flex-direction: column;
+            align-items: flex-start;
+
+            span {
+              font-weight: 600;
+              padding-left: 3px;
+              padding-bottom: 2px;
+              font-size: 10px;
+            }
+
+            .input-field {
+              // TODO: long term make adjust able width
+              // https://css-tricks.com/auto-growing-inputs-textareas/
+              border: 0;
+              padding: 5px;
+              border-radius: 2px;
+              color: #468847;
+            }
+          }
+
+          .dropdown {
+            border: 0;
+            background-color: white;
+            border-radius: 3px !important;
+            height: 25px;
+            color: #468847;
+            font-weight: 300;
+
+            .dropdown-option {
+              font-weight: 300;
+              padding: 3px;
+            }
+          }
+
+          .toggle-string {
+            display: flex;
+            background-color: white;
+            & > .input-field {
+              margin-right: 4px;
+            }
+
+            & > .dropdown {
+              width: 40%;
+              &.editable-option {
+                width: 14px;
+                &:hover {
+                  background-color: #e1e1e1;
+                }
+                .dropdown-option {
+                  background-color: white;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .results {
+    padding: 4px;
+    overflow-wrap: break-word;
+    font-weight: 400;
+    border: 1px solid #eee;
+    line-height: 16px;
+    max-height: 350px;
+    overflow-y: auto;
+    
+    &.output {
+      line-height: 15px;
+      font-size: 11px;
+
+      .output-title {
+        margin-bottom: 4px;
+        padding-bottom: 2px;
+        padding-left: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 28px;
+        background-color: white;
+        color: #424242;
+        font-weight: 400;
+        font-size: 12px;
+        border-bottom: 1px solid #e1e1e1;
+  
+        &.last {
+          font-weight: 600;
+          font-size: 13px;
+        }
+        .output-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-end;
+          font-family: Menlo, Consolas, monospace;
+          font-weight: 400;
+          padding-right: 13px;
+          font-size: 8px;
+          line-height: 11px;
+        }
+      }
+      .no-results {
+        color: #9e9e9e;
+        font-weight: 400;
+        padding-left: 7px;
+      }
+    }
+  }
+
+  .add-operation {
+    background-color: #fafafa;
+    .select-area {
+      padding-bottom: 8px;
+
+      .operation-select {
+        background-color: green;
+      }
+
+      .ember-view.ember-basic-dropdown-trigger {
+        border-top: 0;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        height: 0;
+        min-height: 34px;
+
+        .ember-power-select-placeholder, .ember-power-select-selected-item {
+          line-height: 33px !important;
+        }
+      }
+    }
+
+    .add-step {
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 4px;
+
+      .add-step-button {
+        color: white;
+        border-radius: 50vh;
+        background-color: #5cb85c;
+        border: 0;
+        width: 67%;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 4px;
+
+        &:hover {
+          background-color: #51ac51;
+        }
+
+        .chef-icon {
+          width: 23px !important;
+          height: 23px !important;
+        }
+      }
+    }
+  }
+
+  .magic-modal {
+    position: absolute;
+    z-index: 99999;
+    bottom: 16px;
+    right: 0;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0.5rem 2rem;
+    border-radius: 3px;
+    margin-right: 10%;
+    margin-left: 17%;
+    border: 1px solid #e2e2e2;
+
+    .operation {
+      .operation-header {
+        padding: 10px 0px 10px 11px;
+        font-size: 14px;
+        line-height: 16px;
+        
+        .operation-buttons {
+          min-width: 0;
+        }
+      }
+      .operation-argument-groups {
+        .operation-argument-group {
+          &:first-child {
+            margin-top: -4px !important;
+          }
+          
+          .operation-argument {
+            .groupable-argument {
+              max-width: 100px;
+              min-width: 100px;
+              height: 38px;
+              margin-bottom: 0;
+
+              &.intensive-input {
+                max-width: 100px;
+                min-width: 100px;
+
+                .checkbox-label {
+                  font-size: 12px;
+                }
+                
+                &.stacked-label-argument {
+                  max-width: 100px;
+                  min-width: 100px;
+
+                  span {
+                    display: inline-block;
+                    width: 100px;
+                  }
+                  .input-field {
+                    max-width: 100px;
+                    min-width: 100px;
+                  }
+                }
+              }
+
+              &.language-input {
+                max-width: 166px;
+                min-width: 166px;
+
+                .checkbox-label {
+                  font-size: 12px;
+                }
+
+                &.stacked-label-argument {
+                  max-width: 166px;
+                  span {
+                    display: inline-block;
+                    width: 166px;
+                  }
+                  .input-field {
+                    max-width: 166px;
+                  }
+                }
+              }
+
+              &.stacked-label-argument {
+                max-width: 100px;
+                min-width: 100px;
+                span {
+                  display: inline-block;
+                  width: 100px;
+                }
+                .input-field {
+                  max-width: 100px;
+                  min-width: 100px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .magic-suggestions {
+      padding: 5px;
+
+      .magic-suggestions-header {
+        margin-bottom: 5px;
+        padding-bottom: 2px;
+        padding-left: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 23px;
+        background-color: white;
+        color: #424242;
+        font-weight: 400;
+        font-size: 13px;
+        border-bottom: 1px solid #e1e1e1;
+      }
+
+      .magic-suggestions-selector {
+        border: 1px solid #c3c3c3;
+        border-radius: 3px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.no-style-button {
+  cursor: pointer;
+  font-size: 100%;
+  font-family: inherit;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+
+  &:hover,
+  &:focus {
+    background: inherit;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    transform: none;
+  }
+}
+
+.hide {
+  visibility: hidden !important;
+  &.no-style-button {
+    cursor: default;
+    height: 4px;
+  }
+}
+
+.none {
+  display: none !important;
+}
+
+.ember-power-select-trigger {
+  line-height: 33px !important;
 }
