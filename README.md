@@ -4,7 +4,7 @@
 
 CyberChef is a simple, intuitive web app for carrying out all manner of "cyber" operations within a web browser. These operations include simple encoding like XOR or Base64, more complex encryption like AES, DES and Blowfish, creating binary and hexdumps, compression and decompression of data, calculating hashes and checksums, IPv6 and X.509 parsing, changing character encodings, and much more.
 
-The Polarity CyberChef Integration allows you to leverage much of CyberChefs functionality by earching for any string on demand and enables you build out recipes based on the data you search.
+The Polarity CyberChef Integration allows you to leverage much of CyberChefs functionality by searching for any string on demand and enables you build out recipes based on the data you search.
 
 ### > ***Important***: **When installing `NPM` dependencies, please install using the command `npm run install` instead of the typical `npm install`.**
 
