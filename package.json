@@ -4,6 +4,6 @@
   "main": "./integration.js",
   "private": true,
   "scripts": {
-    "install": "npm install --force --silent cyberchef lodash"
+    "install": "npm install --force --silent cyberchef lodash &> /dev/null"
   }
 }
