@@ -19,7 +19,18 @@ const doLookup = async (entities, options, cb) => {
   const lookupResults = fp.compact(
     await Promise.all(
       fp.flow(
-        fp.filter(fp.flow(fp.flow(fp.get('value'), fp.trim, fp.size))),
+        fp.filter((entity) => {
+          const trimmedEntityValue = fp.flow(fp.get('value'), fp.trim)(entity);
+
+          const isNotWhitespace = fp.size(trimmedEntityValue);
+          const isCorrectType =
+            entity.type === 'custom' &&
+            (!options.ignoreEntityTypes ||
+              (entity.types.length === 1 &&
+                fp.every(({value}) => value !== trimmedEntityValue, entities)));
+
+          return isNotWhitespace && isCorrectType;
+        }),
         fp.uniqBy(fp.flow(fp.get('value'),fp.trim)),
         fp.map(async (entity) => {
           const magicResult = fp.get('value', await chef.magic(entity.value));

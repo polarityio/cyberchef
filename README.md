@@ -18,6 +18,9 @@ Add your CyberChef Url to open up the CyberChef dashboard for full functionality
 ### Only Show Magic Results
 When checked, strings searched that do not immediately have a Magic suggestion will not be displayed in the overlay.
 
+### Ignore Entity Types
+When checked, strings searched that are one of our predefined entity types (IPv4, IPv6, IPv4CIDR, MD5, SHA1, SHA256, MAC, string, email, domain, url, and cve) will not be displayed in the overlay.
+
 ### Don't Show Step Results
 By default, you can find the results for each step of your recipe when expanding on the Operation's title. If the step results are getting too long you can check this to make only the final output visible in the overlay.
 
