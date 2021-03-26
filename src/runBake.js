@@ -30,7 +30,10 @@ const runBake = async ({ entityValue, newOperations }, options, callback, Logger
     return callback(null, {
       operations: [
         ...newOperations.slice(0, newOperations.length - 1),
-        { ...newOperations[newOperations.length - 1],
+        {
+          ...newOperations[newOperations.length - 1],
+          outputLength: error.messageoutputError.length,
+          outputLines: 1,
           displayResult: error.messageoutputError,
           outputError: true
         }

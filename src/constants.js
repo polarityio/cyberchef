@@ -115,11 +115,32 @@ const FAVOURITE_OPERATION_OPTIONS = [
   "XPath expression","YARA Rules","Zlib Deflate","Zlib Inflate"
 ].map((operationName) => ({ value: operationName, display: operationName }));
 
+const EDGE_CASE_CORRECT_OPERATION_NAMES = {
+  'Adler-32 Checksum': 'adler32Checksum',
+  'CRC-16 Checksum': 'CRC16Checksum',
+  'CRC-32 Checksum': 'CRC32Checksum',
+  'CRC-8 Checksum': 'CRC8Checksum',
+  'Convert co-ordinate format': 'convertCoordinateFormat',
+  'Find / Replace': 'FindReplace',
+  'Fletcher-16 Checksum': 'fletcher16Checksum',
+  'Fletcher-32 Checksum': 'fletcher32Checksum',
+  'Fletcher-64 Checksum': 'fletcher64Checksum',
+  'Fletcher-8 Checksum': 'fletcher8Checksum',
+  'HAS-160': 'HAS160',
+  'Image Brightness / Contrast': 'imageBrightnessContrast',
+  'Image Hue/Saturation/Lightness': 'imageHueSaturationLightness',
+  'Parse ASN.1 hex string': 'parseASN1HexString',
+  'Parse X.509 certificate': 'parseX509Certificate',
+  'Pseudo-Random Number Generator': 'pseudoRandomNumberGenerator',
+  'TCP/IP Checksum': 'TCPIPChecksum'
+};
+
 module.exports = {
   ARG_TYPES_WHERE_VALUE_IS_DEFAULT,
   FULL_WIDTH_ARG_TYPES,
   UNSUPPORTED_ARG_TYPES,
   SUPPORTED_INPUT_OUTPUT_TYPES,
   FAVOURITE_OPERATION_DEFAULTS,
-  FAVOURITE_OPERATION_OPTIONS
+  FAVOURITE_OPERATION_OPTIONS,
+  EDGE_CASE_CORRECT_OPERATION_NAMES
 };
