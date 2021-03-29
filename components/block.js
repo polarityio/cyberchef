@@ -86,7 +86,7 @@ polarity.export = PolarityComponent.extend({
       .join('<br/>');
 
     this.set('entityValue', newEntityValue);
-    const inputLines = newEntityValue.split('<br/>').length;
+    const inputLines = newEntityValue.split(/\<\s*br\s*\/\s*\>/gi).length;
     this.set('inputLines', inputLines);
     this.set('showInput', inputLines <= 4 && inputLength <= 170);
 
@@ -402,6 +402,14 @@ polarity.export = PolarityComponent.extend({
         ...operations.slice(0, operationIndex),
         ...operations.slice(operationIndex + 1, operations.length)
       ]);
+    },
+
+    copyOperationOutput: function (operationIndex) {
+      const operationOutput = this.get('operations')[
+        operationIndex
+      ].displayResult.replace(/\<\s*br\s*\/\s*\>/gi, ' ');
+
+      navigator.clipboard.writeText(operationOutput);
     },
 
     // Operation Adding Actions

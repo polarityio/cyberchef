@@ -11,7 +11,7 @@ const getByteArrayDisplayResults = (resultValue) => {
 };
 
 const getStringDisplayResults = (currentStepResult) =>
-  fp.flow(fp.trim, fp.split(/\r\n|\r|\n|<br\/>/gi), (stringOutputLines) => ({
+  fp.flow(fp.trim, fp.split(/\r\n|\r|\n|\<\s*br\s*\/\s*\>/gi), (stringOutputLines) => ({
     result: fp.join('\n', stringOutputLines),
     displayResult: fp.flow(
       fp.join('<br/>'),
@@ -44,7 +44,7 @@ const getHtmlDisplayResults = (resultValue) => ({
   outputLines: fp.flow(
     fp.toString,
     fp.trim,
-    fp.split(/\r\n|\r|\n|<br\/>/gi),
+    fp.split(/\r\n|\r|\n|\<\s*br\s*\/\s*\>/gi),
     fp.size,
     fp.toString
   )(resultValue)
@@ -68,14 +68,14 @@ const getBigNumberDisplayResults = (resultValue) => ({
 const getJsonDisplayResults = (resultValue) => ({
   displayResult: fp.flow(
     (result) => JSON.stringify(result, null, 4),
-    fp.split(/\r\n|\r|\n|<br\/>/gi),
+    fp.split(/\r\n|\r|\n|\<\s*br\s*\/\s*\>/gi),
     fp.join('<br/>'),
     fp.split(' '),
     fp.join('&nbsp;')
   )(resultValue),
   outputLength: fp.flow(
     (result) => JSON.stringify(result, null, 4),
-    fp.split(/\r\n|\r|\n|<br\/>/gi),
+    fp.split(/\r\n|\r|\n|\<\s*br\s*\/\s*\>/gi),
     fp.join(' '),
     fp.size,
     fp.toString
@@ -83,7 +83,7 @@ const getJsonDisplayResults = (resultValue) => ({
   outputLines: fp.flow(
     (result) => JSON.stringify(result, null, 4),
     fp.trim,
-    fp.split(/\r\n|\r|\n|<br\/>/gi),
+    fp.split(/\r\n|\r|\n|\<\s*br\s*\/\s*\>/gi),
     fp.size,
     fp.toString
   )(resultValue)
@@ -106,7 +106,7 @@ const getDisplayResults = ({ type: resultType, value: resultValue }) =>
     outputLines: fp.flow(
       fp.toString,
       fp.trim,
-      fp.split(/\r\n|\r|\n|<br\/>/gi),
+      fp.split(/\r\n|\r|\n|\<\s*br\s*\/\s*\>/gi),
       fp.size,
       fp.toString
     )(resultValue)

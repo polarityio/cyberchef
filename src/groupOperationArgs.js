@@ -8,7 +8,7 @@ const groupOperationArgs = fp.map((operation) => ({
   ...operation,
   description: fp.flow(
     fp.get('description'),
-    fp.split(/<br>|<br\/>/gi),
+    fp.split(/\<\s*br\s*\/\s*\>/gi),
     fp.join(' '),
     fp.split(/<[^>]*>/gi),
     fp.join('')

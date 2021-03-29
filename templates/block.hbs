@@ -11,7 +11,11 @@
       </span>
     </div>
     <div class="results">
-      {{{entityValue}}}
+      {{#if block.entity.containsHtml}}
+        {{entityValue}}
+      {{else}}
+        {{{entityValue}}}
+      {{/if}}
     </div>
   {{else}}  
     <div class="header">
@@ -351,13 +355,18 @@
               <div class="results output">
                 <span class="output-title last">
                   Output:
-                  <div class="output-info">
-                    <span>length: {{operation.outputLength}}</span>
-                    <span>lines: {{operation.outputLines}}</span>
+                  <div class="right-output-area">
+                    <div class="output-info">                    
+                      <span>length: {{operation.outputLength}}</span>
+                      <span>lines: {{operation.outputLines}}</span>
+                    </div>
+                    <button type="button" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
+                      {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
+                    </button>
                   </div>
                 </span> 
                 {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
-                  {{#if (eq operation.result.type 0)}}
+                  {{#if (or (eq operation.result.type 0) operation.containsHtml)}}
                     {{operation.displayResult}}
                   {{else}}
                     {{{operation.displayResult}}}
@@ -375,16 +384,22 @@
                 {{else}}
                   Step Result:
                 {{/if}}
-                <div class="output-info">
-                  <span>length: {{operation.outputLength}}</span>
-                  <span>lines: {{operation.outputLines}}</span>
-                </div>
+                <div class="right-output-area">
+                    <div class="output-info">                    
+                      <span>length: {{operation.outputLength}}</span>
+                      <span>lines: {{operation.outputLines}}</span>
+                    </div>
+                    <button type="button" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
+                      {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
+                    </button>
+                  </div>
               </span>
               {{#if operation.__disabled}}
                 <span class="no-results"><em>Disabled.  No Result for this Step.</em></span>
               {{else}}  
                 {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
-                  {{#if (eq operation.result.type 0)}}
+                  {{log 'containsHtml=' operation.containsHtml}}     
+                  {{#if (or (eq operation.result.type 0) operation.containsHtml)}}
                     {{operation.displayResult}}
                   {{else}}
                     {{{operation.displayResult}}}
