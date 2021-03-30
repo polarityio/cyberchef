@@ -354,7 +354,7 @@
                       <span>length: {{operation.outputLength}}</span>
                       <span>lines: {{operation.outputLines}}</span>
                     </div>
-                    <button type="button" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
+                    <button type="button" title="Copy Output" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
                       {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
                     </button>
                   </div>
@@ -379,7 +379,7 @@
                       <span>length: {{operation.outputLength}}</span>
                       <span>lines: {{operation.outputLines}}</span>
                     </div>
-                    <button type="button" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
+                    <button type="button" title="Copy {{if (eq operationIndex operationLengthMinusOne) "Output" "Step Result"}}" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
                       {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
                     </button>
                   </div>
