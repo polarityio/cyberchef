@@ -2,7 +2,6 @@ const chef = require('cyberchef');
 
 const fp = require('lodash/fp');
 const getDisplayResults = require('./getDisplayResults');
-const containsInvalidHtml = require('./containsInvalidHtml');
 
 
 const asyncReduceArray = async (func, input, agg = [], index = 0) =>
@@ -24,11 +23,9 @@ const calulateOutputs = async (
   initialRun = false
 ) =>
   asyncReduceArray(async (agg, operation, index) => {
-    const thisStepsInput = fp.flow(
-      (i) => (i === 0 ? entityValue : agg[i - 1].result),
-      fp.replace(/\<\s*br\s*\/\s*\>/gi, '\n'),
-      (input) => new chef.Dish(input)
-    )(index);
+    const thisStepsInput = new chef.Dish(
+      index === 0 ? entityValue : agg[index - 1].result
+    );
 
     if (index !== 0 && agg[index - 1].outputError) {
       return [
@@ -85,11 +82,7 @@ const calulateOutputs = async (
         {
           ...operation,
           outputError: true,
-          displayResult: fp.flow(
-            fp.trim,
-            fp.split(/\r\n|\r|\n|\<\s*br\s*\/\s*\>/gi),
-            fp.join('<br/>')
-          )(e.message),
+          displayResult: fp.trim(e.message),
           outputLength: '0',
           outputLines: '0',
           ...(initialRun && { __expanded: index === operations.length - 1 })
@@ -102,7 +95,6 @@ const calulateOutputs = async (
       {
         ...operation,
         ...displayResults,
-        containsHtml: containsInvalidHtml(displayResults.displayResult),
         result: currentStepResult,
         outputError: false,
         ...(initialRun && { __expanded: index === operations.length - 1 })

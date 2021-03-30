@@ -5,7 +5,6 @@ const runBake = require('./src/runBake');
 const { searchOperations } = require('./src/searchOperations');
 const addStep = require('./src/addStep');
 const runMagic = require('./src/runMagic');
-const containsInvalidHtml = require('./src/containsInvalidHtml');
 
 let Logger;
 
@@ -34,7 +33,6 @@ const doLookup = async (entities, options, cb) => {
           return {
             entity: {
               ...entity,
-              containsHtml: containsInvalidHtml(entity.value),
               value: fp.flow(fp.get('value'), fp.trim)(entity)
             },
             isVolatile: true,
