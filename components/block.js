@@ -88,9 +88,11 @@ polarity.export = PolarityComponent.extend({
     // Setting operationLengthMinusOne as the 'sub' ember helper doesn't currently work
     this.set('operationLengthMinusOne', this.get('operations').length - 1);
 
-    const operations = this.updateLinks(this.get('operations'));
-    this.set('operations', operations);
-    this.set('previousOperations', cloneDeep(operations));
+    this.updateLinks(this.get('operations'));
+
+    this.get('block').notifyPropertyChange('data');
+
+    this.set('previousOperations', cloneDeep(this.get('operations')));
 
     this._super(...arguments);
   },
@@ -110,9 +112,9 @@ polarity.export = PolarityComponent.extend({
             data: { entityValue: this.block.entity.value, newOperations }
           })
             .then(({ operations }) => {
-              const operationsWithLinks = this.updateLinks(operations);
-              this.set('operations', operationsWithLinks);
-              this.set('previousOperations', cloneDeep(operationsWithLinks));
+              this.updateLinks(operations);
+              this.get('block').notifyPropertyChange('data');
+              this.set('previousOperations', cloneDeep(this.get('operations')));
             })
             // Error handling will be displayed in operation output values
             .finally(() => {
@@ -169,7 +171,9 @@ polarity.export = PolarityComponent.extend({
         : `${url}/#input=${inputHash}`
     );
 
-    return operationsWithUpdatedLinks;
+    this.set('operations', operationsWithUpdatedLinks);
+
+    this.get('block').notifyPropertyChange('data');
   },
   searchOperations: function (term, resolve, reject) {
     this.set('searchErrorMessage', '');
@@ -242,9 +246,10 @@ polarity.export = PolarityComponent.extend({
       data: { entityValue: this.block.entity.value, newOperations }
     })
       .then(({ operations }) => {
-        const operationsWithLinks = this.updateLinks(operations);
-        this.set('operations', operationsWithLinks);
-        this.set('previousOperations', cloneDeep(operationsWithLinks));
+        this.updateLinks(operations);
+
+        this.get('block').notifyPropertyChange('data');
+        this.set('previousOperations', cloneDeep(this.get('operations')));
       })
       // Error handling will be displayed in operation output values
       .finally(() => {
@@ -374,8 +379,7 @@ polarity.export = PolarityComponent.extend({
     //   console.log('loadRecipe');
     // },
     clearRecipe: function () {
-      this.set('operations', this.updateLinks([]));
-      this.get('block').notifyPropertyChange('data');
+      this.updateLinks([]);
     },
     disableOperation: function (operationIndex) {
       const operations = this.get('operations');
@@ -432,7 +436,7 @@ polarity.export = PolarityComponent.extend({
         }
       })
         .then(({ operationsWithNewStep }) => {
-          this.set('operations', this.updateLinks(operationsWithNewStep));
+          this.updateLinks(operationsWithNewStep);
           this.set('operationLengthMinusOne', operationsWithNewStep.length - 1);
           this.runBake();
         })
