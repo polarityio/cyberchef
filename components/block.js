@@ -198,7 +198,7 @@ polarity.export = PolarityComponent.extend({
       .finally(() => {
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
-          if(this.get('searchErrorMessage')){
+          if (this.get('searchErrorMessage')) {
             this.set('searchErrorMessage', '');
             this.get('block').notifyPropertyChange('data');
           }
@@ -235,7 +235,7 @@ polarity.export = PolarityComponent.extend({
       .finally(() => {
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
-          if(this.get('searchErrorMessage')) {
+          if (this.get('searchErrorMessage')) {
             this.set('searchErrorMessage', '');
             this.get('block').notifyPropertyChange('data');
           }
@@ -353,27 +353,15 @@ polarity.export = PolarityComponent.extend({
     },
     editOptionInputValue: function (operationIndex, groupIndex, argumentIndex, e) {
       const selectedOptionIndex = e.target.value;
-
-      const operations = this.get('operations');
-      let selectedOperation = operations[operationIndex];
-      const operationArgs = selectedOperation.args;
-
-      const selectOptionValue =
-        operationArgs[groupIndex][argumentIndex].value[selectedOptionIndex].value;
-
-      operationArgs[groupIndex][argumentIndex].selectedValue = selectOptionValue;
-
-      this.set('operations', [
-        ...operations.slice(0, operationIndex),
-        Object.assign({}, selectedOperation, {
-          args: operationArgs
-        }),
-        ...operations.slice(operationIndex + 1, operations.length)
-      ]);
-
+      const selectOptionValue = this.get(
+        `operations.${operationIndex}.args.${groupIndex}.${argumentIndex}.value.${selectedOptionIndex}.value`
+      );
+      this.set(
+        `operations.${operationIndex}.args.${groupIndex}.${argumentIndex}.selectedValue`,
+        selectOptionValue
+      );
       this.get('block').notifyPropertyChange('data');
     },
-
     // Right Hand Button Actions
     // TODO: Implement in V2
     // saveRecipe: function () {
@@ -408,9 +396,7 @@ polarity.export = PolarityComponent.extend({
     },
 
     copyOperationOutput: function (operationIndex) {
-      const operationOutput = this.get('operations')[
-        operationIndex
-      ].displayResult;
+      const operationOutput = this.get('operations')[operationIndex].displayResult;
 
       navigator.clipboard.writeText(operationOutput);
     },
@@ -427,11 +413,10 @@ polarity.export = PolarityComponent.extend({
         this.set('searchErrorMessage', 'Must Select an Operation');
         this.get('block').notifyPropertyChange('data');
         return setTimeout(() => {
-          if(this.get('searchErrorMessage')){
+          if (this.get('searchErrorMessage')) {
             this.set('searchErrorMessage', '');
             this.get('block').notifyPropertyChange('data');
           }
-
         }, 5000);
       }
 
@@ -459,7 +444,7 @@ polarity.export = PolarityComponent.extend({
         .finally(() => {
           this.get('block').notifyPropertyChange('data');
           setTimeout(() => {
-            if(this.get('searchErrorMessage')){
+            if (this.get('searchErrorMessage')) {
               this.set('searchErrorMessage', '');
               this.get('block').notifyPropertyChange('data');
             }
