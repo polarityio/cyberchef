@@ -111,15 +111,15 @@
             </div>
           </div>
           <span class="operation-buttons">
-            <button type="button" class="no-style-button operation-button disable-button" {{action "disableOperation" operationIndex}}>
+            <button type="button" title="Disable Step" class="no-style-button operation-button disable-button" {{action "disableOperation" operationIndex}}>
               {{fa-icon "ban" fixedWidth=true  size="md" class="operation-button-icon disable-button-icon"}}
             </button>
-            <button type="button" class="no-style-button operation-button">
+            <button type="button" title="Link to CyberChef up to this Step" class="no-style-button operation-button">
               <a href={{operation.recipeLink}}>
                 {{fa-icon "external-link-alt" fixedWidth=true  size="md" class="operation-button-icon"}}
               </a>
             </button>
-            <button type="button" class="no-style-button operation-button" {{action "deleteOperation" operationIndex}}>
+            <button type="button" title="Delete Step" class="no-style-button operation-button" {{action "deleteOperation" operationIndex}}>
               {{fa-icon "trash-alt" fixedWidth=true  size="md" class="operation-button-icon"}}
             </button>
           </span>
