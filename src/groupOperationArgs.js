@@ -8,7 +8,7 @@ const groupOperationArgs = fp.map((operation) => ({
   ...operation,
   description: fp.flow(
     fp.get('description'),
-    fp.split(/<br>|<br\/>/gi),
+    fp.split(/\<\s*br\s*\/\s*\>/gi),
     fp.join(' '),
     fp.split(/<[^>]*>/gi),
     fp.join('')
@@ -43,23 +43,23 @@ const shouldAddToPreviousGroup = (agg, arg) =>
   )(agg);
 
 const getSelectedValue = (arg) =>
-  fp.includes(arg.type, ARG_TYPES_WHERE_VALUE_IS_DEFAULT)
-    ? arg.type === 'boolean'
-      ? !!arg.value
-      : arg.type === 'number'
-      ? fp.toNumber(arg.value)
-      : arg.value
-    : arg.type === 'option'
-    ? fp.get('value.0', arg)
-    : arg.type === 'argSelector'
-    ? fp.get('value.0.name', arg)
-    : arg.type === 'toggleString'
-    ? {
+  fp.includes(arg.type, ARG_TYPES_WHERE_VALUE_IS_DEFAULT) ? 
+    arg.type === 'boolean' ? 
+      !!arg.value : 
+    arg.type === 'number' ? 
+      fp.toNumber(arg.value) : 
+      arg.value : 
+    arg.type === 'option' ?
+      fp.get('value.0', arg) :
+    arg.type === 'argSelector' ?
+      fp.get('value.0.name', arg) :
+    arg.type === 'toggleString' ?
+      {
         option: fp.getOr('', 'toggleValues.0', arg),
         string: fp.getOr('', 'value', arg)
-      }
-    : arg.type === 'editableOptionShort' || arg.type === 'editableOption'
-    ? fp.get('value.0.value', arg)
-    : '';
+      } :
+    arg.type === 'editableOptionShort' || arg.type === 'editableOption' ?
+      fp.get('value.0.value', arg) :
+      '';
 
 module.exports = groupOperationArgs;

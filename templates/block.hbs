@@ -10,9 +10,7 @@
         <span>lines: {{inputLines}}</span>
       </span>
     </div>
-    <div class="results">
-      {{{entityValue}}}
-    </div>
+    <div class="results show-whitespace">{{entityValue}}</div>
   {{else}}  
     <div class="header">
       <span {{action "toggleShowInput"}} style="cursor: pointer;">
@@ -351,17 +349,18 @@
               <div class="results output">
                 <span class="output-title last">
                   Output:
-                  <div class="output-info">
-                    <span>length: {{operation.outputLength}}</span>
-                    <span>lines: {{operation.outputLines}}</span>
+                  <div class="right-output-area">
+                    <div class="output-info">
+                      <span>length: {{operation.outputLength}}</span>
+                      <span>lines: {{operation.outputLines}}</span>
+                    </div>
+                    <button type="button" title="Copy Output" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
+                      {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
+                    </button>
                   </div>
                 </span> 
                 {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
-                  {{#if (eq operation.result.type 0)}}
-                    {{operation.displayResult}}
-                  {{else}}
-                    {{{operation.displayResult}}}
-                  {{/if}}
+                  <div class="show-whitespace">{{operation.displayResult}}</div>
                 {{else}}
                   <span class="no-results"><em>None</em></span>
                 {{/if}}
@@ -375,20 +374,21 @@
                 {{else}}
                   Step Result:
                 {{/if}}
-                <div class="output-info">
-                  <span>length: {{operation.outputLength}}</span>
-                  <span>lines: {{operation.outputLines}}</span>
-                </div>
+                <div class="right-output-area">
+                    <div class="output-info">
+                      <span>length: {{operation.outputLength}}</span>
+                      <span>lines: {{operation.outputLines}}</span>
+                    </div>
+                    <button type="button" title="Copy {{if (eq operationIndex operationLengthMinusOne) "Output" "Step Result"}}" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
+                      {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
+                    </button>
+                  </div>
               </span>
               {{#if operation.__disabled}}
                 <span class="no-results"><em>Disabled.  No Result for this Step.</em></span>
               {{else}}  
                 {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
-                  {{#if (eq operation.result.type 0)}}
-                    {{operation.displayResult}}
-                  {{else}}
-                    {{{operation.displayResult}}}
-                  {{/if}}
+                  <div class="show-whitespace">{{operation.displayResult}}</div>
                 {{else}}
                   <span class="no-results"><em>None</em></span>
                 {{/if}}
@@ -399,13 +399,7 @@
       </div>
     {{/each}}
   {{else}}
-    <div class="results no-operations">
-      {{fa-icon "bread-slice" fixedWidth=true  size="md" class="no-ingredients-icon"}} 
-      {{fa-icon "cheese" fixedWidth=true  size="md" class="no-ingredients-icon"}} 
-      Your Recipe lacks Steps/Ingredients 
-      {{fa-icon "pepper-hot" fixedWidth=true  size="md" class="no-ingredients-icon"}} 
-      {{fa-icon "carrot" fixedWidth=true  size="md" class="no-ingredients-icon"}}
-    </div>
+    <div class="results no-operations show-whitespace">{{fa-icon "bread-slice" fixedWidth=true  size="md" class="no-ingredients-icon"}} {{fa-icon "cheese" fixedWidth=true  size="md" class="no-ingredients-icon"}} Your Recipe lacks Steps/Ingredients {{fa-icon "pepper-hot" fixedWidth=true  size="md" class="no-ingredients-icon"}} {{fa-icon "carrot" fixedWidth=true  size="md" class="no-ingredients-icon"}}</div>
   {{/if}}
 
   <div class="header">

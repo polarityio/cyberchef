@@ -66,6 +66,7 @@ const doLookup = async (entities, options, cb) => {
   cb(null, lookupResults);
 };
 
+
 const getOnMessage = { runBake, searchOperations, addStep, runMagic };
 
 const onMessage = ({ action, data: actionParams }, options, callback) =>

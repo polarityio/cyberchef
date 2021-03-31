@@ -863,16 +863,51 @@ pre {
           font-weight: 600;
           font-size: 13px;
         }
-        .output-info {
+        .right-output-area {
           display: flex;
-          flex-direction: column;
           justify-content: center;
-          align-items: flex-end;
-          font-family: Menlo, Consolas, monospace;
-          font-weight: 400;
-          padding-right: 13px;
-          font-size: 8px;
-          line-height: 11px;
+          padding-right: 3px;
+
+          .output-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            font-family: Menlo, Consolas, monospace;
+            font-weight: 400;
+            padding-right: 6px;
+            font-size: 8px;
+            line-height: 11px;
+          }
+
+          .copy-button {
+            width: 22px;
+            border-radius: 20px;
+            &:hover,
+            &:focus {
+              background: inherit;
+              .header-button-icon {
+                color: #1976d2;
+              }
+              background-color: rgba(153, 153, 153, 0.2);
+              border-color: rgba(153, 153, 153, 0.2);
+              cursor: pointer;
+            }
+
+            &:focus {
+              outline: none;
+            }
+
+            &:active {
+              cursor: pointer;
+              .header-button-icon {
+                color: #fff;
+              }
+              background-color: #145ca4;
+              border-color: #125699;
+              transform: none;
+            }
+          }
         }
       }
       .no-results {
@@ -1094,4 +1129,9 @@ pre {
 
 .ember-power-select-trigger {
   line-height: 33px !important;
+}
+
+.show-whitespace {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

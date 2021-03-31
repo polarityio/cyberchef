@@ -4,6 +4,7 @@ const fp = require('lodash/fp');
 const getDisplayResults = require('./getDisplayResults');
 const { EDGE_CASE_CORRECT_OPERATION_NAMES } = require('./constants');
 
+
 const asyncReduceArray = async (func, input, agg = [], index = 0) =>
   input.length === index
     ? agg
@@ -82,11 +83,7 @@ const calulateOutputs = async (
         {
           ...operation,
           outputError: true,
-          displayResult: fp.flow(
-            fp.trim,
-            fp.split(/\r\n|\r|\n|<br\/>/gi),
-            fp.join('<br/>')
-          )(e.message),
+          displayResult: fp.trim(e.message),
           outputLength: e.message.length,
           outputLines: '1',
           ...(initialRun && { __expanded: index === operations.length - 1 })
