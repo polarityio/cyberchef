@@ -35,8 +35,8 @@ const calulateOutputs = async (
           ...operation,
           outputError: true,
           displayResult: 'Previous Step Contained Error',
-          outputLength: '0',
-          outputLines: '0'
+          outputLength: 29,
+          outputLines: 1
         }
       ];
     }

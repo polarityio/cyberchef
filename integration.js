@@ -25,9 +25,7 @@ const doLookup = async (entities, options, cb) => {
           const isNotWhitespace = fp.size(trimmedEntityValue);
           const isCorrectType =
             entity.type === 'custom' &&
-            (!options.ignoreEntityTypes ||
-              (entity.types.length === 1 &&
-                fp.every(({value}) => value !== trimmedEntityValue, entities)));
+            (!options.ignoreEntityTypes || entity.types.length === 1);
 
           return isNotWhitespace && isCorrectType;
         }),
