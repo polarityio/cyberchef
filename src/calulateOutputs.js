@@ -3,6 +3,7 @@ const chef = require('cyberchef');
 const fp = require('lodash/fp');
 const getDisplayResults = require('./getDisplayResults');
 
+
 const asyncReduceArray = async (func, input, agg = [], index = 0) =>
   input.length === index
     ? agg
@@ -81,11 +82,7 @@ const calulateOutputs = async (
         {
           ...operation,
           outputError: true,
-          displayResult: fp.flow(
-            fp.trim,
-            fp.split(/\r\n|\r|\n|<br\/>/gi),
-            fp.join('<br/>')
-          )(e.message),
+          displayResult: fp.trim(e.message),
           outputLength: '0',
           outputLines: '0',
           ...(initialRun && { __expanded: index === operations.length - 1 })

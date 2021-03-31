@@ -80,22 +80,19 @@ polarity.export = PolarityComponent.extend({
     // Setting Up Input Section Length and Lines
     const inputLength = this.get('entityValue').length;
     this.set('inputLength', inputLength);
-    const newEntityValue = this.get('entityValue')
-      .trim()
-      .split(/\r\n|\r|\n/gi)
-      .join('<br/>');
 
-    this.set('entityValue', newEntityValue);
-    const inputLines = newEntityValue.split('<br/>').length;
+    const inputLines = this.get('entityValue').split(/\r\n|\r|\n/gi).length;
     this.set('inputLines', inputLines);
     this.set('showInput', inputLines <= 4 && inputLength <= 170);
 
     // Setting operationLengthMinusOne as the 'sub' ember helper doesn't currently work
     this.set('operationLengthMinusOne', this.get('operations').length - 1);
 
-    const operations = this.updateLinks(this.get('operations'));
-    this.set('operations', operations);
-    this.set('previousOperations', cloneDeep(operations));
+    this.updateLinks(this.get('operations'));
+
+    this.get('block').notifyPropertyChange('data');
+
+    this.set('previousOperations', cloneDeep(this.get('operations')));
 
     this._super(...arguments);
   },
@@ -115,9 +112,9 @@ polarity.export = PolarityComponent.extend({
             data: { entityValue: this.block.entity.value, newOperations }
           })
             .then(({ operations }) => {
-              const operationsWithLinks = this.updateLinks(operations);
-              this.set('operations', operationsWithLinks);
-              this.set('previousOperations', cloneDeep(operationsWithLinks));
+              this.updateLinks(operations);
+              this.get('block').notifyPropertyChange('data');
+              this.set('previousOperations', cloneDeep(this.get('operations')));
             })
             // Error handling will be displayed in operation output values
             .finally(() => {
@@ -160,7 +157,7 @@ polarity.export = PolarityComponent.extend({
 
       return [
         ...agg,
-        Object.assign(operation, {
+        Object.assign({}, operation, {
           recipeLinkWithoutInput: recipeLinkWithoutInput,
           recipeLink: `${recipeLinkWithoutInput}&input=${inputHash}`
         })
@@ -174,7 +171,9 @@ polarity.export = PolarityComponent.extend({
         : `${url}/#input=${inputHash}`
     );
 
-    return operationsWithUpdatedLinks;
+    this.set('operations', operationsWithUpdatedLinks);
+
+    this.get('block').notifyPropertyChange('data');
   },
   searchOperations: function (term, resolve, reject) {
     this.set('searchErrorMessage', '');
@@ -199,8 +198,10 @@ polarity.export = PolarityComponent.extend({
       .finally(() => {
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
-          this.set('searchErrorMessage', '');
-          this.get('block').notifyPropertyChange('data');
+          if(this.get('searchErrorMessage')){
+            this.set('searchErrorMessage', '');
+            this.get('block').notifyPropertyChange('data');
+          }
         }, 5000);
         resolve();
       });
@@ -234,8 +235,10 @@ polarity.export = PolarityComponent.extend({
       .finally(() => {
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
-          this.set('searchErrorMessage', '');
-          this.get('block').notifyPropertyChange('data');
+          if(this.get('searchErrorMessage')) {
+            this.set('searchErrorMessage', '');
+            this.get('block').notifyPropertyChange('data');
+          }
         }, 5000);
       });
   },
@@ -247,9 +250,10 @@ polarity.export = PolarityComponent.extend({
       data: { entityValue: this.block.entity.value, newOperations }
     })
       .then(({ operations }) => {
-        const operationsWithLinks = this.updateLinks(operations);
-        this.set('operations', operationsWithLinks);
-        this.set('previousOperations', cloneDeep(operationsWithLinks));
+        this.updateLinks(operations);
+
+        this.get('block').notifyPropertyChange('data');
+        this.set('previousOperations', cloneDeep(this.get('operations')));
       })
       // Error handling will be displayed in operation output values
       .finally(() => {
@@ -379,8 +383,7 @@ polarity.export = PolarityComponent.extend({
     //   console.log('loadRecipe');
     // },
     clearRecipe: function () {
-      this.set('operations', this.updateLinks([]));
-      this.get('block').notifyPropertyChange('data');
+      this.updateLinks([]);
     },
     disableOperation: function (operationIndex) {
       const operations = this.get('operations');
@@ -404,6 +407,14 @@ polarity.export = PolarityComponent.extend({
       ]);
     },
 
+    copyOperationOutput: function (operationIndex) {
+      const operationOutput = this.get('operations')[
+        operationIndex
+      ].displayResult;
+
+      navigator.clipboard.writeText(operationOutput);
+    },
+
     // Operation Adding Actions
     searchOperations: function (term) {
       return new Ember.RSVP.Promise((resolve, reject) => {
@@ -416,8 +427,11 @@ polarity.export = PolarityComponent.extend({
         this.set('searchErrorMessage', 'Must Select an Operation');
         this.get('block').notifyPropertyChange('data');
         return setTimeout(() => {
-          this.set('searchErrorMessage', '');
-          this.get('block').notifyPropertyChange('data');
+          if(this.get('searchErrorMessage')){
+            this.set('searchErrorMessage', '');
+            this.get('block').notifyPropertyChange('data');
+          }
+
         }, 5000);
       }
 
@@ -429,7 +443,7 @@ polarity.export = PolarityComponent.extend({
         }
       })
         .then(({ operationsWithNewStep }) => {
-          this.set('operations', this.updateLinks(operationsWithNewStep));
+          this.updateLinks(operationsWithNewStep);
           this.set('operationLengthMinusOne', operationsWithNewStep.length - 1);
           this.runBake();
         })
@@ -445,8 +459,10 @@ polarity.export = PolarityComponent.extend({
         .finally(() => {
           this.get('block').notifyPropertyChange('data');
           setTimeout(() => {
-            this.set('searchErrorMessage', '');
-            this.get('block').notifyPropertyChange('data');
+            if(this.get('searchErrorMessage')){
+              this.set('searchErrorMessage', '');
+              this.get('block').notifyPropertyChange('data');
+            }
           }, 5000);
         });
     },
