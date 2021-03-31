@@ -80,7 +80,7 @@ polarity.export = PolarityComponent.extend({
     // Setting Up Input Section Length and Lines
     const inputLength = this.get('entityValue').length;
     this.set('inputLength', inputLength);
-    
+
     const inputLines = this.get('entityValue').split(/\r\n|\r|\n/gi).length;
     this.set('inputLines', inputLines);
     this.set('showInput', inputLines <= 4 && inputLength <= 170);
@@ -157,7 +157,7 @@ polarity.export = PolarityComponent.extend({
 
       return [
         ...agg,
-        Object.assign(operation, {
+        Object.assign({}, operation, {
           recipeLinkWithoutInput: recipeLinkWithoutInput,
           recipeLink: `${recipeLinkWithoutInput}&input=${inputHash}`
         })
@@ -198,8 +198,10 @@ polarity.export = PolarityComponent.extend({
       .finally(() => {
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
-          this.set('searchErrorMessage', '');
-          this.get('block').notifyPropertyChange('data');
+          if(this.get('searchErrorMessage')){
+            this.set('searchErrorMessage', '');
+            this.get('block').notifyPropertyChange('data');
+          }
         }, 5000);
         resolve();
       });
@@ -233,8 +235,10 @@ polarity.export = PolarityComponent.extend({
       .finally(() => {
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
-          this.set('searchErrorMessage', '');
-          this.get('block').notifyPropertyChange('data');
+          if(this.get('searchErrorMessage')) {
+            this.set('searchErrorMessage', '');
+            this.get('block').notifyPropertyChange('data');
+          }
         }, 5000);
       });
   },
@@ -423,8 +427,11 @@ polarity.export = PolarityComponent.extend({
         this.set('searchErrorMessage', 'Must Select an Operation');
         this.get('block').notifyPropertyChange('data');
         return setTimeout(() => {
-          this.set('searchErrorMessage', '');
-          this.get('block').notifyPropertyChange('data');
+          if(this.get('searchErrorMessage')){
+            this.set('searchErrorMessage', '');
+            this.get('block').notifyPropertyChange('data');
+          }
+
         }, 5000);
       }
 
@@ -452,8 +459,10 @@ polarity.export = PolarityComponent.extend({
         .finally(() => {
           this.get('block').notifyPropertyChange('data');
           setTimeout(() => {
-            this.set('searchErrorMessage', '');
-            this.get('block').notifyPropertyChange('data');
+            if(this.get('searchErrorMessage')){
+              this.set('searchErrorMessage', '');
+              this.get('block').notifyPropertyChange('data');
+            }
           }, 5000);
         });
     },
