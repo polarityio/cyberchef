@@ -27,7 +27,11 @@ const doLookup = async (entities, options, cb) => {
             entity.type === 'custom' &&
             (!options.ignoreEntityTypes || entity.types.length === 1);
 
-          return isNotWhitespace && isCorrectType;
+          return (
+            isNotWhitespace &&
+            isCorrectType &&
+            trimmedEntityValue.length >= options.minLength
+          );
         }),
         fp.uniqBy(fp.flow(fp.get('value'),fp.trim)),
         fp.map(async (entity) => {
