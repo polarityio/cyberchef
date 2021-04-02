@@ -90,8 +90,6 @@ polarity.export = PolarityComponent.extend({
 
     this.updateLinks(this.get('operations'));
 
-    this.get('block').notifyPropertyChange('data');
-
     this.set('previousOperations', cloneDeep(this.get('operations')));
 
     this._super(...arguments);
@@ -172,8 +170,6 @@ polarity.export = PolarityComponent.extend({
     );
 
     this.set('operations', operationsWithUpdatedLinks);
-
-    this.get('block').notifyPropertyChange('data');
   },
   searchOperations: function (term, resolve, reject) {
     this.set('searchErrorMessage', '');
@@ -251,7 +247,6 @@ polarity.export = PolarityComponent.extend({
     })
       .then(({ operations }) => {
         this.updateLinks(operations);
-
         this.get('block').notifyPropertyChange('data');
         this.set('previousOperations', cloneDeep(this.get('operations')));
       })
@@ -372,6 +367,7 @@ polarity.export = PolarityComponent.extend({
     // },
     clearRecipe: function () {
       this.updateLinks([]);
+      this.get('block').notifyPropertyChange('data');
     },
     disableOperation: function (operationIndex) {
       const operations = this.get('operations');
