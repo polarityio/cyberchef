@@ -34,7 +34,9 @@ const calulateOutputs = async (
         {
           ...operation,
           outputError: true,
-          displayResult: 'Previous Step Contained Error',
+          displayResult: options.dontShowStepResults
+            ? `${agg[index - 1].name}: ${agg[index - 1].displayResult}`
+            : 'Previous Step Contained Error',
           outputLength: 29,
           outputLines: 1
         }
