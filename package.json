@@ -1,6 +1,6 @@
 {
   "name": "CyberChefIntegration",
-  "version": "3.0.1-beta",
+  "version": "3.1.0-beta",
   "main": "./integration.js",
   "private": true,
   "scripts": {

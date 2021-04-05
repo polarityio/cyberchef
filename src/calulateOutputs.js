@@ -1,7 +1,8 @@
 const chef = require('cyberchef');
-
 const fp = require('lodash/fp');
+
 const getDisplayResults = require('./getDisplayResults');
+const { EDGE_CASE_CORRECT_OPERATION_NAMES } = require('./constants');
 
 
 const asyncReduceArray = async (func, input, agg = [], index = 0) =>
@@ -33,9 +34,11 @@ const calulateOutputs = async (
         {
           ...operation,
           outputError: true,
-          displayResult: 'Previous Step Contained Error',
-          outputLength: '0',
-          outputLines: '0'
+          displayResult: options.dontShowStepResults
+            ? `${agg[index - 1].name}: ${agg[index - 1].displayResult}`
+            : 'Previous Step Contained Error',
+          outputLength: 29,
+          outputLines: 1
         }
       ];
     }
@@ -59,7 +62,7 @@ const calulateOutputs = async (
     }
 
     const step = {
-      op: operation.name,
+      op: EDGE_CASE_CORRECT_OPERATION_NAMES[operation.name] || operation.name,
       args: fp.flatMap(
         fp.map((operationArg) =>
           fp.flow(
@@ -83,8 +86,8 @@ const calulateOutputs = async (
           ...operation,
           outputError: true,
           displayResult: fp.trim(e.message),
-          outputLength: '0',
-          outputLines: '0',
+          outputLength: e.message.length,
+          outputLines: '1',
           ...(initialRun && { __expanded: index === operations.length - 1 })
         }
       ];

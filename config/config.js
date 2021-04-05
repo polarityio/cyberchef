@@ -13,6 +13,7 @@ module.exports = {
   logging: {
     level: 'info' //trace, debug, info, warn, error, fatal
   },
+  entityTypes: ['*'],
   customTypes: [
     {
       key: 'encodedString',
@@ -44,7 +45,18 @@ module.exports = {
       name: 'Only Show Magic Results',
       description:
         'When checked, strings searched that do not immediately have a Magic suggestion will not be displayed in the overlay.',
-      default: false,
+      default: true,
+      type: 'boolean',
+      userCanEdit: true,
+      adminOnly: false
+    },
+    {
+      key: 'ignoreEntityTypes',
+      name: 'Ignore Entity Types',
+      description:
+        'When checked, strings searched that are one of our predefined entity types ' +
+        '(IPv4, IPv6, IPv4CIDR, MD5, SHA1, SHA256, MAC, string, email, domain, url, and cve) will not be displayed in the overlay.',
+      default: true,
       type: 'boolean',
       userCanEdit: true,
       adminOnly: false
