@@ -17,7 +17,7 @@ module.exports = {
   customTypes: [
     {
       key: 'encodedString',
-      regex: /[\s\S]+/
+      regex: /\w[\s\S]*\w/
     }
   ],
   styles: ['./styles/style.less'],
