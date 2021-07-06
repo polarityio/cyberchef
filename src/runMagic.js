@@ -6,8 +6,8 @@ const { operationsWeCantCurrentlyRun } = require('./searchOperations');
 const runMagic = async (
   { entityValue, operations, depth, intensiveMode, extensiveLanguageSupport, crib },
   options,
-  callback,
-  Logger
+  callback = () => {},
+  Logger = () => { error: () => {} }
 ) => {
   try {
     const lastOperationOutput = operations.length
@@ -15,8 +15,10 @@ const runMagic = async (
       : entityValue;
 
     // Excluding BufferArray and BigNumber output types as those cannot be used by the chef.magic Function.
-    if ([4,5].includes(lastOperationOutput.type))
-      return callback(null, { magicSuggestions: [], summary: ['No Magic'] });
+    if ([4, 5].includes(lastOperationOutput.type)) {
+      callback(null, { magicSuggestions: [], summary: ['No Magic'] });
+      return { magicSuggestions: [], summary: ['No Magic'] }; 
+    }
 
     const magicResult = fp.get(
       'value',
@@ -28,8 +30,11 @@ const runMagic = async (
       ])
     );
 
-    
-    const suggestedOperationsNames = fp.flow(fp.flatten, fp.compact, fp.uniq)([
+    const suggestedOperationsNames = fp.flow(
+      fp.flatten,
+      fp.compact,
+      fp.uniq
+    )([
       fp.map(fp.flow(fp.get('recipe'), fp.first, fp.get('op')), magicResult),
       fp.flatMap(fp.flow(fp.get('matchingOps'), fp.map(fp.get('op'))), magicResult)
     ]);
@@ -54,18 +59,17 @@ const runMagic = async (
       fp.uniqBy('name')
     )(suggestedOperationsNames);
 
-    const summary = fp.get('length', magicSuggestions)
-      ? ['Magic']
-      : ['No Magic'];
+    const summary = fp.get('length', magicSuggestions) ? ['Magic'] : ['No Magic'];
 
     callback(null, { magicSuggestions, summary });
+    return { magicSuggestions, summary };
   } catch (error) {
     Logger.error(
       error,
       { detail: 'Failed to Run Magic from CyberChef' },
       'Run Magic Failed'
     );
-    return callback({
+    callback({
       errors: [
         {
           err: error,
@@ -73,6 +77,7 @@ const runMagic = async (
         }
       ]
     });
+    throw error;
   }
 };
 

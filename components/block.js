@@ -88,9 +88,11 @@ polarity.export = PolarityComponent.extend({
     // Setting operationLengthMinusOne as the 'sub' ember helper doesn't currently work
     this.set('operationLengthMinusOne', this.get('operations').length - 1);
 
-    this.updateLinks(this.get('operations'));
+    const operations = this.get('operations');
+    this.updateLinks(operations);
+    this.set('previousOperations', cloneDeep(operations));
 
-    this.set('previousOperations', cloneDeep(this.get('operations')));
+    this.runBake();
 
     this._super(...arguments);
   },

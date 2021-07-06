@@ -62,6 +62,17 @@ module.exports = {
       adminOnly: false
     },
     {
+      key: 'runMagicFunctionByDefault',
+      name: 'Run Magic Function By Default',
+      description:
+        "If checked, when you search a string by default the Magic Function's first recommended Operation will be applied to your input. " +
+        'No Operation wil be applied if the Magic Function has no suggestions.',
+      default: false,
+      type: 'boolean',
+      userCanEdit: true,
+      adminOnly: false
+    },
+    {
       key: 'dontShowStepResults',
       name: "Don't Show Step Results",
       description:
