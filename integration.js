@@ -45,33 +45,29 @@ const filterOutInvalidInput = (options) =>
   });
 
 const getLookupResult = (options) => async (entity) => {
-  const magicResult = fp.get('value', await chef.magic(entity.value));
-
-  const magicSuggestionsFound =
-    fp.flow(fp.flatMap(fp.get('recipe')), fp.size)(magicResult) ||
-    fp.flow(fp.flatMap(fp.get('matchingOps')), fp.size)(magicResult);
-
+  const { magicSuggestions = [], summary = ['No Magic'] } = await runMagic(
+    {
+      entityValue: entity.value,
+      operations: [],
+      depth: 3,
+      intensiveMode: false,
+      extensiveLanguageSupport: false,
+      crib: ''
+    },
+    options,
+    () => {},
+    Logger
+  );
+  const magicSuggestionsFound = summary[0] === 'Magic';
   if (options.onlyShowMagic && !magicSuggestionsFound) return;
 
   let operations = [];
   if (options.runMagicFunctionByDefault) {
-    operations = fp.flow(fp.getOr([], 'magicSuggestions'), fp.first, (magicSuggestion) =>
+    operations = fp.flow(fp.first, (magicSuggestion) =>
       magicSuggestion
         ? groupOperationArgs([{ ...magicSuggestion, __expanded: true }])
         : []
-    )(
-      await runMagic(
-        {
-          entityValue: entity.value,
-          operations: [],
-          depth: 3,
-          intensiveMode: false,
-          extensiveLanguageSupport: false,
-          crib: ''
-        },
-        options
-      )
-    );
+    )(magicSuggestions);
   }
 
   return {
@@ -84,7 +80,7 @@ const getLookupResult = (options) => async (entity) => {
       entity.value.length > 120 ? '...' : ''
     }`,
     data: {
-      summary: magicSuggestionsFound ? ['Magic'] : ['No Magic'],
+      summary,
       details: {
         inputHash: trim(Buffer.from(entity.value).toString('base64'), '='),
         operations
