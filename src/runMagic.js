@@ -1,13 +1,15 @@
 const fp = require('lodash/fp');
 const chef = require('cyberchef');
-
+const magic = require('./magic/index');
 const { operationsWeCantCurrentlyRun } = require('./searchOperations');
 
 const runMagic = async (
   { entityValue, operations, depth, intensiveMode, extensiveLanguageSupport, crib },
   options,
   callback = () => {},
-  Logger = () => { error: () => {} }
+  Logger = () => {
+    error: () => {};
+  }
 ) => {
   try {
     const lastOperationOutput = operations.length
@@ -17,17 +19,19 @@ const runMagic = async (
     // Excluding BufferArray and BigNumber output types as those cannot be used by the chef.magic Function.
     if ([4, 5].includes(lastOperationOutput.type)) {
       callback(null, { magicSuggestions: [], summary: ['No Magic'] });
-      return { magicSuggestions: [], summary: ['No Magic'] }; 
+      return { magicSuggestions: [], summary: ['No Magic'] };
     }
 
     const magicResult = fp.get(
       'value',
-      await chef.magic(lastOperationOutput, [
+      await magic(
+        lastOperationOutput,
         depth,
         intensiveMode,
         extensiveLanguageSupport,
-        crib
-      ])
+        crib,
+        Logger
+      )
     );
 
     const suggestedOperationsNames = fp.flow(
