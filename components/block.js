@@ -67,6 +67,7 @@ polarity.export = PolarityComponent.extend({
   operationLengthMinusOne: 0,
   searchErrorMessage: '',
   selectedOperation: undefined,
+  runningMagic: false,
   magicModalOpen: false,
   magicSuggestions: [],
   magicDepth: 3,
@@ -205,6 +206,7 @@ polarity.export = PolarityComponent.extend({
       });
   },
   runMagic: function (cb = () => {}) {
+    this.set('runningMagic', true);
     this.sendIntegrationMessage({
       action: 'runMagic',
       data: {
@@ -231,6 +233,7 @@ polarity.export = PolarityComponent.extend({
         );
       })
       .finally(() => {
+        this.set('runningMagic', false);
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
           if (this.get('searchErrorMessage')) {
