@@ -417,7 +417,12 @@
   {{/if}}
 
   <div class="header">
-    Operations
+    <span>
+      Operations
+      {{#if runningMagic}}
+        {{fa-icon "cookie-bite" size="sm" fixedWidth=true spin=true}}
+      {{/if}}
+    </span>
     <span class="header-buttons">
       <button type="button" title="Magic" class="header-button" {{action "toggleMagicModal"}}>
         {{fa-icon "magic" fixedWidth=true  size="lg" class="header-button-icon"}}
@@ -467,6 +472,9 @@
               title="The Magic operation attempts to detect various properties of the input data and suggests which operations could help to make more sense of it. ***Options*** __Depth__: If an operation appears to match the data, it will be run and the result will be analysed further. This argument controls the maximum number of levels of recursion. __Intensive mode__: When this is turned on, various operations like XOR, bit rotates, and character encodings are brute-forced to attempt to detect valid data underneath. To improve performance, only the first 100 bytes of the data is brute-forced. __Extensive language support__: At each stage, the relative byte frequencies of the data will be compared to average frequencies for a number of languages. The default set consists of ~40 of the most commonly used languages on the Internet. The extensive list consists of 284 languages and can result in many languages matching the data if their byte frequencies are similar. Optionally enter a regular expression to match a string you expect to find to filter results (crib)." 
             >
               Magic
+              {{#if runningMagic}}
+                {{fa-icon "cookie-bite" size="sm" fixedWidth=true spin=true}}
+              {{/if}}
             </div>
           </div>
           <span class="operation-buttons">
