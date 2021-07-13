@@ -17,7 +17,7 @@ module.exports = {
   customTypes: [
     {
       key: 'encodedString',
-      regex: /[\s\S]+/
+      regex: /\S[\s\S]*\S/
     }
   ],
   styles: ['./styles/style.less'],
@@ -57,6 +57,17 @@ module.exports = {
         'When checked, strings searched that are one of our predefined entity types ' +
         '(IPv4, IPv6, IPv4CIDR, MD5, SHA1, SHA256, MAC, string, email, domain, url, and cve) will not be displayed in the overlay.',
       default: true,
+      type: 'boolean',
+      userCanEdit: true,
+      adminOnly: false
+    },
+    {
+      key: 'runMagicFunctionByDefault',
+      name: 'Run Magic Function By Default',
+      description:
+        "If checked, when you search a string by default the Magic Function's first recommended Operation will be applied to your input. " +
+        'No Operation wil be applied if the Magic Function has no suggestions.',
+      default: false,
       type: 'boolean',
       userCanEdit: true,
       adminOnly: false

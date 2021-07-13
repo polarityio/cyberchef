@@ -21,6 +21,10 @@ When checked, strings searched that do not immediately have a Magic suggestion w
 ### Ignore Entity Types
 When checked, strings searched that are one of our predefined entity types (IPv4, IPv6, IPv4CIDR, MD5, SHA1, SHA256, MAC, string, email, domain, url, and cve) will not be displayed in the overlay.
 
+### Run Magic Function By Default
+If checked, when you search a string by default the Magic Function's first recommended Operation will be applied to your input.
+No Operation wil be applied if the Magic Function has no suggestions.
+
 ### Don't Show Step Results
 By default, you can find the results for each step of your recipe when expanding on the Operation's title. If the step results are getting too long you can check this to make only the final output visible in the overlay.
 
@@ -36,7 +40,7 @@ This is a list of the Favourites that will show up when you initially search for
 > - Saving and Loading Recipes
 > - Improving searching Operations and the Magic Suggestions
 > - We are currently excluding Control Flow Operations including `Comment,  Conditional Jump,  Fork, Jump,  Label, Merge, Register, Return, Subsection`
-> - We are also excluding the Operations `AES Decrypt, AES Encrypt, Bombe, Colossus, Enigma, Lorenz, Multiple Bombe, Parse DateTime, RSA Decrypt, RSA Encrypt, Regular expression, SHA2, Tar, Translate DateTime Format, Zip` for the time being. 
+> - We are also excluding the Operations `AES Decrypt, AES Encrypt, Bombe, Colossus, Enigma, Lorenz, Multiple Bombe, Parse DateTime, RSA Decrypt, RSA Encrypt, SHA2, Tar, Translate DateTime Format, Zip` for the time being. 
 > 
 > If you feel like any of the current limitations are inhibiting your workflows, please reach out to `support@polarity.io` about what kinds of things you would like added so we can work to include those in our next release!
 

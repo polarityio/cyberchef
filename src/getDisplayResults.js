@@ -1,7 +1,10 @@
 const fp = require('lodash/fp');
 
 const getByteArrayDisplayResults = (resultValue) => {
-  const stringifiedByteArray = String.fromCharCode.apply(null, resultValue);
+  const stringifiedByteArray = String.fromCharCode.apply(
+    null,
+    resultValue.filter((x) => x > 32)
+  );
 
   return {
     displayResult: stringifiedByteArray,

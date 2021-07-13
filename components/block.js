@@ -67,6 +67,7 @@ polarity.export = PolarityComponent.extend({
   operationLengthMinusOne: 0,
   searchErrorMessage: '',
   selectedOperation: undefined,
+  runningMagic: false,
   magicModalOpen: false,
   magicSuggestions: [],
   magicDepth: 3,
@@ -88,9 +89,11 @@ polarity.export = PolarityComponent.extend({
     // Setting operationLengthMinusOne as the 'sub' ember helper doesn't currently work
     this.set('operationLengthMinusOne', this.get('operations').length - 1);
 
-    this.updateLinks(this.get('operations'));
+    const operations = this.get('operations');
+    this.updateLinks(operations);
+    this.set('previousOperations', cloneDeep(operations));
 
-    this.set('previousOperations', cloneDeep(this.get('operations')));
+    this.runBake();
 
     this._super(...arguments);
   },
@@ -203,6 +206,7 @@ polarity.export = PolarityComponent.extend({
       });
   },
   runMagic: function (cb = () => {}) {
+    this.set('runningMagic', true);
     this.sendIntegrationMessage({
       action: 'runMagic',
       data: {
@@ -229,6 +233,7 @@ polarity.export = PolarityComponent.extend({
         );
       })
       .finally(() => {
+        this.set('runningMagic', false);
         this.get('block').notifyPropertyChange('data');
         setTimeout(() => {
           if (this.get('searchErrorMessage')) {
