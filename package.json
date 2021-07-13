@@ -5,9 +5,5 @@
   "private": true,
   "scripts": {
     "install": "npm install --force --silent cyberchef lodash chi-squared &> /dev/null"
-  },
-  "dependencies": {
-    "cyberchef": "^9.28.0",
-    "lodash": "^4.17.21"
   }
 }
