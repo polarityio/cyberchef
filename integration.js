@@ -26,7 +26,7 @@ const doLookup = async (entities, options, cb) => {
       )(entities)
     )
   );
-
+  
   cb(null, lookupResults);
 };
 
@@ -87,7 +87,7 @@ const getLookupResult = (options) => async (entity) => {
       }
     }
   };
-}
+};
 
 const getOnMessage = { runBake, searchOperations, addStep, runMagic };
 
