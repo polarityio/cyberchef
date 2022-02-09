@@ -1,8 +1,3 @@
-const {
-  FAVOURITE_OPERATION_DEFAULTS,
-  FAVOURITE_OPERATION_OPTIONS
-} = require('../src/constants');
-
 module.exports = {
   name: 'CyberChef',
   acronym: 'CHEF',
@@ -97,9 +92,9 @@ module.exports = {
       name: 'Favourite Operations',
       description:
         'This is a list of the Favourites that will show up when you initially search for operations.',
-      default: FAVOURITE_OPERATION_DEFAULTS,
+      default: [],
       type: 'select',
-      options: FAVOURITE_OPERATION_OPTIONS,
+      options: [],
       multiple: true,
       userCanEdit: true,
       adminOnly: false
