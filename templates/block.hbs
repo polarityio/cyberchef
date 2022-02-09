@@ -68,28 +68,17 @@
   </div>
   {{#if operations.length}}
     {{#each operations as |operation operationIndex|}}
-      <div
-        class="operation
-          {{if operation.__disabled "disabled" ""}}
-          {{if operation.outputError "error" ""}}"
+      <div class="operation {{if operation.__disabled "disabled" ""}} {{if operation.outputError "error" ""}}"
       >
         <div
-          class={{if
-            (and operation.__expanded operation.args.length)
-            "operation-header expanded"
-            "operation-header"
-          }}
+          class={{if (and operation.__expanded operation.args.length) "operation-header expanded" "operation-header"}}
         >
           <div class="operation-box-controls">
             <div class="order-moving-buttons">
               {{#if (and (not (eq operationIndex 0)) (gt operations.length 1))}}
                 <button
                   type="button"
-                  class={{if
-                    (and
-                      (not (eq operationIndex operationLengthMinusOne))
-                      (gt operations.length 1)
-                    )
+                  class={{if (and (not (eq operationIndex operationLengthMinusOne)) (gt operations.length 1)) 
                     "no-style-button operation-moving-button top-arrow"
                     "no-style-button operation-moving-button"
                   }}
@@ -248,9 +237,7 @@
                                 checked=operationArgument.selectedValue
                                 disabled=operation.__disabled
                               }}
-                              <span
-                                class="checkbox-label"
-                              >{{operationArgument.name}}</span>
+                              <span class="checkbox-label">{{operationArgument.name}}</span>
                             </label>
                           </div>
                         {{/if}}
@@ -337,10 +324,7 @@
                                 }}
                                 disabled={{operation.__disabled}}
                               >
-                                <option
-                                  selected
-                                  disabled
-                                >_{{operationArgument.name}}_</option>
+                                <option selected disabled>_{{operationArgument.name}}_</option>
                                 {{#each
                                   operationArgument.value
                                   as |argumentOption optionIndex|
@@ -622,11 +606,22 @@
         fixedWidth=true
         size="md"
         class="no-ingredients-icon"
-      }}
-      {{fa-icon "cheese" fixedWidth=true size="md" class="no-ingredients-icon"}}
-      Your Recipe lacks Steps/Ingredients
-      {{fa-icon "pepper-hot" fixedWidth=true size="md" class="no-ingredients-icon"}}
-      {{fa-icon "carrot" fixedWidth=true size="md" class="no-ingredients-icon"}}</div>
+      }}{{fa-icon
+        "cheese"
+        fixedWidth=true
+        size="md"
+        class="no-ingredients-icon"
+      }} Your Recipe lacks Steps/Ingredients {{fa-icon
+        "pepper-hot"
+        fixedWidth=true
+        size="md"
+        class="no-ingredients-icon"
+      }}{{fa-icon
+        "carrot"
+        fixedWidth=true
+        size="md"
+        class="no-ingredients-icon"
+      }}</div>
   {{/if}}
 
   <div class="header">
