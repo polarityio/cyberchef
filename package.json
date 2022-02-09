@@ -1,16 +1,9 @@
 {
   "name": "CyberChefIntegration",
-  "version": "3.2.0-beta",
+  "version": "3.2.1-beta",
   "main": "./integration.js",
   "private": true,
   "scripts": {
     "install": "npm install --force --silent cyberchef lodash chi-squared &> /dev/null"
-  },
-  "dependencies": {
-    "chi-squared": "^1.1.0",
-    "cyberchef": "^9.32.3",
-    "grunt": "^1.4.1",
-    "grunt-cli": "^1.4.3",
-    "lodash": "^4.17.21"
   }
 }
