@@ -44,6 +44,12 @@ This is a list of the Favourites that will show up when you initially search for
 > 
 > If you feel like any of the current limitations are inhibiting your workflows, please reach out to `support@polarity.io` about what kinds of things you would like added so we can work to include those in our next release!
 
+## Helpful Resources
+- Google Timestamp:  https://github.com/mattnotmax/cyberchef-recipes#recipe-6---google-ei-timestamp
+- CharCode: https://github.com/mattnotmax/cyberchef-recipes#recipe-3---from-charcode
+- Powershell: https://github.com/mattnotmax/cyberchef-recipes#recipe-14---decoding-poshc2-executables
+- https://github.com/mattnotmax/cyberchef-recipes
+- https://www.networkdefense.co/courses/cyberchef/ - Matt Weiner 
 
 ## About Polarity
 

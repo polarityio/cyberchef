@@ -138,10 +138,9 @@ polarity.export = PolarityComponent.extend({
   updateLinks: function (operations) {
     const inputHash = this.get('inputHash');
     const url = this.get('url');
+    
     const operationsWithUpdatedLinks = operations.reduce((agg, operation, index) => {
-      const operationString = `${operation.name
-        .split(' ')
-        .join('_')}(${operation.args
+      const operationString = `${operation.name.split(' ').join('_')}(${operation.args
         .map((operationArgGroup) =>
           operationArgGroup.map((operationArg) =>
             encodeURIComponent(
