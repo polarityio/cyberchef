@@ -2,8 +2,8 @@
   {{#if showInput}}
     <div class="header">
       <span {{action "toggleShowInput"}} style="cursor: pointer;">
-        Input 
-        {{fa-icon "chevron-up" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+        Input
+        {{fa-icon "chevron-up" fixedWidth=true size="xs" class="expand-collapse-icon"}}
       </span>
       <span class="header-info">
         <span>length: {{inputLength}}</span>
@@ -11,11 +11,11 @@
       </span>
     </div>
     <div class="results show-whitespace">{{entityValue}}</div>
-  {{else}}  
+  {{else}}
     <div class="header">
       <span {{action "toggleShowInput"}} style="cursor: pointer;">
-        Input 
-        {{fa-icon "chevron-down" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+        Input
+        {{fa-icon "chevron-down" fixedWidth=true size="xs" class="expand-collapse-icon"}}
       </span>
       <span class="header-info">
         <span>length: {{inputLength}}</span>
@@ -23,7 +23,6 @@
       </span>
     </div>
   {{/if}}
-
 
   <div class="header">
     <span>
@@ -33,71 +32,124 @@
       {{/if}}
     </span>
     <span class="header-buttons">
-      {{!-- Will implement saving and loading in a future version --}}
+      {{! Will implement saving and loading in a future version }}
       {{!-- <button type="button" title="Save Recipe" class="header-button" {{action "saveRecipe"}}>
         {{fa-icon "save" fixedWidth=true  size="lg" class="header-button-icon"}}
       </button>
       <button type="button" title="Load Recipe" class="header-button" {{action "loadRecipe"}}>
         {{fa-icon "folder" fixedWidth=true  size="lg" class="header-button-icon"}}
       </button> --}}
-      <button type="button" title="Bring your Input and Recipe to Browser" class="header-button">
-        <a href={{fullRecipeLink}}>{{fa-icon "external-link-alt" fixedWidth=true  size="lg" class="header-button-icon"}}</a>
+      {{#if url}}
+        <button
+          type="button"
+          title="Bring your Input and Recipe to Browser"
+          class="header-button"
+          disabled={{not block.userOptions.url}}
+        >
+          <a href={{fullRecipeLink}}>{{fa-icon
+              "external-link-alt"
+              fixedWidth=true
+              size="lg"
+              class="header-button-icon"
+            }}</a>
+        </button>
+      {{/if}}
+
+      <button
+        type="button"
+        title="Clear Recipe"
+        class="header-button"
+        {{action "clearRecipe"}}
+      >
+        {{fa-icon "trash" fixedWidth=true size="lg" class="header-button-icon"}}
       </button>
-      <button type="button" title="Clear Recipe" class="header-button" {{action "clearRecipe"}}>
-        {{fa-icon "trash" fixedWidth=true  size="lg" class="header-button-icon"}}
-      </button>
+
     </span>
   </div>
   {{#if operations.length}}
     {{#each operations as |operation operationIndex|}}
-      <div class="operation {{if operation.__disabled "disabled" ""}} {{if operation.outputError "error" ""}}">
-        <div class={{if (and operation.__expanded operation.args.length) "operation-header expanded" "operation-header"}}>
+      <div class="operation {{if operation.__disabled "disabled" ""}} {{if operation.outputError "error" ""}}"
+      >
+        <div
+          class={{if (and operation.__expanded operation.args.length) "operation-header expanded" "operation-header"}}
+        >
           <div class="operation-box-controls">
             <div class="order-moving-buttons">
               {{#if (and (not (eq operationIndex 0)) (gt operations.length 1))}}
-                <button 
+                <button
                   type="button"
-                  class={{if (and (not (eq operationIndex operationLengthMinusOne)) (gt operations.length 1)) "no-style-button operation-moving-button top-arrow" "no-style-button operation-moving-button"}}
+                  class={{if (and (not (eq operationIndex operationLengthMinusOne)) (gt operations.length 1)) 
+                    "no-style-button operation-moving-button top-arrow"
+                    "no-style-button operation-moving-button"
+                  }}
                   {{action "moveOperationUp" operationIndex}}
                 >
-                  {{fa-icon "arrow-alt-up" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+                  {{fa-icon
+                    "arrow-alt-up"
+                    fixedWidth=true
+                    size="xs"
+                    class="operation-moving-button-icon"
+                  }}
                 </button>
               {{else}}
-                <button 
-                  type="button"
-                  class="hide no-style-button"
-                >
-                  {{fa-icon "arrow-alt-up" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+                <button type="button" class="hide no-style-button">
+                  {{fa-icon
+                    "arrow-alt-up"
+                    fixedWidth=true
+                    size="xs"
+                    class="operation-moving-button-icon"
+                  }}
                 </button>
               {{/if}}
-              {{#if (and (not (eq operationIndex operationLengthMinusOne)) (gt operations.length 1))}}
+              {{#if
+                (and
+                  (not (eq operationIndex operationLengthMinusOne))
+                  (gt operations.length 1)
+                )
+              }}
                 <button
                   type="button"
                   class="no-style-button operation-moving-button"
                   {{action "moveOperationDown" operationIndex}}
                 >
-                  {{fa-icon "arrow-alt-down" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+                  {{fa-icon
+                    "arrow-alt-down"
+                    fixedWidth=true
+                    size="xs"
+                    class="operation-moving-button-icon"
+                  }}
                 </button>
               {{else}}
-                <button 
-                  type="button"
-                  class="hide no-style-button"
-                >
-                  {{fa-icon "arrow-alt-down" fixedWidth=true  size="xs" class="operation-moving-button-icon"}}
+                <button type="button" class="hide no-style-button">
+                  {{fa-icon
+                    "arrow-alt-down"
+                    fixedWidth=true
+                    size="xs"
+                    class="operation-moving-button-icon"
+                  }}
                 </button>
               {{/if}}
             </div>
-            <div class="operation-name" title={{{operation.description}}} {{action "toggleOperationView" operationIndex}}>
+            <div
+              class="operation-name"
+              title={{{operation.description}}}
+              {{action "toggleOperationView" operationIndex}}
+            >
               {{operation.name}}
             </div>
             <div class="expand-collapse-icons">
               {{#if operation.__expanded}}
-                <button 
-                  type="button" 
-                  class="no-style-button expand-collapse-button" 
+                <button
+                  type="button"
+                  class="no-style-button expand-collapse-button"
                   {{action "toggleOperationView" operationIndex}}
                 >
-                  {{fa-icon "chevron-up" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+                  {{fa-icon
+                    "chevron-up"
+                    fixedWidth=true
+                    size="xs"
+                    class="expand-collapse-icon"
+                  }}
                 </button>
               {{else}}
                 <button
@@ -105,22 +157,60 @@
                   class="no-style-button expand-collapse-button"
                   {{action "toggleOperationView" operationIndex}}
                 >
-                  {{fa-icon "chevron-down" fixedWidth=true  size="xs" class="expand-collapse-icon"}}
+                  {{fa-icon
+                    "chevron-down"
+                    fixedWidth=true
+                    size="xs"
+                    class="expand-collapse-icon"
+                  }}
                 </button>
               {{/if}}
             </div>
           </div>
           <span class="operation-buttons">
-            <button type="button" title="Disable Step" class="no-style-button operation-button disable-button" {{action "disableOperation" operationIndex}}>
-              {{fa-icon "ban" fixedWidth=true  size="md" class="operation-button-icon disable-button-icon"}}
+            <button
+              type="button"
+              title="Disable Step"
+              class="no-style-button operation-button disable-button"
+              {{action "disableOperation" operationIndex}}
+            >
+              {{fa-icon
+                "ban"
+                fixedWidth=true
+                size="md"
+                class="operation-button-icon disable-button-icon"
+              }}
             </button>
-            <button type="button" title="Link to CyberChef up to this Step" class="no-style-button operation-button">
-              <a href={{operation.recipeLink}}>
-                {{fa-icon "external-link-alt" fixedWidth=true  size="md" class="operation-button-icon"}}
-              </a>
-            </button>
-            <button type="button" title="Delete Step" class="no-style-button operation-button" {{action "deleteOperation" operationIndex}}>
-              {{fa-icon "trash-alt" fixedWidth=true  size="md" class="operation-button-icon"}}
+            {{#if operation.recipeLink}}
+              {{#if url}}
+                <button
+                  type="button"
+                  title="Link to CyberChef up to this Step"
+                  class="no-style-button operation-button"
+                >
+                  <a href={{operation.recipeLink}}>
+                    {{fa-icon
+                      "external-link-alt"
+                      fixedWidth=true
+                      size="md"
+                      class="operation-button-icon"
+                    }}
+                  </a>
+                </button>
+              {{/if}}
+            {{/if}}
+            <button
+              type="button"
+              title="Delete Step"
+              class="no-style-button operation-button"
+              {{action "deleteOperation" operationIndex}}
+            >
+              {{fa-icon
+                "trash-alt"
+                fixedWidth=true
+                size="md"
+                class="operation-button-icon"
+              }}
             </button>
           </span>
         </div>
@@ -132,7 +222,13 @@
                 <div class="operation-argument-group">
                   {{#each operationArgumentGroup as |operationArgument argumentIndex|}}
                     {{#if (not operationArgument.hide)}}
-                      <div class={{if operationArgument.fullWidth "operation-argument full-line" "operation-argument"}}>
+                      <div
+                        class={{if
+                          operationArgument.fullWidth
+                          "operation-argument full-line"
+                          "operation-argument"
+                        }}
+                      >
                         {{#if (eq operationArgument.type "boolean")}}
                           <div class="groupable-argument">
                             <label>
@@ -161,7 +257,12 @@
                             }}
                           </div>
                         {{/if}}
-                        {{#if (or (eq operationArgument.type "shortString") (eq operationArgument.type "binaryShortString"))}}
+                        {{#if
+                          (or
+                            (eq operationArgument.type "shortString")
+                            (eq operationArgument.type "binaryShortString")
+                          )
+                        }}
                           <div class="groupable-argument stacked-label-argument">
                             <span>{{operationArgument.name}}</span>
                             {{input
@@ -178,13 +279,23 @@
                           <div class="groupable-argument stacked-label-argument">
                             <span>{{operationArgument.name}}</span>
 
-                            <select 
-                              class="w-100 dropdown" 
-                              onchange={{action (mut operationArgument.selectedValue) value="target.value"}}
+                            <select
+                              class="w-100 dropdown"
+                              onchange={{action
+                                (mut operationArgument.selectedValue)
+                                value="target.value"
+                              }}
                               disabled={{operation.__disabled}}
                             >
                               {{#each operationArgument.value as |argumentOption|}}
-                                <option class="dropdown-option" selected={{eq argumentOption operationArgument.selectedValue}} value={{argumentOption}}>
+                                <option
+                                  class="dropdown-option"
+                                  selected={{eq
+                                    argumentOption
+                                    operationArgument.selectedValue
+                                  }}
+                                  value={{argumentOption}}
+                                >
                                   {{argumentOption}}
                                 </option>
                               {{/each}}
@@ -203,13 +314,21 @@
                                 value=operationArgument.selectedValue
                                 disabled=operation.__disabled
                               }}
-                              <select 
-                                class="dropdown editable-option" 
-                                onchange={{action "editOptionInputValue" operationIndex groupIndex argumentIndex}}
+                              <select
+                                class="dropdown editable-option"
+                                onchange={{action
+                                  "editOptionInputValue"
+                                  operationIndex
+                                  groupIndex
+                                  argumentIndex
+                                }}
                                 disabled={{operation.__disabled}}
                               >
                                 <option selected disabled>_{{operationArgument.name}}_</option>
-                                {{#each operationArgument.value as |argumentOption optionIndex|}}
+                                {{#each
+                                  operationArgument.value
+                                  as |argumentOption optionIndex|
+                                }}
                                   <option class="dropdown-option" value={{optionIndex}}>
                                     {{argumentOption.name}}
                                   </option>
@@ -218,7 +337,7 @@
                             </div>
                           </div>
                         {{/if}}
-                        {{!-- TODO: Is used for 'Bombe', 'Colossus', 'Enigma', 'Lorenz' operations. Will not Implement for now. --}}
+                        {{! TODO: Is used for "Bombe", "Colossus", "Enigma", "Lorenz" operations. Will not Implement for now. }}
                         {{!-- {{#if (eq operationArgument.type "argSelector")}}
                           <div class="groupable-argument stacked-label-argument">
                             <span>{{operationArgument.name}}</span>
@@ -237,13 +356,18 @@
                           </div>
                         {{/if}} --}}
 
-                        {{!-- Full Width Arguments --}}
+                        {{! Full Width Arguments }}
                         {{#if (eq operationArgument.type "label")}}
                           <div class="full-width label-type">
                             <label>{{operationArgument.name}}</label>
                           </div>
                         {{/if}}
-                        {{#if (or (eq operationArgument.type "string") (eq operationArgument.type "binaryString"))}}
+                        {{#if
+                          (or
+                            (eq operationArgument.type "string")
+                            (eq operationArgument.type "binaryString")
+                          )
+                        }}
                           <div class="full-width stacked-label-argument">
                             <span>{{operationArgument.name}}</span>
                             {{input
@@ -281,13 +405,26 @@
                                 disabled=operation.__disabled
                               }}
 
-                              <select 
-                                class="dropdown" 
-                                onchange={{action (mut operationArgument.selectedValue.option) value="target.value"}}
+                              <select
+                                class="dropdown"
+                                onchange={{action
+                                  (mut operationArgument.selectedValue.option)
+                                  value="target.value"
+                                }}
                                 disabled={{operation.__disabled}}
                               >
-                                {{#each operationArgument.toggleValues as |argumentOption|}}
-                                  <option class="dropdown-option" selected={{eq argumentOption operationArgument.selectedValue.option}} value={{argumentOption}}>
+                                {{#each
+                                  operationArgument.toggleValues
+                                  as |argumentOption|
+                                }}
+                                  <option
+                                    class="dropdown-option"
+                                    selected={{eq
+                                      argumentOption
+                                      operationArgument.selectedValue.option
+                                    }}
+                                    value={{argumentOption}}
+                                  >
                                     {{argumentOption}}
                                   </option>
                                 {{/each}}
@@ -307,13 +444,24 @@
                                 value=operationArgument.selectedValue
                                 disabled=operation.__disabled
                               }}
-                              <select 
-                                class="dropdown editable-option" 
-                                onchange={{action "editOptionInputValue" operationIndex groupIndex argumentIndex}}
+                              <select
+                                class="dropdown editable-option"
+                                onchange={{action
+                                  "editOptionInputValue"
+                                  operationIndex
+                                  groupIndex
+                                  argumentIndex
+                                }}
                                 disabled={{operation.__disabled}}
                               >
-                                <option selected disabled>_{{operationArgument.name}}_</option>
-                                {{#each operationArgument.value as |argumentOption optionIndex|}}
+                                <option
+                                  selected
+                                  disabled
+                                >_{{operationArgument.name}}_</option>
+                                {{#each
+                                  operationArgument.value
+                                  as |argumentOption optionIndex|
+                                }}
                                   <option class="dropdown-option" value={{optionIndex}}>
                                     {{argumentOption.name}}
                                   </option>
@@ -323,14 +471,14 @@
                           </div>
                         {{/if}}
 
-                        {{!-- TODO: Is used for 'Parse DateTime', 'Regular expression', 'Translate DateTime Format' operations. Will not Implement for now. --}}
+                        {{! TODO: Is used for "Parse DateTime", "Regular expression", "Translate DateTime Format" operations. Will not Implement for now. }}
                         {{!-- {{#if (eq operationArgument.type "populateOption")}}
                           <div class="full-width">
 
                           </div>
                         {{/if}} --}}
 
-                        {{!-- TODO: Is used for 'Multiple Bombe' operation. Will not Implement for now. --}}
+                        {{! TODO: Is used for "Multiple Bombe" operation. Will not Implement for now. }}
                         {{!-- {{#if (eq operationArgument.type "populateMultiOption")}}
                           <div class="full-width">
 
@@ -354,15 +502,30 @@
                       <span>length: {{operation.outputLength}}</span>
                       <span>lines: {{operation.outputLines}}</span>
                     </div>
-                    <button type="button" title="Copy Output" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
-                      {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
+                    <button
+                      type="button"
+                      title="Copy Output"
+                      class="no-style-button operation-button copy-button"
+                      {{action "copyOperationOutput" operationIndex}}
+                    >
+                      {{fa-icon
+                        "copy"
+                        fixedWidth=true
+                        size="md"
+                        class="operation-button-icon"
+                      }}
                     </button>
                   </div>
-                </span> 
+                </span>
                 {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
                   {{#if operation.outputError}}
                     <div class="error-message">
-                      {{fa-icon "exclamation-triangle" fixedWidth=true  size="md" class="error-icon"}}
+                      {{fa-icon
+                        "exclamation-triangle"
+                        fixedWidth=true
+                        size="md"
+                        class="error-icon"
+                      }}
                       {{operation.displayResult}}
                     </div>
                   {{else}}
@@ -375,29 +538,54 @@
             {{/if}}
           {{else}}
             <div class="results output">
-              <span class={{if (eq operationIndex operationLengthMinusOne) "output-title last" "output-title"}}>
+              <span
+                class={{if
+                  (eq operationIndex operationLengthMinusOne)
+                  "output-title last"
+                  "output-title"
+                }}
+              >
                 {{#if (eq operationIndex operationLengthMinusOne)}}
                   Output:
                 {{else}}
                   Step Result:
                 {{/if}}
                 <div class="right-output-area">
-                    <div class="output-info">
-                      <span>length: {{operation.outputLength}}</span>
-                      <span>lines: {{operation.outputLines}}</span>
-                    </div>
-                    <button type="button" title="Copy {{if (eq operationIndex operationLengthMinusOne) "Output" "Step Result"}}" class="no-style-button operation-button copy-button" {{action "copyOperationOutput" operationIndex}}>
-                      {{fa-icon "copy" fixedWidth=true  size="md" class="operation-button-icon"}}
-                    </button>
+                  <div class="output-info">
+                    <span>length: {{operation.outputLength}}</span>
+                    <span>lines: {{operation.outputLines}}</span>
                   </div>
+                  <button
+                    type="button"
+                    title="Copy {{if
+                      (eq operationIndex operationLengthMinusOne)
+                      "Output"
+                      "Step Result"
+                    }}"
+                    class="no-style-button operation-button copy-button"
+                    {{action "copyOperationOutput" operationIndex}}
+                  >
+                    {{fa-icon
+                      "copy"
+                      fixedWidth=true
+                      size="md"
+                      class="operation-button-icon"
+                    }}
+                  </button>
+                </div>
               </span>
               {{#if operation.__disabled}}
-                <span class="no-results"><em>Disabled.  No Result for this Step.</em></span>
-              {{else}}  
+                <span class="no-results"><em>Disabled. No Result for this Step.</em></span>
+              {{else}}
                 {{#if (and operation.outputLength (not (eq operation.outputLength "0")))}}
                   {{#if operation.outputError}}
                     <div class="error-message">
-                      {{fa-icon "exclamation-triangle" fixedWidth=true  size="md" class="error-icon"}}
+                      {{fa-icon
+                        "exclamation-triangle"
+                        fixedWidth=true
+                        size="md"
+                        class="error-icon"
+                      }}
                       {{operation.displayResult}}
                     </div>
                   {{else}}
@@ -413,7 +601,27 @@
       </div>
     {{/each}}
   {{else}}
-    <div class="results no-operations show-whitespace">{{fa-icon "bread-slice" fixedWidth=true  size="md" class="no-ingredients-icon"}} {{fa-icon "cheese" fixedWidth=true  size="md" class="no-ingredients-icon"}} Your Recipe lacks Steps/Ingredients {{fa-icon "pepper-hot" fixedWidth=true  size="md" class="no-ingredients-icon"}} {{fa-icon "carrot" fixedWidth=true  size="md" class="no-ingredients-icon"}}</div>
+    <div class="results no-operations show-whitespace">{{fa-icon
+        "bread-slice"
+        fixedWidth=true
+        size="md"
+        class="no-ingredients-icon"
+      }}{{fa-icon
+        "cheese"
+        fixedWidth=true
+        size="md"
+        class="no-ingredients-icon"
+      }} Your Recipe lacks Steps/Ingredients {{fa-icon
+        "pepper-hot"
+        fixedWidth=true
+        size="md"
+        class="no-ingredients-icon"
+      }}{{fa-icon
+        "carrot"
+        fixedWidth=true
+        size="md"
+        class="no-ingredients-icon"
+      }}</div>
   {{/if}}
 
   <div class="header">
@@ -424,8 +632,13 @@
       {{/if}}
     </span>
     <span class="header-buttons">
-      <button type="button" title="Magic" class="header-button" {{action "toggleMagicModal"}}>
-        {{fa-icon "magic" fixedWidth=true  size="lg" class="header-button-icon"}}
+      <button
+        type="button"
+        title="Magic"
+        class="header-button"
+        {{action "toggleMagicModal"}}
+      >
+        {{fa-icon "magic" fixedWidth=true size="lg" class="header-button-icon"}}
       </button>
     </span>
   </div>
@@ -446,8 +659,13 @@
         closeOnSelect=true
         eventType="click"
         onOpen=(action "searchOperations" " ")
-        onChange=(action (mut selectedOperation)) as |operation|}}
-        <span class="operation-select-name" title={{{operation.description}}}>{{operation.name}}</span>
+        onChange=(action (mut selectedOperation))
+        as |operation|
+      }}
+        <span
+          class="operation-select-name"
+          title={{{operation.description}}}
+        >{{operation.name}}</span>
       {{/power-select}}
     </div>
     {{#if searchErrorMessage}}
@@ -456,8 +674,17 @@
       </div>
     {{/if}}
     <div class="add-step">
-      <button type="button" title="Add Operation/Ingredient and Bake" class="add-step-button" {{action "addStep"}}>
-        <img src="https://gchq.github.io/CyberChef/images/cook_male-32x32.png" alt="Chef" class="chef-icon" />
+      <button
+        type="button"
+        title="Add Operation/Ingredient and Bake"
+        class="add-step-button"
+        {{action "addStep"}}
+      >
+        <img
+          src="https://gchq.github.io/CyberChef/images/cook_male-32x32.png"
+          alt="Chef"
+          class="chef-icon"
+        />
         Add Step & BAKE!
       </button>
     </div>
@@ -467,9 +694,9 @@
       <div class="operation">
         <div class="operation-header">
           <div class="operation-box-controls">
-            <div 
-              class="operation-name" 
-              title="The Magic operation attempts to detect various properties of the input data and suggests which operations could help to make more sense of it. ***Options*** __Depth__: If an operation appears to match the data, it will be run and the result will be analysed further. This argument controls the maximum number of levels of recursion. __Intensive mode__: When this is turned on, various operations like XOR, bit rotates, and character encodings are brute-forced to attempt to detect valid data underneath. To improve performance, only the first 100 bytes of the data is brute-forced. __Extensive language support__: At each stage, the relative byte frequencies of the data will be compared to average frequencies for a number of languages. The default set consists of ~40 of the most commonly used languages on the Internet. The extensive list consists of 284 languages and can result in many languages matching the data if their byte frequencies are similar. Optionally enter a regular expression to match a string you expect to find to filter results (crib)." 
+            <div
+              class="operation-name"
+              title="The Magic operation attempts to detect various properties of the input data and suggests which operations could help to make more sense of it. ***Options*** __Depth__: If an operation appears to match the data, it will be run and the result will be analysed further. This argument controls the maximum number of levels of recursion. __Intensive mode__: When this is turned on, various operations like XOR, bit rotates, and character encodings are brute-forced to attempt to detect valid data underneath. To improve performance, only the first 100 bytes of the data is brute-forced. __Extensive language support__: At each stage, the relative byte frequencies of the data will be compared to average frequencies for a number of languages. The default set consists of ~40 of the most commonly used languages on the Internet. The extensive list consists of 284 languages and can result in many languages matching the data if their byte frequencies are similar. Optionally enter a regular expression to match a string you expect to find to filter results (crib)."
             >
               Magic
               {{#if runningMagic}}
@@ -478,8 +705,17 @@
             </div>
           </div>
           <span class="operation-buttons">
-            <button type="button" class="no-style-button operation-button" {{action "toggleMagicModal"}}>
-              {{fa-icon "window-close" fixedWidth=true  size="md" class="operation-button-icon"}}
+            <button
+              type="button"
+              class="no-style-button operation-button"
+              {{action "toggleMagicModal"}}
+            >
+              {{fa-icon
+                "window-close"
+                fixedWidth=true
+                size="md"
+                class="operation-button-icon"
+              }}
             </button>
           </span>
         </div>
@@ -492,8 +728,8 @@
                 {{input
                   type="number"
                   class="input-field"
-                  input=(action 'updateMagicInput' "magicDepth")
-                  change=(action 'updateMagicInput' "magicDepth")
+                  input=(action "updateMagicInput" "magicDepth")
+                  change=(action "updateMagicInput" "magicDepth")
                   max=magicDepthMax
                   min=magicDepthMin
                   value=magicDepth
@@ -532,7 +768,7 @@
                 {{input
                   type="text"
                   class="input-field"
-                  input=(action "updateMagicInput" )
+                  input=(action "updateMagicInput")
                   value=magicCrib
                 }}
               </div>
@@ -543,10 +779,17 @@
 
       <div class="magic-suggestions">
         <div class="magic-suggestions-header">Suggestions</div>
-        <select class="magic-suggestions-selector" size=4 onchange={{action "addMagicSuggestion" value="target.value"}}>
+        <select
+          class="magic-suggestions-selector"
+          size="4"
+          onchange={{action "addMagicSuggestion" value="target.value"}}
+        >
           {{#if magicSuggestions.length}}
             {{#each magicSuggestions as |suggestion suggestionIndex|}}
-              <option value="{{suggestionIndex}}" title={{suggestion.description}}>{{suggestion.name}}</option>
+              <option
+                value="{{suggestionIndex}}"
+                title={{suggestion.description}}
+              >{{suggestion.name}}</option>
             {{/each}}
           {{else}}
             <option selected disabled>No Magic Suggestions Found</option>
