@@ -24,7 +24,7 @@ jobs:
     - name: Create Build
       id: create_build
       run: |
-        npm install &&
+        npm run dev-install &&
         cd .. && 
         tar --exclude="./${{ github.event.repository.name }}/.git" --exclude="./${{ github.event.repository.name }}/.gitignore" --exclude="./${{ github.event.repository.name }}/package-lock.json" --exclude="./${{ github.event.repository.name }}/.github" -czvf "${{ github.event.repository.name }}-${{ steps.package-version.outputs.current-version }}.tgz" "./${{ github.event.repository.name }}" &&  
         echo "::set-output name=build_hash::$(sha256sum '${{ github.event.repository.name }}-${{ steps.package-version.outputs.current-version }}.tgz' | grep -oE '^[^ ]*' )" &&
