@@ -17,7 +17,7 @@ const runMagic = async (
       : entityValue;
 
     // Excluding BufferArray and BigNumber output types as those cannot be used by the chef.magic Function.
-    if ([4, 5].includes(lastOperationOutput.type)) {
+    if ([4, 5].includes(fp.get('type', lastOperationOutput))) {
       callback(null, { magicSuggestions: [], summary: ['No Magic'] });
       return { magicSuggestions: [], summary: ['No Magic'] };
     }
