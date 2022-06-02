@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "install": "VERSION=\"3.2.3-beta\" && wget -c \"https://github.com/polarityio/cyberchef/releases/download/${VERSION}/cyberchef-${VERSION}.tgz\" -O - | tar -xz -C /app/polarity-server/integrations/",
-    "dev-install": "npm install --force --silent cyberchef lodash chi-squared"
+    "dev-install": "npm install --force --silent cyberchef lodash chi-squared",
+    "create-release":  "NAME=cyberchef VERSION=\"3.2.3\" && cd ../ && tar -c --exclude=\"./${NAME}/.history\" --exclude=\"./${NAME}/.vscode\" --exclude=\"./${NAME}/.git\" --exclude=\"./${NAME}/.gitignore\" --exclude=\"./${NAME}/.github\" -zvf \"${NAME}-${VERSION}-beta.tgz\" \"./${NAME}\" && openssl sha256 \"${NAME}-${VERSION}-beta.tgz\""
   }
 }
