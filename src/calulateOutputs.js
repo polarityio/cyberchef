@@ -67,7 +67,7 @@ const calulateOutputs = async (
         fp.map((operationArg) =>
           fp.flow(
             fp.get('selectedValue'),
-            operationArg.type === 'number' ? fp.toNumber : fp.identity
+            fp.get('type', operationArg) === 'number' ? fp.toNumber : fp.identity
           )(operationArg)
         ),
         operation.args

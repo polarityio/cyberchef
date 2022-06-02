@@ -19,7 +19,7 @@ jobs:
     - name: Test NPM Install
       id: test-npm-install
       run: |
-        npm install
+        npm run dev-install
     - name: Polarity Integration Development Checklist
       id: int-dev-checklist
       uses: polarityio/polarity-integration-development-checklist@v1.0.0

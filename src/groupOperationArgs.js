@@ -18,7 +18,7 @@ const groupOperationArgs = fp.map((operation) => ({
     fp.reduce((agg, arg) => {
       const argWithSelectedValue = {
         ...arg,
-        fullWidth: fp.includes(arg.type, FULL_WIDTH_ARG_TYPES),
+        fullWidth: fp.includes(fp.get('type', arg), FULL_WIDTH_ARG_TYPES),
         selectedValue: getSelectedValue(arg)
       };
 
@@ -33,7 +33,7 @@ const groupOperationArgs = fp.map((operation) => ({
 }));
 
 const shouldAddToPreviousGroup = (agg, arg) =>
-  !fp.includes(arg.type, FULL_WIDTH_ARG_TYPES) &&
+  !fp.includes(fp.get('type', arg), FULL_WIDTH_ARG_TYPES) &&
   fp.size(fp.last(agg)) &&
   fp.flow(
     fp.last,
@@ -43,22 +43,22 @@ const shouldAddToPreviousGroup = (agg, arg) =>
   )(agg);
 
 const getSelectedValue = (arg) =>
-  fp.includes(arg.type, ARG_TYPES_WHERE_VALUE_IS_DEFAULT) ? 
-    arg.type === 'boolean' ? 
+  fp.includes(fp.get('type', arg), ARG_TYPES_WHERE_VALUE_IS_DEFAULT) ? 
+    fp.get('type', arg) === 'boolean' ? 
       !!arg.value : 
-    arg.type === 'number' ? 
+    fp.get('type', arg) === 'number' ? 
       fp.toNumber(arg.value) : 
       arg.value : 
-    arg.type === 'option' ?
+    fp.get('type', arg) === 'option' ?
       fp.get('value.0', arg) :
-    arg.type === 'argSelector' ?
+    fp.get('type', arg) === 'argSelector' ?
       fp.get('value.0.name', arg) :
-    arg.type === 'toggleString' ?
+    fp.get('type', arg) === 'toggleString' ?
       {
         option: fp.getOr('', 'toggleValues.0', arg),
         string: fp.getOr('', 'value', arg)
       } :
-    arg.type === 'editableOptionShort' || arg.type === 'editableOption' ?
+    fp.get('type', arg) === 'editableOptionShort' || fp.get('type', arg) === 'editableOption' ?
       fp.get('value.0.value', arg) :
       '';
 

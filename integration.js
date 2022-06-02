@@ -1,4 +1,3 @@
-const chef = require('cyberchef');
 const { trim } = require('lodash');
 const fp = require('lodash/fp');
 const runBake = require('./src/runBake');
@@ -30,19 +29,31 @@ const doLookup = async (entities, options, cb) => {
   cb(null, lookupResults);
 };
 
-const filterOutInvalidInput = (options) =>
+const filterOutInvalidInput = (options) => (entities) =>
   fp.filter((entity) => {
     const trimmedEntityValue = fp.flow(fp.get('value'), fp.trim)(entity);
 
     const isNotWhitespace = fp.size(trimmedEntityValue);
     const isCorrectType =
       entity.type === 'custom' &&
-      (!options.ignoreEntityTypes || entity.types.length === 1);
+      (!options.ignoreEntityTypes ||
+        (entity.types.length === 1 &&
+          !fp.flow(
+            fp.filter(fp.negate(fp.isEqual(entity))),
+            fp.some(
+              fp.flow(
+                fp.get('rawValue'),
+                fp.trim,
+                fp.toLower,
+                fp.eq(fp.flow(fp.get('rawValue'), fp.trim, fp.toLower)(entity))
+              )
+            )
+          )(entities)));
 
     return (
       isNotWhitespace && isCorrectType && trimmedEntityValue.length >= options.minLength
     );
-  });
+  }, entities);
 
 const getLookupResult = (options) => async (entity) => {
   const { magicSuggestions = [], summary = ['No Magic'] } = await runMagic(
