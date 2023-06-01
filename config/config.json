@@ -1,4 +1,5 @@
 {
+  "polarityIntegrationUuid": "e9837d90-cce1-11ed-aeee-075d3490155d",
   "name": "CyberChef",
   "acronym": "CHEF",
   "description": "Attempts to decode highlighted strings with the CyberChef Magic operation.",
@@ -434,8 +435,8 @@
         { "value": "VarInt Decode", "display": "VarInt Decode" },
         { "value": "VarInt Encode", "display": "VarInt Encode" },
         { "value": "View Bit Plane", "display": "View Bit Plane" },
-        { "value": "Vigenère Decode", "display": "Vigenère Decode" },
-        { "value": "Vigenère Encode", "display": "Vigenère Encode" },
+        { "value": "VigenC(re Decode", "display": "VigenC(re Decode" },
+        { "value": "VigenC(re Encode", "display": "VigenC(re Encode" },
         { "value": "Whirlpool", "display": "Whirlpool" },
         {
           "value": "Windows Filetime to UNIX Timestamp",
