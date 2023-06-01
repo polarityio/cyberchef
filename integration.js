@@ -25,7 +25,7 @@ const doLookup = async (entities, options, cb) => {
       )(entities)
     )
   );
-  
+
   cb(null, lookupResults);
 };
 
