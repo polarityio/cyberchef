@@ -3,9 +3,9 @@
   "version": "3.2.4-beta",
   "main": "./integration.js",
   "private": true,
-  "scripts": {
-    "install": "VERSION=\"3.2.4-beta\" && wget -c \"https://github.com/polarityio/cyberchef/releases/download/${VERSION}/cyberchef-${VERSION}.tgz\" -O - | tar -xz -C /app/polarity-server/integrations/",
-    "dev-install": "npm install --force --silent cyberchef lodash chi-squared",
-    "create-release": "NAME=cyberchef VERSION=\"3.2.4\" && cd ../ && tar -c --exclude=\"./${NAME}/.history\" --exclude=\"./${NAME}/.vscode\" --exclude=\"./${NAME}/.git\" --exclude=\"./${NAME}/.gitignore\" --exclude=\"./${NAME}/.github\" -zvf \"${NAME}-${VERSION}-beta.tgz\" \"./${NAME}\" && openssl sha256 \"${NAME}-${VERSION}-beta.tgz\""
+  "dependencies": {
+    "chi-squared": "^1.1.0",
+    "esm": "^3.2.25",
+    "lodash": "^4.17.21"
   }
 }
