@@ -1,4 +1,4 @@
-const chef = require('cyberchef');
+const chef = require('cyberchef-node');
 const fp = require('lodash/fp');
 const { UNSUPPORTED_ARG_TYPES, SUPPORTED_INPUT_OUTPUT_TYPES } = require('./constants');
 

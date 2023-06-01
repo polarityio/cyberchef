@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "chi-squared": "^1.1.0",
+    "cyberchef-node": "^1.0.0",
     "esm": "^3.2.25",
     "lodash": "^4.17.21"
   }

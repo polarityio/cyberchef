@@ -1,4 +1,4 @@
-const chef = require('cyberchef');
+const chef = require('cyberchef-node');
 const { EDGE_CASE_CORRECT_OPERATION_NAMES } = require('../constants');
 
 const runRecipe = async (_recipeConfig, _input) => {
