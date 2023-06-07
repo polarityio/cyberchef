@@ -12,7 +12,7 @@ module.exports = {
   customTypes: [
     {
       key: 'encodedString',
-      regex: /\S[\s\S]*\S/
+      regex: /^[\s\S]{2,9999}$/
     }
   ],
   styles: ['./styles/style.less'],
