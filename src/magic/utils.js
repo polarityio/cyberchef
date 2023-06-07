@@ -1,4 +1,5 @@
-const chef = require('cyberchef');
+const chef = require('cyberchef-node');
+
 const vm = require('vm');
 
 function arrayBufferToStr(arrayBuffer) {

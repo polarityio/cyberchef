@@ -1,5 +1,5 @@
 const fp = require('lodash/fp');
-const chef = require('cyberchef');
+const chef = require('cyberchef-node');
 const magic = require('./magic/index');
 const { operationsWeCantCurrentlyRun } = require('./searchOperations');
 

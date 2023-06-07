@@ -1,4 +1,4 @@
-const chef = require('cyberchef');
+const chef = require('cyberchef-node');
 const speculativeExecution = require('./speculativeExecution');
 const areAllChecksSafe = require('./areAllChecksSafe');
 const { arrayBufferToStr } = require('./utils');

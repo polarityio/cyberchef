@@ -1,10 +1,12 @@
 {
   "name": "CyberChefIntegration",
-  "version": "3.2.3-beta",
+  "version": "3.2.4",
   "main": "./integration.js",
   "private": true,
-  "scripts": {
-    "install": "VERSION=\"3.2.3-beta\" && wget -c \"https://github.com/polarityio/cyberchef/releases/download/${VERSION}/cyberchef-${VERSION}.tgz\" -O - | tar -xz -C /app/polarity-server/integrations/",
-    "dev-install": "npm install --force --silent cyberchef lodash chi-squared"
+  "dependencies": {
+    "chi-squared": "^1.1.0",
+    "cyberchef-node": "^1.0.0",
+    "esm": "^3.2.25",
+    "lodash": "^4.17.21"
   }
 }
