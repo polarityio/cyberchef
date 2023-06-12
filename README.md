@@ -6,8 +6,6 @@ CyberChef is a simple, intuitive web app for carrying out all manner of "cyber" 
 
 The Polarity CyberChef Integration allows you to leverage much of CyberChefs functionality by searching for any string on demand and enables you build out recipes based on the data you search.
 
-### > ***Important***: **When installing `NPM` dependencies, please install using the command `npm run install` instead of the typical `npm install`.**
-
 <img src="./assets/cyberchef-demo.gif" alt="CyberChef Demo"  width="400" />
 
 ## Options
