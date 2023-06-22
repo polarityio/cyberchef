@@ -7,7 +7,7 @@
   "defaultColor": "light-green",
   "logging": { "level": "info" },
   "entityTypes": ["*"],
-  "customTypes": [{ "key": "encodedString", "regex": "\\S[\\s\\S]*\\S" }],
+  "customTypes": [{ "key": "encodedString", "regex": "\\S[\\s\\S]{2,9999}\\S" }],
   "styles": ["./styles/style.less"],
   "block": {
     "component": { "file": "./components/block.js" },
