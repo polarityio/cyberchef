@@ -439,8 +439,8 @@ module.exports = {
         { value: 'VarInt Decode', display: 'VarInt Decode' },
         { value: 'VarInt Encode', display: 'VarInt Encode' },
         { value: 'View Bit Plane', display: 'View Bit Plane' },
-        { value: 'VigenC(re Decode', display: 'VigenC(re Decode' },
-        { value: 'VigenC(re Encode', display: 'VigenC(re Encode' },
+        { value: 'Vigenère Decode', display: 'Vigenère Decode' },
+        { value: 'Vigenère Encode', display: 'Vigenère Encode' },
         { value: 'Whirlpool', display: 'Whirlpool' },
         {
           value: 'Windows Filetime to UNIX Timestamp',
