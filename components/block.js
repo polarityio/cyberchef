@@ -152,7 +152,7 @@ polarity.export = PolarityComponent.extend({
 
       const recipeLinkWithoutInput =
         index === 0
-          ? `${url}/#recipe=${operationString}`
+          ? `${url}#recipe=${operationString}`
           : `${agg[index - 1].recipeLinkWithoutInput}${operationString}`;
 
       return [
@@ -168,7 +168,7 @@ polarity.export = PolarityComponent.extend({
       'fullRecipeLink',
       operations.length
         ? operationsWithUpdatedLinks[operationsWithUpdatedLinks.length - 1].recipeLink
-        : `${url}/#input=${inputHash}`
+        : `${url}#input=${inputHash}`
     );
 
     this.set('operations', operationsWithUpdatedLinks);
