@@ -39,7 +39,7 @@ module.exports = {
         'Add your CyberChef Url to open up the CyberChef dashboard for full functionality. (e.g. https://gchq.github.io/CyberChef)',
       default: 'https://gchq.github.io/CyberChef',
       type: 'text',
-      userCanEdit: true,
+      userCanEdit: false,
       adminOnly: false
     },
     {
