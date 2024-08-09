@@ -8,7 +8,19 @@ module.exports = {
   logging: {
     level: 'info' //trace, debug, info, warn, error, fatal
   },
-  entityTypes: ['*'],
+  entityTypes: [
+    'IPv4',
+    'IPv6',
+    'IPv4CIDR',
+    'MD5',
+    'SHA1',
+    'SHA256',
+    'MD5',
+    'email',
+    'domain',
+    'cve',
+    'string'
+  ],
   customTypes: [
     {
       key: 'encodedString',
@@ -29,7 +41,7 @@ module.exports = {
     key: '',
     passphrase: '',
     ca: '',
-    proxy: ""
+    proxy: ''
   },
   options: [
     {
