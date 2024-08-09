@@ -1,11 +1,26 @@
 const fp = require('lodash/fp');
 
+const CHARCODE_SPACE = 32;
+const CHARCODE_TAB = 9;
+const CHARCODE_LINE_FEED = 10;
+const CHARCODE_LINE_TABULATION = 11;
+const CHARCODE_FORM_FEED = 12;
+const CHARCODE_CARRIAGE_RETURN = 13;
+
+const PRINTABLE_WHITESPACE_CHARACTERS = [
+  CHARCODE_SPACE,
+  CHARCODE_TAB,
+  CHARCODE_LINE_FEED,
+  CHARCODE_LINE_TABULATION,
+  CHARCODE_FORM_FEED,
+  CHARCODE_CARRIAGE_RETURN
+];
+
 const getByteArrayDisplayResults = (resultValue) => {
   const stringifiedByteArray = String.fromCharCode.apply(
     null,
-    resultValue.filter((x) => x > 32)
+    resultValue.filter((x) => x > 31 || PRINTABLE_WHITESPACE_CHARACTERS.includes(x))
   );
-
   return {
     displayResult: stringifiedByteArray,
     outputLength: fp.flow(fp.toString, fp.size)(stringifiedByteArray),
