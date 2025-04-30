@@ -15,7 +15,6 @@ module.exports = {
     'MD5',
     'SHA1',
     'SHA256',
-    'MD5',
     'email',
     'domain',
     'cve',
