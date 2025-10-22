@@ -1,11 +1,11 @@
 {
   "name": "CyberChefIntegration",
-  "version": "3.2.11",
+  "version": "3.2.13",
   "main": "./integration.js",
   "private": true,
   "dependencies": {
     "chi-squared": "^1.1.0",
-    "cyberchef-node": "^1.0.2",
+    "cyberchef-node": "^2.0.3",
     "esm": "^3.2.25",
     "lodash": "^4.17.21"
   }
