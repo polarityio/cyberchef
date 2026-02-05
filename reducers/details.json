@@ -1,0 +1,10 @@
+{
+  "root": {
+    "path": "",
+    "on_null": "return_empty"
+  },
+  "pipeline": [],
+  "output": {
+    "result": "$working"
+  }
+}
